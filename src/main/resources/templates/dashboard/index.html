@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leirskole Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Leirskole Portalen</a>
+  </div>
+</nav>
+
+<div class="container my-4">
+
+  <h1 class="mb-4 text-center">Dashboard</h1>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+
+    <div class="col">
+      <a href="/leir/oversikt" class="text-decoration-none">
+        <div class="card text-bg-info h-100">
+          <div class="card-body d-flex flex-column justify-content-center align-items-center">
+            <h5 class="card-title">Se alle leirer</h5>
+            <p class="card-text">Oversikt over alle registrerte leirer.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="/innkvarering/oversikt" class="text-decoration-none">
+        <div class="card text-bg-success h-100">
+          <div class="card-body d-flex flex-column justify-content-center align-items-center">
+            <h5 class="card-title">Se innkvareringer</h5>
+            <p class="card-text">Se alle innkvareringer for leirene.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="/deltaker/oversikt" class="text-decoration-none">
+        <div class="card text-bg-warning h-100">
+          <div class="card-body d-flex flex-column justify-content-center align-items-center">
+            <h5 class="card-title">Se deltakere</h5>
+            <p class="card-text">Oversikt over alle påmeldte deltakere.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col">
+      <a href="/innkvarering/ny?leirId=1" class="text-decoration-none">
+        <div class="card text-bg-danger h-100">
+          <div class="card-body d-flex flex-column justify-content-center align-items-center">
+            <h5 class="card-title">Legg til ny innkvarering</h5>
+            <p class="card-text">Registrer en ny hytte eller rom.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

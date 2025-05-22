@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Deltakerliste</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-4">
+  <h2>Deltakerliste</h2>
+  <a th:href="@{'/deltaker/ny/' + ${leirId}}" class="btn btn-success mb-3">Legg til deltaker</a>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Navn</th>
+      <th>Kontaktperson</th>
+      <th>Allergier</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="deltaker : ${deltakere}">
+      <td th:text="${deltaker.navn}"></td>
+      <td th:text="${deltaker.kontaktperson}"></td>
+      <td th:text="${deltaker.allergi} ?: 'Ingen'"></td>
+    </tr>
+    </tbody>
+  </table>
+  <a class="btn btn-primary" th:href="@{/}">Gå til dashboard</a>
+</div>
+
+</body>
+</html>

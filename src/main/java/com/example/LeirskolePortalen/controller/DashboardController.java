@@ -1,4 +1,4 @@
-package com.example.LeirskolePortalen.controller;
+/*package com.example.LeirskolePortalen.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,3 +13,5 @@ public class DashboardController {
         return "dashboard/index";
     }
 }
+
+ */

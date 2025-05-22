@@ -1,4 +1,4 @@
-package com.example.LeirskolePortalen.controller;
+/*package com.example.LeirskolePortalen.controller;
 import com.example.LeirskolePortalen.model.Deltaker;
 import com.example.LeirskolePortalen.model.Innkvarering;
 import com.example.LeirskolePortalen.model.Leir;
@@ -55,3 +55,5 @@ public class InnkvareringController {
         return "innkvarering/oversikt";
     }
 }
+
+ */

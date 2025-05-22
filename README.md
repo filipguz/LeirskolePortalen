@@ -17,3 +17,7 @@ Dette er en enkel webapplikasjon for håndtering av deltagere, leirer og innkvar
 - JPA/Hibernate for databasehåndtering
 - H2 database (for utvikling)
 - Bootstrap CSS
+
+
+
+© 2025 Filip Guz

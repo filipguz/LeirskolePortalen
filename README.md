@@ -18,6 +18,24 @@ Dette er en enkel webapplikasjon for håndtering av deltagere, leirer og innkvar
 - H2 database (for utvikling)
 - Bootstrap CSS
 
++----------------------------------------+
+|                                        |
+|      WELCOME TO LEIRSKOLEPORTALEN      |
+|                                        |
+|       __________________________       |
+|      |                          |      |
+|      |         /\    /\         |      |
+|      |        /**\  /**\        |      |
+|      |       /****\/****\       |      |
+|      |      /    Hytte   \      |      |
+|      |     /_____/  \_____\     |      |
+|      |     | [] |    | [] |     |      |
+|      |     |____|____|____|     |      |
+|      |                          |      |
+|      |       Skog og stillhet    |     |
+|      |__________________________|      |
+|                                        |
++----------------------------------------+
 
 
 © 2025 Filip Guz

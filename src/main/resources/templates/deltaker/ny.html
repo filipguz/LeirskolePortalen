@@ -39,7 +39,16 @@
         <a class="btn btn-primary" th:href="@{/}">Gå til dashboard</a>
     </div>
 </form>
-
+<line></line>
+<div class="card-body">
+    <form method="POST" enctype="multipart/form-data" th:action="@{/deltaker/lastopp}">
+        <div class="mb-3">
+            <label for="file" class="form-label">Velg Excel-fil</label>
+            <input class="form-control" type="file" name="file" id="file" required>
+        </div>
+        <button type="submit" class="btn btn-success">Last opp</button>
+    </form>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

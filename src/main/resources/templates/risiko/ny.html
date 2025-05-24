@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Risikoanalyse</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container my-4">
+  <h2 class="mb-4">Risikoanalyse</h2>
+
+  <!-- Skjema -->
+  <form action="/beregn" method="post" id="risikoForm" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="aktivitet" class="form-label">Aktivitet</label>
+      <input type="text" id="aktivitet" name="aktivitet" class="form-control" required>
+      <div class="invalid-feedback">Vennligst fyll inn aktivitet.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="risikomoment" class="form-label">Risikomoment</label>
+      <input type="text" id="risikomoment" name="risikomoment" class="form-control" required>
+      <div class="invalid-feedback">Vennligst fyll inn risikomoment.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="skadeType" class="form-label">Type skade</label>
+      <select id="skadeType" name="skadeType" class="form-select" required>
+        <option value="">Velg skade</option>
+        <option value="Personskade (P)">Personskade (P)</option>
+        <option value="Miljøskade (M)">Miljøskade (M)</option>
+        <option value="Materiellskade (MP)">Materiellskade (MP)</option>
+      </select>
+      <div class="invalid-feedback">Velg type skade.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="sannsynlighet" class="form-label">Sannsynlighet (0–5)</label>
+      <input type="number" id="sannsynlighet" name="sannsynlighet" class="form-control" min="0" max="5" required>
+      <div class="invalid-feedback">Verdi må være mellom 0 og 5.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="konsekvens" class="form-label">Konsekvens (0–5)</label>
+      <input type="number" id="konsekvens" name="konsekvens" class="form-control" min="0" max="5" required>
+      <div class="invalid-feedback">Verdi må være mellom 0 og 5.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="aktivitetDetaljer" class="form-label">Detaljer om aktiviteten</label>
+      <textarea class="form-control" id="aktivitetDetaljer" name="aktivitetDetaljer" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Beregn risiko</button>
+    <a href="/" class="btn btn-secondary">Tilbake til dashboard</a>
+  </form>
+
+  <!-- Resultatliste -->
+  <div class="mt-5">
+    <h4>Tidligere vurderinger</h4>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Aktivitet</th>
+          <th>Risikomoment</th>
+          <th>SkadeType</th>
+          <th>Sannsynlighet</th>
+          <th>Konsekvens</th>
+          <th>Samlet Risiko</th>
+          <th>Vurdering</th>
+          <th>Detaljer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="risiko : ${risikoListe}">
+          <td th:text="${risiko.aktivitet}"></td>
+          <td th:text="${risiko.risikomoment}"></td>
+          <td th:text="${risiko.skadeType}"></td>
+          <td th:text="${risiko.sannsynlighet}"></td>
+          <td th:text="${risiko.konsekvens}"></td>
+          <td th:text="${risiko.risiko}"></td>
+          <td th:text="${risiko.vurdering}"></td>
+          <td th:text="${risiko.aktivitetDetaljer}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap + validering -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  (() => {
+    'use strict';
+    const form = document.getElementB

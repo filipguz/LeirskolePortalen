@@ -1,32 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="no">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Deltakerliste</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Deltakere - LeirskolePortalen</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container my-4">
-  <h2>Deltakerliste</h2>
-  <a th:href="@{'/deltaker/ny/' + ${leirId}}" class="btn btn-success mb-3">Legg til deltaker</a>
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>Navn</th>
-      <th>Kontaktperson</th>
-      <th>Allergier</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="deltaker : ${deltakere}">
-      <td th:text="${deltaker.navn}"></td>
-      <td th:text="${deltaker.kontaktperson}"></td>
-      <td th:text="${deltaker.allergi} ?: 'Ingen'"></td>
-    </tr>
-    </tbody>
-  </table>
-  <a class="btn btn-primary" th:href="@{/}">Gå til dashboard</a>
-</div>
+<body class="container mt-4">
 
+<h2>Deltakere for leir ID: <span th:text="${leirId}"></span></h2>
+
+<table class="table table-bordered">
+  <thead class="table-light">
+  <tr>
+    <th>Navn</th>
+    <th>Allergi</th>
+    <th>Hytte</th>
+    <th>Tildel hytte</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="deltaker : ${deltakere}">
+    <td th:text="${deltaker.navn}">Navn</td>
+    <td th:text="${deltaker.allergi}">Ingen</td>
+    <td th:text="${deltaker.hytte != null ? deltaker.hytte.navn : 'Ingen tildelt'}"></td>
+    <td>
+      <form th:action="@{/deltaker/tildel-hytte}" method="post" class="d-flex">
+        <input type="hidden" name="deltakerId" th:value="${deltaker.id}">
+        <select class="form-select me-2" name="hytteId">
+          <option th:each="h : ${hytter}"
+                  th:value="${h.id}"
+                  th:text="${h.navn}"
+                  th:selected="${deltaker.hytte?.id == h.id}">
+          </option>
+        </select>
+        <button class="btn btn-primary btn-sm" type="submit">Tildel</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

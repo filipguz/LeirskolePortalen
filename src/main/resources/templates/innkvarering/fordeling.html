@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Innkvarering</title></head>
+<body>
+<h2>Innkvarering for [[${leir.navn}]]</h2>
+
+<form th:action="@{/innkvarering/lagre}" method="post">
+  <label>Velg hytte:</label>
+  <select name="hytteId">
+    <option th:each="hytte : ${hytter}" th:value="${hytte.id}" th:text="${hytte.navn}"></option>
+  </select>
+
+  <label>Velg deltakere:</label>
+  <div th:each="d : ${deltakere}">
+    <input type="checkbox" name="deltakerIds" th:value="${d.id}" />
+    <span th:text="${d.navn}"></span><br/>
+  </div>
+
+  <button type="submit">📦 Plasser i hytte</button>
+</form>
+
+<hr/>
+<h3>Eksisterende innkvarering</h3>
+<div th:each="innkvarering : ${innkvareringer}">
+  <strong th:text="${innkvarering.hytte.navn}"></strong>:
+  <ul>
+    <li th:each="d : ${innkvarering.deltakere}" th:text="${d.navn}"></li>
+  </ul>
+</div>
+
+</body>
+</html>

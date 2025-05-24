@@ -1,4 +1,4 @@
-package com.example.LeirskolePortalen.controller.service;
+package com.example.LeirskolePortalen.service;
 
 import com.example.LeirskolePortalen.model.Deltaker;
 import com.example.LeirskolePortalen.model.Leir;

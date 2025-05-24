@@ -9,15 +9,18 @@ public class Deltaker {
     private Long id;
 
     private String navn;
-
     private Integer alder;
-
-    private String allergi;            // <-- lagt til
-
-    private String kontaktperson;     // <-- lagt til
+    private String allergi;
+    private String kontaktperson;
 
     @ManyToOne
+    private Hytte hytte;
+
+    @ManyToOne // ✅ Dette manglet
     private Leir leir;
+
+    @ManyToOne
+    private SkolePlan skolePlan;
 
     // Getters og setters
     public Long getId() { return id; }
@@ -34,6 +37,9 @@ public class Deltaker {
 
     public String getKontaktperson() { return kontaktperson; }
     public void setKontaktperson(String kontaktperson) { this.kontaktperson = kontaktperson; }
+
+    public Hytte getHytte() { return hytte; }
+    public void setHytte(Hytte hytte) { this.hytte = hytte; }
 
     public Leir getLeir() { return leir; }
     public void setLeir(Leir leir) { this.leir = leir; }

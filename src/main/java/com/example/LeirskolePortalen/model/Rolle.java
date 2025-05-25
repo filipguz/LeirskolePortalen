@@ -1,7 +1,7 @@
 package com.example.LeirskolePortalen.model;
 
-
 public enum Rolle {
     ADMIN,
-    LÆRER
+    TEACHER // ← bytt ut Æ med AE
 }
+

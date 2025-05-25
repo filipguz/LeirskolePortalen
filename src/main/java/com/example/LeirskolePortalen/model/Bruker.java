@@ -2,22 +2,20 @@ package com.example.LeirskolePortalen.model;
 
 import jakarta.persistence.*;
 
-@Entity
-public class Bruker {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Entity
+    public class Bruker {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String brukernavn;
+        private String brukernavn;
+        private String passord;
 
-    @Column(nullable = false)
-    private String passord;  // Bør være bcrypt-hash når du lagrer!
+        @Enumerated(EnumType.STRING)
+        private Rolle rolle;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Rolle rolle;
+
 
     // Konstruktører
     public Bruker() {}
@@ -57,3 +55,5 @@ public class Bruker {
         this.rolle = rolle;
     }
 }
+
+

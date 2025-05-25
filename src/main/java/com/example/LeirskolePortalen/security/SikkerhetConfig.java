@@ -17,19 +17,19 @@ import org.springframework.security.web.SecurityFilterChain;
         public SecurityFilterChain sikkerhetsFilter(HttpSecurity http) throws Exception {
             return http
                     .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/admin/**").hasRole("ADMIN")
-                            .requestMatchers("/leir/**", "/deltaker/**").hasAnyRole("ADMIN", "LAERER")
-                            .anyRequest().permitAll()
+                            .anyRequest().permitAll()  // 👈 tillater alle requests uten innlogging
                     )
-                    .formLogin(Customizer.withDefaults())
-                    .logout(logout -> logout.logoutSuccessUrl("/"))
+                    .formLogin().disable()           // 👈 deaktiverer login-form
+                    .logout().disable()              // 👈 deaktiverer logout
                     .build();
         }
+
 
         @Bean
         public PasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder();
         }
     }
+
 
 

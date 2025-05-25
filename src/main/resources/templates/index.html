@@ -1,57 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="no">
 <head>
-  <title>LeirskolePortalen - Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LeirskolePortalen</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+        padding-top: 70px; /* plass til sticky navbar */
+    }
+  </style>
 </head>
-<body class="container mt-3">
+<body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+<!-- ✅ Sticky & responsive toppmeny -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">LeirskolePortalen</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny" aria-controls="meny" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+
+    <div class="collapse navbar-collapse" id="meny">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" th:href="@{/}">Hjem</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/leir/liste}">Leirer</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/deltaker/liste/1}">Deltakere</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/innkvartering}">Innkvartering</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/risiko}">RisikoAnalyse</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/admin/brukere}">Admin</a></li>
+      </ul>
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/}">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/leir/liste}">Leirer</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/deltaker/liste/1}">Deltakere</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Om</a>
-        </li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logg ut</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-<h1 class="mb-4">Velkommen til LeirskolePortalen</h1>
+<!-- ✅ Hovedinnhold -->
+<div class="container mt-4">
+  <h1 class="mb-4">Velkommen til LeirskolePortalen</h1>
 
-<div class="row g-4 mb-4">
-  <div class="col-12 col-md-6 col-lg-4">
-    <div class="card text-bg-primary text-center p-3">
-      <h5 class="card-title">Antall leirer</h5>
-      <p class="card-text fs-3 fw-bold" th:text="${leirCount}">0</p>
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-4">
+      <div class="card text-bg-primary text-center p-3">
+        <h5 class="card-title">Leirer</h5>
+        <p class="fs-2 fw-bold" th:text="${leirCount}">0</p>
+      </div>
+    </div>
+    <div class="col-6 col-md-4">
+      <div class="card text-bg-success text-center p-3">
+        <h5 class="card-title">Deltakere</h5>
+        <p class="fs-2 fw-bold" th:text="${deltakerCount}">0</p>
+      </div>
     </div>
   </div>
-  <div class="col-12 col-md-6 col-lg-4">
-    <div class="card text-bg-success text-center p-3">
-      <h5 class="card-title">Antall deltakere</h5>
-      <p class="card-text fs-3 fw-bold" th:text="${deltakerCount}">0</p>
-    </div>
-  </div>
-</div>
 
-<div class="d-flex gap-3">
-  <a class="btn btn-primary btn-lg flex-grow-1" th:href="@{/leir/liste}">Gå til leirer</a>
-  <a class="btn btn-secondary btn-lg flex-grow-1" th:href="@{/deltaker/liste/1}">Gå til deltakere</a>
+  <div class="d-grid gap-3">
+    <a class="btn btn-outline-primary btn-lg" th:href="@{/leir/liste}">Se leirer</a>
+    <a class="btn btn-outline-secondary btn-lg" th:href="@{/deltaker/liste/1}">Se deltakere</a>
+    <a class="btn btn-outline-info btn-lg" th:href="@{/innkvartering}">Fordel deltakere i hytter</a>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

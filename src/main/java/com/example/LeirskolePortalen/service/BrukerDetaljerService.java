@@ -1,4 +1,4 @@
-package com.example.LeirskolePortalen.service;
+/* package com.example.LeirskolePortalen.service;
 
 import com.example.LeirskolePortalen.model.Bruker;
 import com.example.LeirskolePortalen.repository.BrukerRepository;
@@ -27,6 +27,8 @@ import org.springframework.stereotype.Service;
                     .build();
         }
     }
+
+ */
 
 
 

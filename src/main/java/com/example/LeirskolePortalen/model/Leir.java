@@ -21,6 +21,15 @@ public class Leir {
     @OneToMany(mappedBy = "leir")
     private List<Deltaker> deltakere;
 
+    @OneToMany(mappedBy = "leir")
+    private List<SkolePlan> skoleplan;
+
+    public void setSkoleplan(List<SkolePlan> skoleplan) {
+        this.skoleplan = skoleplan;
+    }
+    public List<SkolePlan> getSkoleplan() {
+        return skoleplan;
+    }
     @ManyToOne
     private Bruker bruker;
 

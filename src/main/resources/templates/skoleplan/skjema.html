@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/skoleplan/lagre}" th:object="${skoleplan}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div>
+        <label>Skole:</label>
+        <select th:field="*{skole}">
+            <option th:each="s : ${skoler}" th:value="${s}" th:text="${s.navn}"></option>
+        </select>
+    </div>
+
+    <div>
+        <label>Leir:</label>
+        <select th:field="*{leir}">
+            <option th:each="l : ${leirer}" th:value="${l}" th:text="${l.navn} + ' (' + ${l.startDato} + ')'"></option>
+        </select>
+    </div>
+
+    <div>
+        <label>Ukeplan:</label>
+        <select th:field="*{ukePlan}">
+            <option th:each="u : ${ukeplaner}" th:value="${u}" th:text="${u.ukenummer} + ' (' + ${u.startDato} + ')'"></option>
+        </select>
+    </div>
+
+    <button type="submit">Lagre</button>
+</form>
+</body>
+</html>

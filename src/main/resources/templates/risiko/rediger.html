@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Risikoanalyse</title>
+  <title>Rediger risikovurdering</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
 
-<!-- ✅ Sticky & responsive toppmeny -->
+<!-- 🔵 Navigasjonsmeny -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">LeirskolePortalen</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny" aria-controls="meny" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="meny">
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link" th:href="@{/}">Hjem</a></li>
         <li class="nav-item"><a class="nav-link" th:href="@{/leir/liste}">Leirer</a></li>
         <li class="nav-item"><a class="nav-link" th:href="@{/deltaker/liste/1}">Deltakere</a></li>
@@ -31,10 +32,12 @@
 </nav>
 
 <div class="container my-5 pt-5">
-  <h2 class="mb-4">Risikoanalyse</h2>
+  <h2 class="mb-4">Rediger risikovurdering</h2>
 
-  <!-- 📝 Skjema for vurdering -->
-  <form th:action="@{/risiko/lagre}" th:object="${risiko}" method="post" id="risikoForm" class="needs-validation" novalidate>
+  <form th:action="@{/risiko/oppdater}" th:object="${risiko}" method="post" class="needs-validation" novalidate>
+    <!-- Skjult ID -->
+    <input type="hidden" th:field="*{id}" />
+
     <div class="mb-3">
       <label for="aktivitet" class="form-label">Aktivitet</label>
       <input type="text" th:field="*{aktivitet}" id="aktivitet" class="form-control" required>
@@ -75,53 +78,17 @@
       <textarea th:field="*{aktivitetDetaljer}" class="form-control" id="aktivitetDetaljer" rows="3"></textarea>
     </div>
 
-    <button type="submit" class="btn btn-primary">Beregn risiko</button>
-    <a href="/" class="btn btn-secondary ms-2">Tilbake til dashboard</a>
+    <button type="submit" class="btn btn-success">Lagre endringer</button>
+    <a th:href="@{/risiko}" class="btn btn-secondary ms-2">Avbryt</a>
   </form>
-
-  <!-- 📋 Resultatliste -->
-  <div class="mt-5">
-    <h4>Tidligere vurderinger</h4>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped align-middle">
-        <thead class="table-light">
-        <tr>
-          <th>Aktivitet</th>
-          <th>Risikomoment</th>
-          <th>Skade</th>
-          <th>Sannsynlighet</th>
-          <th>Konsekvens</th>
-          <th>Risiko</th>
-          <th>Vurdering</th>
-          <th>Detaljer</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="risiko : ${risikoListe}">
-          <td th:text="${risiko.aktivitet}"></td>
-          <td th:text="${risiko.risikomoment}"></td>
-          <td th:text="${risiko.skadeType}"></td>
-          <td th:text="${risiko.sannsynlighet}"></td>
-          <td th:text="${risiko.konsekvens}"></td>
-          <td th:text="${risiko.risiko}"></td>
-          <td th:text="${risiko.vurdering}"></td>
-          <td th:text="${risiko.aktivitetDetaljer}"></td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(risikoListe)}">
-          <td colspan="8" class="text-center text-muted">Ingen vurderinger registrert ennå.</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
 
-<!-- Bootstrap + valideringsscript -->
+<!-- Bootstrap JS + valideringsscript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   (() => {
     'use strict';
-    const form = document.getElementById('risikoForm');
+    const form = document.querySelector('form');
     form.addEventListener('submit', event => {
       if (!form.checkValidity()) {
         event.preventDefault();

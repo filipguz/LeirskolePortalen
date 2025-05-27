@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="no">
 <head>
+    <meta charset="UTF-8">
     <title>Skoleoversikt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
 </head>
-<body class="container mt-5">
-<!-- ✅ Sticky & responsive toppmeny -->
+<body>
+
+<!-- 🔹 Navigasjonsmeny -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">LeirskolePortalen</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny" aria-controls="meny" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny"
+                aria-controls="meny" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -27,25 +31,51 @@
         </div>
     </div>
 </nav>
-<h2>Alle skoler</h2>
-<a class="btn btn-primary mb-3" th:href="@{/skole/ny}">➕ Legg til ny skole</a>
-<table class="table table-bordered">
-    <thead class="table-light">
-    <tr>
-        <th>Navn</th>
-        <th>Kontaktperson</th>
-        <th>Telefon</th>
-        <th>E-post</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="skole : ${skoler}">
-        <td th:text="${skole.navn}"></td>
-        <td th:text="${skole.kontaktperson}"></td>
-        <td th:text="${skole.telefon}"></td>
-        <td th:text="${skole.epost}"></td>
-    </tr>
-    </tbody>
-</table>
+
+<!-- 🔸 Innhold -->
+<div class="container my-5 pt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Skoleoversikt</h2>
+        <a class="btn btn-primary" th:href="@{/skole/ny}">➕ Legg til ny skole</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Navn</th>
+                <th>Kontaktperson</th>
+                <th>Telefon</th>
+                <th>E-post</th>
+                <th class="text-center">Handling</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="skole : ${skoler}">
+                <td th:text="${skole.navn}">Skolenavn</td>
+                <td th:text="${skole.kontaktperson}">Kontaktperson</td>
+                <td th:text="${skole.telefon}">Telefon</td>
+                <td th:text="${skole.epost}">E-post</td>
+                <td class="text-center">
+                    <a class="btn btn-sm btn-warning me-1" th:href="@{'/skole/rediger/' + ${skole.id}}">
+                        ✏️ Rediger
+                    </a>
+                    <a class="btn btn-sm btn-danger"
+                       th:href="@{'/skole/slett/' + ${skole.id}}"
+                       onclick="return confirm('Er du sikker på at du vil slette denne skolen?');">
+                        🗑️ Slett
+                    </a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(skoler)}">
+                <td colspan="5" class="text-center text-muted">Ingen skoler registrert enda.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

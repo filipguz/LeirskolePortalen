@@ -71,10 +71,10 @@
     <div class="col-md-8">
       <div class="row g-3" th:each="hytte : ${hytter}">
         <div class="col-md-6">
-          <div class="hytte-container" th:attr="data-hytte-id=${hytte.id}">
+          <div class="hytte-container" data-hytte-id="[[${hytte.id}]]">
             <div class="hytte-title" th:text="${hytte.navn}">Hytte</div>
             <div th:each="d : ${hytte.deltakere}">
-              <div class="deltaker" th:text="${d.navn}" th:attr="data-deltaker-id=${d.id}"></div>
+              <div class="deltaker" draggable="true" th:text="${d.navn}" data-deltaker-id="[[${d.id}]]"></div>
             </div>
             <div class="drop-zone-label">Dra deltakere hit</div>
           </div>
@@ -87,7 +87,7 @@
       <h4>🎒 Ufordelte deltakere</h4>
       <div class="hytte-container" data-hytte-id="null">
         <div th:each="d : ${deltakere}">
-          <div th:if="${d.hytte == null}" class="deltaker" th:text="${d.navn}" th:attr="data-deltaker-id=${d.id}"></div>
+          <div th:if="${d.hytte == null}" class="deltaker" draggable="true" th:text="${d.navn}" data-deltaker-id="[[${d.id}]]"></div>
         </div>
         <div class="drop-zone-label">Slipp her for å fjerne fra hytte</div>
       </div>
@@ -98,10 +98,10 @@
 <!-- Modal: Ny deltaker -->
 <div class="modal fade" id="leggTilDeltakerModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <form class="modal-content" method="post" th:action="@{/deltaker/ny}">
+    <form class="modal-content" method="post" th:action="@{/deltaker/lagre}">
       <div class="modal-header">
         <h5 class="modal-title">Ny deltaker</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
       </div>
       <div class="modal-body">
         <input class="form-control mb-2" name="navn" placeholder="Navn" required />
@@ -119,10 +119,10 @@
 <!-- Modal: Ny hytte -->
 <div class="modal fade" id="leggTilHytteModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <form class="modal-content" method="post" th:action="@{/hytte/ny}">
+    <form class="modal-content" method="post" th:action="@{/hytte/opprett}">
       <div class="modal-header">
         <h5 class="modal-title">Ny hytte</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
       </div>
       <div class="modal-body">
         <input class="form-control mb-2" name="navn" placeholder="Navn på hytte" required />
@@ -134,7 +134,7 @@
   </div>
 </div>
 
-<!-- Sortable.js -->
+<!-- Sortable drag & drop -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {

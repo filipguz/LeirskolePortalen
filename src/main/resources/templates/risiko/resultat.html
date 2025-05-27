@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Risikovurdering</title>
+    <title>Resultat av risikovurdering</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
@@ -29,24 +29,55 @@
         </div>
     </div>
 </nav>
-<div class="container my-4">
+
+<div class="container my-5 pt-5">
     <h2 class="mb-4">Resultat av risikovurdering</h2>
 
-    <table class="table table-bordered">
-        <tbody>
-        <tr><th>Aktivitet</th><td th:text="${aktivitet}">Aktivitet</td></tr>
-        <tr><th>Risikomoment</th><td th:text="${risikomoment}">Risikomoment</td></tr>
-        <tr><th>Type skade</th><td th:text="${skadeType}">Type skade</td></tr>
-        <tr><th>Sannsynlighet</th><td th:text="${sannsynlighet}">0</td></tr>
-        <tr><th>Konsekvens</th><td th:text="${konsekvens}">0</td></tr>
-        <tr><th>Samlet risiko</th><td th:text="${risiko}">0</td></tr>
-        <tr><th>Vurdering</th><td th:text="${vurdering}">Vurdering</td></tr>
-        <tr><th>Detaljer</th><td th:text="${aktivitetDetaljer}">Detaljer</td></tr>
-        </tbody>
-    </table>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-borderless mb-0">
+                <tbody th:object="${risiko}">
+                <tr>
+                    <th scope="row">Aktivitet</th>
+                    <td th:text="*{aktivitet}">[Aktivitet]</td>
+                </tr>
+                <tr>
+                    <th scope="row">Risikomoment</th>
+                    <td th:text="*{risikomoment}">[Risikomoment]</td>
+                </tr>
+                <tr>
+                    <th scope="row">Type skade</th>
+                    <td th:text="*{skadeType}">[Type skade]</td>
+                </tr>
+                <tr>
+                    <th scope="row">Sannsynlighet</th>
+                    <td th:text="*{sannsynlighet}">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">Konsekvens</th>
+                    <td th:text="*{konsekvens}">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">Samlet risikoskår</th>
+                    <td th:text="*{risiko}">0</td>
+                </tr>
+                <tr>
+                    <th scope="row">Vurdering</th>
+                    <td th:text="*{vurdering}">[Vurdering]</td>
+                </tr>
+                <tr>
+                    <th scope="row">Detaljer om aktiviteten</th>
+                    <td th:text="*{aktivitetDetaljer}">[Detaljer]</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <a class="btn btn-primary me-2" href="/risiko">Ny vurdering</a>
-    <a class="btn btn-secondary" href="/">Tilbake til dashboard</a>
+    <div class="mt-4">
+        <a class="btn btn-primary me-2" th:href="@{/risiko}">Ny vurdering</a>
+        <a class="btn btn-secondary" th:href="@{/}">Tilbake til dashboard</a>
+    </div>
 </div>
 
 <!-- Bootstrap JS -->

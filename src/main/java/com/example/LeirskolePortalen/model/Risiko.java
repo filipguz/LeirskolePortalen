@@ -5,99 +5,91 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-/**
- * Dette er en entitetsklasse som representerer en risiko.
- * Klassen brukes til å lagre og hente risikodata fra databasen.
- */
-@Entity // Marker klassen som en databaseentitet for JPA
+@Entity
 public class Risiko {
 
-    @Id // Markerer dette feltet som en unik identifikator for entiteten
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-genererer verdier for id
-    private Long id; // Unik ID for hver risiko
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String aktivitet; // Aktiviteten som blir vurdert
-    private String risikomoment; // Det spesifikke risikomomentet i aktiviteten
-    private String skadeType; // Type skade (f.eks. personskade, materiell skade)
-    private int sannsynlighet; // Sannsynlighet for at skaden oppstår (0-5)
-    private int konsekvens; // Alvorlighetsgrad av konsekvensen (0-5)
-    private int risiko; // Risikoen beregnet som sannsynlighet * konsekvens
-    private String aktivitesdetaljer;
-    private String vurdering; // Tekstbasert vurdering av risikoen (lav, moderat, høy, kritisk)
-
-    // Getters og setters for alle felter
-    // Disse gir tilgang til å hente og sette verdier for hvert felt
+    private String aktivitet;
+    private String risikomoment;
+    private String skadeType;
+    private int sannsynlighet;
+    private int konsekvens;
+    private int risiko;
+    private String aktivitetDetaljer;
+    private String vurdering;
 
     public Long getId() {
-        return id; // Returnerer unik ID for risikoen
+        return id;
     }
 
     public void setId(Long id) {
-        this.id = id; // Setter unik ID
+        this.id = id;
     }
 
     public String getAktivitet() {
-        return aktivitet; // Returnerer aktiviteten
+        return aktivitet;
     }
 
     public void setAktivitet(String aktivitet) {
-        this.aktivitet = aktivitet; // Setter aktiviteten
+        this.aktivitet = aktivitet;
     }
 
     public String getSkadeType() {
-        return skadeType; // Returnerer type skade
+        return skadeType;
     }
 
     public void setSkadeType(String skadeType) {
-        this.skadeType = skadeType; // Setter type skade
+        this.skadeType = skadeType;
     }
 
     public int getSannsynlighet() {
-        return sannsynlighet; // Returnerer sannsynlighet
+        return sannsynlighet;
     }
 
     public void setSannsynlighet(int sannsynlighet) {
-        this.sannsynlighet = sannsynlighet; // Setter sannsynlighet
+        this.sannsynlighet = sannsynlighet;
     }
 
     public int getKonsekvens() {
-        return konsekvens; // Returnerer konsekvens
+        return konsekvens;
     }
 
     public void setKonsekvens(int konsekvens) {
-        this.konsekvens = konsekvens; // Setter konsekvens
+        this.konsekvens = konsekvens;
     }
 
     public int getRisiko() {
-        return risiko; // Returnerer beregnet risiko
+        return risiko;
     }
 
     public void setRisiko(int risiko) {
-        this.risiko = risiko; // Setter beregnet risiko
+        this.risiko = risiko;
     }
+
     public String getAktivitetDetaljer() {
-        return aktivitesdetaljer;
+        return aktivitetDetaljer;
     }
 
     public void setAktivitetDetaljer(String aktivitetDetaljer) {
-        this.aktivitesdetaljer = aktivitetDetaljer;
+        this.aktivitetDetaljer = aktivitetDetaljer;
     }
 
-
     public String getVurdering() {
-        return vurdering; // Returnerer vurderingen av risikoen
+        return vurdering;
     }
 
     public void setVurdering(String vurdering) {
-        this.vurdering = vurdering; // Setter vurderingen av risikoen
+        this.vurdering = vurdering;
     }
 
     public String getRisikomoment() {
-        return risikomoment; // Returnerer risikomomentet
+        return risikomoment;
     }
 
     public void setRisikomoment(String risikomoment) {
-        this.risikomoment = risikomoment; // Setter risikomomentet
+        this.risikomoment = risikomoment;
     }
 }
-

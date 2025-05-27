@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/hytte")
+@RequestMapping("/hytte") // Alle ruter i denne klassen starter med /hytte
 public class HytteController {
 
     private final HytteRepository hytteRepo;
@@ -22,42 +22,55 @@ public class HytteController {
         this.leirRepo = leirRepo;
     }
 
+    // ---------- READ: Vise alle hytter for en gitt leir ----------
+
+    // Henter og viser alle hytter som tilhører en bestemt leir (via leirId)
     @GetMapping("/liste/{leirId}")
     public String visHytter(@PathVariable Long leirId, Model model) {
-        List<Hytte> hytter = hytteRepo.findByLeirId(leirId);
-        model.addAttribute("hytter", hytter);
+        List<Hytte> hytter = hytteRepo.findByLeirId(leirId); // Hent hytter til leiren
+        model.addAttribute("hytter", hytter);                // Legg til i modellen for visning i HTML
         model.addAttribute("leirId", leirId);
-        return "hytte/hytte-liste";
+        return "hytte/hytte-liste";                          // Gå til HTML-visning av listen
     }
 
+    // ---------- CREATE: Opprette ny hytte ----------
+
+    // Lagrer ny hytte og knytter den til en bestemt leir
     @PostMapping("/opprett")
     public String opprettHytte(@RequestParam String navn,
                                @RequestParam Long leirId) {
-        Leir leir = leirRepo.findById(leirId).orElseThrow();
+        Leir leir = leirRepo.findById(leirId).orElseThrow(); // Finn leiren hytte skal tilhøre
         Hytte hytte = new Hytte();
         hytte.setNavn(navn);
-        hytte.setLeir(leir);
-        hytteRepo.save(hytte);
-        return "redirect:/hytte/liste/" + leirId;
+        hytte.setLeir(leir); // Knytter hytten til leiren
+        hytteRepo.save(hytte); // Lagre i databasen
+        return "redirect:/hytte/liste/" + leirId; // Gå tilbake til listen over hytter
     }
 
+    // ---------- UPDATE: Redigere eksisterende hytte ----------
+
+    // Viser skjema for å redigere en hytte
     @GetMapping("/rediger/{id}")
     public String redigerHytteForm(@PathVariable Long id, Model model) {
-        Hytte hytte = hytteRepo.findById(id).orElseThrow();
-        model.addAttribute("hytte", hytte);
-        return "hytte/hytte-rediger";
+        Hytte hytte = hytteRepo.findById(id).orElseThrow();  // Finn hytten basert på ID
+        model.addAttribute("hytte", hytte);                  // Send hytten til HTML-skjema
+        return "hytte/hytte-rediger";                        // Gå til redigeringsside
     }
 
+    // Lagrer endringer i en hytte (fra skjema)
     @PostMapping("/rediger")
     public String lagreEndringer(@ModelAttribute Hytte hytte) {
-        hytteRepo.save(hytte);
-        return "redirect:/hytte/liste/" + hytte.getLeir().getId();
+        hytteRepo.save(hytte);                               // Oppdater eksisterende hytte
+        return "redirect:/hytte/liste/" + hytte.getLeir().getId(); // Gå tilbake til leirens hytte-liste
     }
 
+    // ---------- DELETE: Slette en hytte ----------
+
+    // Sletter en hytte basert på ID
     @PostMapping("/slett/{id}")
     public String slettHytte(@PathVariable Long id) {
-        Long leirId = hytteRepo.findById(id).get().getLeir().getId();
-        hytteRepo.deleteById(id);
-        return "redirect:/hytte/liste/" + leirId;
+        Long leirId = hytteRepo.findById(id).get().getLeir().getId(); // Hent leirId for å kunne returnere til riktig liste
+        hytteRepo.deleteById(id);                                     // Slett hytten
+        return "redirect:/hytte/liste/" + leirId;                     // Tilbake til leirens hytte-liste
     }
 }

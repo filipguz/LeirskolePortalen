@@ -1,36 +1,34 @@
 package com.example.LeirskolePortalen.service;
 
 import com.example.LeirskolePortalen.model.Risiko;
+import com.example.LeirskolePortalen.repository.RisikoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * RisikoService inneholder forretningslogikken for håndtering av risiko.
- * Dette inkluderer beregning, vurdering og lagring av risikoobjekter.
- */
 @Service
 public class RisikoService {
 
-    // En liste for å midlertidig lagre risikoobjekter i minnet
-    private List<Risiko> risikoListe = new ArrayList<>();
+    private final RisikoRepository risikoRepository;
 
-    /**
-     * Beregner risikoverdien basert på sannsynlighet og konsekvens.
-     * @param sannsynlighet Verdien for sannsynlighet (1-5).
-     * @param konsekvens Verdien for konsekvens (1-5).
-     * @return Produktet av sannsynlighet og konsekvens.
-     */
+    @Autowired
+    public RisikoService(RisikoRepository risikoRepository) {
+        this.risikoRepository = risikoRepository;
+    }
+
+    // Hent én risiko basert på ID
+    public Risiko hentRisikoVedId(Long id) {
+        return risikoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Risiko ikke funnet med id: " + id));
+    }
+
+    // Beregn risikoverdi
     public int beregnRisiko(int sannsynlighet, int konsekvens) {
         return sannsynlighet * konsekvens;
     }
 
-    /**
-     * Vurderer graden av risiko basert på risikoverdien.
-     * @param risiko Verdien som representerer risiko.
-     * @return En tekstlig vurdering av risikograden.
-     */
+    // Vurder risikonivå tekstlig
     public String vurderRisiko(int risiko) {
         if (risiko == 0) return "Ingen risiko (ubetydelig)";
         if (risiko <= 5) return "Lav risiko";
@@ -39,39 +37,13 @@ public class RisikoService {
         return "Svært høy risiko (kritisk)";
     }
 
-    /**
-     * Legger til et risikoobjekt i listen og logger handlingen.
-     * @param risiko Risiko-objektet som skal lagres.
-     */
-    public void lagreIRisikoListe(Risiko risiko) {
-        risikoListe.add(risiko);
-    }
+    // Opprett og lagre ny risiko
+    public Risiko opprettRisiko(String aktivitet, String risikomoment, String skadeType,
+                                int sannsynlighet, int konsekvens, String aktivitetDetaljer) {
 
-    /**
-     * Henter alle risikoobjekter fra listen.
-     * @return En liste med alle lagrede risikoer.
-     */
-    public List<Risiko> hentAlleRisiko() {
-        return risikoListe;
-    }
-
-    /**
-     * Oppretter et nytt risikoobjekt, beregner risikoen og vurderer graden,
-     * og lagrer det i listen.
-     * @param aktivitet Aktiviteten som risikoen gjelder for.
-     * @param risikomoment Det spesifikke risikomomentet.
-     * @param skadeType Typen skade risikoen kan medføre.
-     * @param sannsynlighet Verdien for sannsynlighet (1-5).
-     * @param konsekvens Verdien for konsekvens (1-5).
-     * @param aktivitesdetaljer Litt mer detaljer om aktivitet
-     * @return Det nyopprettede risikoobjektet.
-     */
-    public Risiko opprettRisiko(String aktivitet, String risikomoment, String skadeType, int sannsynlighet, int konsekvens, String aktivitesdetaljer) {
-        // Beregn risikoskår og vurdering
         int risikoScore = beregnRisiko(sannsynlighet, konsekvens);
         String vurdering = vurderRisiko(risikoScore);
 
-        // Opprett et nytt risikoobjekt med de beregnede verdiene
         Risiko nyRisiko = new Risiko();
         nyRisiko.setAktivitet(aktivitet);
         nyRisiko.setRisikomoment(risikomoment);
@@ -79,11 +51,36 @@ public class RisikoService {
         nyRisiko.setSannsynlighet(sannsynlighet);
         nyRisiko.setKonsekvens(konsekvens);
         nyRisiko.setRisiko(risikoScore);
-        nyRisiko.setAktivitetDetaljer(aktivitesdetaljer);
-        nyRisiko.setVurdering(vurderRisiko(risikoScore));
+        nyRisiko.setAktivitetDetaljer(aktivitetDetaljer);
+        nyRisiko.setVurdering(vurdering);
 
-        // Lagre risikoen i listen
-        lagreIRisikoListe(nyRisiko);
-        return nyRisiko;
+        return risikoRepository.save(nyRisiko);
+    }
+
+    // Hent alle risikoobjekter
+    public List<Risiko> hentAlleRisiko() {
+        return risikoRepository.findAll();
+    }
+
+    // Oppdater eksisterende risiko
+    public void oppdaterRisiko(Risiko risiko) {
+        if (!risikoRepository.existsById(risiko.getId())) {
+            throw new RuntimeException("Kan ikke oppdatere. Risiko ikke funnet med id: " + risiko.getId());
+        }
+
+        int risikoScore = beregnRisiko(risiko.getSannsynlighet(), risiko.getKonsekvens());
+        risiko.setRisiko(risikoScore);
+        risiko.setVurdering(vurderRisiko(risikoScore));
+
+        risikoRepository.save(risiko);
+    }
+
+    // Slett risiko etter ID
+    public void slettRisiko(Long id) {
+        if (!risikoRepository.existsById(id)) {
+            throw new RuntimeException("Kan ikke slette. Risiko ikke funnet med id: " + id);
+        }
+
+        risikoRepository.deleteById(id);
     }
 }

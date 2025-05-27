@@ -1,35 +1,79 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" lang="no">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${skoleplan.id == null} ? 'Ny skoleplan' : 'Rediger skoleplan'">Skoleplan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
-<form th:action="@{/skoleplan/lagre}" th:object="${skoleplan}" method="post">
-    <input type="hidden" th:field="*{id}"/>
+<div class="container my-5 pt-4">
+    <h2 th:text="${skoleplan.id == null} ? 'Registrer ny skoleplan' : 'Rediger skoleplan'" class="mb-4">Skoleplan-skjema</h2>
 
-    <div>
-        <label>Skole:</label>
-        <select th:field="*{skole}">
-            <option th:each="s : ${skoler}" th:value="${s}" th:text="${s.navn}"></option>
-        </select>
-    </div>
+    <form th:action="@{/skoleplan/lagre}" method="post" class="needs-validation" novalidate>
+        <!-- Id-felt -->
+        <input type="hidden" name="id" th:value="${skoleplan.id}" />
 
-    <div>
-        <label>Leir:</label>
-        <select th:field="*{leir}">
-            <option th:each="l : ${leirer}" th:value="${l}" th:text="${l.navn} + ' (' + ${l.startDato} + ')'"></option>
-        </select>
-    </div>
+        <!-- Skole -->
+        <div class="mb-3">
+            <label for="skole" class="form-label">Skole *</label>
+            <select name="skole" id="skole" class="form-select" required>
+                <option value="">-- Velg skole --</option>
+                <option th:each="skole : ${skoler}"
+                        th:value="${skole.id}"
+                        th:text="${skole.navn}"
+                        th:selected="${skoleplan.skole?.id == skole.id}">
+                </option>
+            </select>
+            <div class="invalid-feedback">Du må velge en skole.</div>
+        </div>
 
-    <div>
-        <label>Ukeplan:</label>
-        <select th:field="*{ukePlan}">
-            <option th:each="u : ${ukeplaner}" th:value="${u}" th:text="${u.ukenummer} + ' (' + ${u.startDato} + ')'"></option>
-        </select>
-    </div>
+        <!-- Leir -->
+        <div class="mb-3">
+            <label for="leir" class="form-label">Leir *</label>
+            <select name="leir" id="leir" class="form-select" required>
+                <option value="">-- Velg leir --</option>
+                <option th:each="leir : ${leirer}"
+                        th:value="${leir.id}"
+                        th:text="${leir.navn}"
+                        th:selected="${skoleplan.leir?.id == leir.id}">
+                </option>
+            </select>
+            <div class="invalid-feedback">Du må velge en leir.</div>
+        </div>
 
-    <button type="submit">Lagre</button>
-</form>
+        <!-- UkePlan (valgfri) -->
+        <div class="mb-3">
+            <label for="ukePlan" class="form-label">Ukeplan</label>
+            <select name="ukePlan" id="ukePlan" class="form-select">
+                <option value="">-- Valgfritt --</option>
+                <option th:each="uke : ${ukeplaner}"
+                        th:value="${uke.id}"
+                        th:text="${uke.navn}"
+                        th:selected="${skoleplan.ukePlan?.id == uke.id}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Knappene -->
+        <button type="submit" class="btn btn-success">💾 Lagre</button>
+        <a class="btn btn-secondary ms-2" th:href="@{/skoleplan/liste}">Avbryt</a>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    (() => {
+      'use strict';
+      const form = document.querySelector('form');
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    })();
+</script>
 </body>
 </html>

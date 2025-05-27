@@ -14,18 +14,11 @@
       background-color: #f9f9f9;
       transition: background-color 0.2s, border-color 0.2s;
     }
-
-    .hytte-container.drag-over {
-      background-color: #e3edff;
-      border-color: #375aeb;
-    }
-
     .hytte-title {
       font-weight: bold;
       text-align: center;
       margin-bottom: 8px;
     }
-
     .deltaker {
       background-color: #d1ecf1;
       padding: 8px;
@@ -33,28 +26,16 @@
       border-radius: 6px;
       cursor: grab;
       text-align: center;
-      transition: background-color 0.15s;
     }
-
-    .deltaker:hover {
-      background-color: #bce5ea;
-    }
-
     .drop-zone-label {
       font-style: italic;
       color: #999;
       text-align: center;
     }
-
-    @media (max-width: 768px) {
-      .col-md-6 {
-        flex: 0 0 100%;
-        max-width: 100%;
-      }
-    }
   </style>
 </head>
 <body class="container-fluid mt-4">
+
 <!-- 🔷 Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
   <div class="container-fluid">
@@ -90,20 +71,10 @@
     <div class="col-md-8">
       <div class="row g-3" th:each="hytte : ${hytter}">
         <div class="col-md-6">
-          <div class="hytte-container"
-               th:attr="data-hytte-id=${hytte.id}"
-               ondragover="allowDrop(event)"
-               ondrop="drop(event)"
-               ondragleave="removeHighlight(event)"
-               ondragenter="highlight(event)">
+          <div class="hytte-container" th:attr="data-hytte-id=${hytte.id}">
             <div class="hytte-title" th:text="${hytte.navn}">Hytte</div>
             <div th:each="d : ${hytte.deltakere}">
-              <div class="deltaker"
-                   draggable="true"
-                   th:text="${d.navn}"
-                   th:attr="data-deltaker-id=${d.id}"
-                   ondragstart="drag(event)">
-              </div>
+              <div class="deltaker" th:text="${d.navn}" th:attr="data-deltaker-id=${d.id}"></div>
             </div>
             <div class="drop-zone-label">Dra deltakere hit</div>
           </div>
@@ -114,20 +85,9 @@
     <!-- Ufordelte -->
     <div class="col-md-4 mt-4 mt-md-0">
       <h4>🎒 Ufordelte deltakere</h4>
-      <div class="hytte-container"
-           data-hytte-id="null"
-           ondragover="allowDrop(event)"
-           ondrop="drop(event)"
-           ondragleave="removeHighlight(event)"
-           ondragenter="highlight(event)">
+      <div class="hytte-container" data-hytte-id="null">
         <div th:each="d : ${deltakere}">
-          <div th:if="${d.hytte == null}"
-               class="deltaker"
-               draggable="true"
-               th:text="${d.navn}"
-               th:attr="data-deltaker-id=${d.id}"
-               ondragstart="drag(event)">
-          </div>
+          <div th:if="${d.hytte == null}" class="deltaker" th:text="${d.navn}" th:attr="data-deltaker-id=${d.id}"></div>
         </div>
         <div class="drop-zone-label">Slipp her for å fjerne fra hytte</div>
       </div>
@@ -174,41 +134,29 @@
   </div>
 </div>
 
-<!-- Scripts -->
+<!-- Sortable.js -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script>
-  function allowDrop(ev) {
-    ev.preventDefault();
-  }
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".hytte-container").forEach(container => {
+      new Sortable(container, {
+        group: "deltakere",
+        animation: 150,
+        onAdd: function (evt) {
+          const deltakerId = evt.item.dataset.deltakerId;
+          const hytteId = evt.to.dataset.hytteId;
 
-  function drag(ev) {
-    ev.dataTransfer.setData("text/plain", ev.target.dataset.deltakerId);
-  }
-
-  function drop(ev) {
-    ev.preventDefault();
-    const deltakerId = ev.dataTransfer.getData("text/plain");
-    const hytteId = ev.currentTarget.getAttribute("data-hytte-id");
-    const deltakerEl = document.querySelector(`[data-deltaker-id='${deltakerId}']`);
-    if (deltakerEl) ev.currentTarget.prepend(deltakerEl);
-
-    fetch('/innkvartering/flytt', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `deltakerId=${deltakerId}&hytteId=${hytteId}`
-    }).then(res => {
-      if (!res.ok) alert("Feil under lagring!");
+          fetch('/innkvartering/flytt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `deltakerId=${deltakerId}&hytteId=${hytteId}`
+          }).then(res => {
+            if (!res.ok) alert("Feil under lagring!");
+          });
+        }
+      });
     });
-
-    removeHighlight(ev);
-  }
-
-  function highlight(ev) {
-    ev.currentTarget.classList.add("drag-over");
-  }
-
-  function removeHighlight(ev) {
-    ev.currentTarget.classList.remove("drag-over");
-  }
+  });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

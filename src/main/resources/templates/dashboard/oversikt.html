@@ -73,8 +73,15 @@
 
         <!-- ✅ Sticky & responsive toppmeny -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
+            <form th:action="@{/logo/lastOpp}" method="post" enctype="multipart/form-data" class="d-flex align-items-center ms-3">
+                <input type="file" name="fil" accept="image/*" class="form-control form-control-sm me-2" onchange="this.form.submit()">
+            </form>
+
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">LeirskolePortalen</a>
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <img th:if="${logoUrl}" th:src="@{${logoUrl}}" alt="Logo" style="height: 40px; max-width: 120px;" class="me-2" />
+                    <span>LeirskolePortalen</span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny" aria-controls="meny" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

@@ -24,6 +24,19 @@ public class Leir {
     @OneToMany(mappedBy = "leir")
     private List<SkolePlan> skoleplan;
 
+    /*@Column(name = "logo_url")
+    private String logoUrl;
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+     */
+
     public void setSkoleplan(List<SkolePlan> skoleplan) {
         this.skoleplan = skoleplan;
     }

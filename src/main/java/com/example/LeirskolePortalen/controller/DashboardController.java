@@ -47,6 +47,7 @@ public class DashboardController {
         model.addAttribute("deltakerCount", deltakerRepo.count()); // Antall deltakere totalt
         model.addAttribute("ufordelteCount", deltakerRepo.countByHytteIsNull()); // Deltakere som ikke har fått plass i hytte
 
+
         // Returnerer navnet på HTML-siden som skal vises, i dette tilfellet "dashboard/oversikt"
         return "dashboard/oversikt";
     }

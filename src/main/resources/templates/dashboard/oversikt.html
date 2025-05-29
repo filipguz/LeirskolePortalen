@@ -1,4 +1,736 @@
+<!-- Versjon dashboard 4.0 28.05.2025 -----
+//
 <!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leirskole Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+          --bg-color: #111;
+          --text-color: #fff;
+          --header-bg: #1a1a1a;
+          --box-bg: #222;
+          --border-color: #333;
+          --button-bg: #222;
+          --highlight: #0af;
+        }
+
+        body.light {
+          --bg-color: #f8f9fa;
+          --text-color: #111;
+          --header-bg: #e9ecef;
+          --box-bg: #ffffff;
+          --border-color: #ccc;
+          --button-bg: #e0e0e0;
+          --highlight: #007bff;
+        }
+
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background-color: var(--bg-color);
+          color: var(--text-color);
+          transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+          background-color: var(--header-bg);
+          padding: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+        }
+
+        .logo {
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+
+        nav ul {
+          display: flex;
+          list-style: none;
+          gap: 1rem;
+          padding-left: 0;
+          margin: 0;
+        }
+
+        nav ul li a {
+          color: var(--text-color);
+          text-decoration: none;
+          padding: 0.5rem;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+          border-bottom: 2px solid var(--highlight);
+        }
+
+        .menu-toggle {
+          display: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+        }
+
+        .theme-toggle {
+          background: none;
+          border: none;
+          color: var(--text-color);
+          font-size: 1.2rem;
+          cursor: pointer;
+          margin-left: 1rem;
+        }
+
+        main {
+          padding: 1rem;
+        }
+
+        .actions button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          width: 100%;
+          background-color: var(--button-bg);
+          color: var(--text-color);
+          border: 1px solid var(--border-color);
+          padding: 0.75rem;
+          margin: 0.5rem 0;
+          text-align: left;
+          cursor: pointer;
+          border-radius: 4px;
+        }
+
+        section {
+          margin-top: 2rem;
+        }
+
+        .box {
+          background-color: var(--box-bg);
+          padding: 1rem;
+          margin: 0.5rem 0;
+          border-radius: 5px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .box-actions button {
+          background: none;
+          border: none;
+          color: var(--text-color);
+          cursor: pointer;
+          font-size: 1rem;
+          margin-left: 0.5rem;
+        }
+
+        .box-actions button:hover {
+          color: var(--highlight);
+        }
+
+        @media (max-width: 768px) {
+          nav ul {
+            flex-direction: column;
+            display: none;
+            background-color: var(--header-bg);
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+          }
+
+          nav ul.active {
+            display: flex;
+          }
+
+          .menu-toggle {
+            display: block;
+          }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo">Leirskole</div>
+    <div class="d-flex align-items-center">
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Bytt tema">
+            <i id="themeIcon" class="fas fa-moon"></i>
+        </button>
+        <div class="menu-toggle" onclick="toggleMenu()" aria-label="Meny">☰</div>
+    </div>
+    <nav>
+        <ul id="menu">
+            <li><a href="#" class="active">Dashboard</a></li>
+            <li><a href="#">Deltakere</a></li>
+            <li><a href="#">Hytter</a></li>
+            <li><a href="#">Innstillinger</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h1>👋 Hei, velkommen!</h1>
+
+    <section class="actions">
+        <button onclick="location.href='#'"><i class="fas fa-house"></i> Opprett Hytte</button>
+        <button onclick="location.href='#'"><i class="fas fa-user-plus"></i> Legg til Deltaker</button>
+        <button onclick="location.href='#'"><i class="fas fa-pen-to-square"></i> Rediger Hytte</button>
+        <button onclick="location.href='#'"><i class="fas fa-folder-open"></i> Se Hytter</button>
+    </section>
+
+    <section class="participants">
+        <h2>Deltakere</h2>
+        <div class="box">
+            <span>Anne</span>
+            <div class="box-actions">
+                <button onclick="alert('Rediger Anne')" aria-label="Rediger Anne"><i class="fas fa-pen"></i></button>
+                <button onclick="confirm('Slette Anne?')" aria-label="Slett Anne"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+        <div class="box">
+            <span>Henrik</span>
+            <div class="box-actions">
+                <button onclick="alert('Rediger Henrik')" aria-label="Rediger Henrik"><i class="fas fa-pen"></i></button>
+                <button onclick="confirm('Slette Henrik?')" aria-label="Slett Henrik"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="cabins">
+        <h2>Hytter</h2>
+        <div class="box">
+            <span>Hytte A</span>
+            <div class="box-actions">
+                <button onclick="alert('Rediger Hytte A')" aria-label="Rediger Hytte A"><i class="fas fa-pen"></i></button>
+                <button onclick="confirm('Slette Hytte A?')" aria-label="Slett Hytte A"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+        <div class="box">
+            <span>Hytte B</span>
+            <div class="box-actions">
+                <button onclick="alert('Rediger Hytte B')" aria-label="Rediger Hytte B"><i class="fas fa-pen"></i></button>
+                <button onclick="confirm('Slette Hytte B?')" aria-label="Slett Hytte B"><i class="fas fa-trash"></i></button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.classList.toggle("active");
+    }
+
+    document.querySelectorAll('#menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById("menu").classList.remove("active");
+      });
+    });
+
+    // Tema-toggle
+    function toggleTheme() {
+      const body = document.body;
+      const icon = document.getElementById("themeIcon");
+      const isLight = body.classList.toggle("light");
+
+      icon.className = isLight ? "fas fa-sun" : "fas fa-moon";
+      localStorage.setItem("theme", isLight ? "light" : "dark");
+    }
+
+    // Last inn valgt tema
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") {
+        document.body.classList.add("light");
+        document.getElementById("themeIcon").className = "fas fa-sun";
+      }
+    };
+</script>
+</body>
+</html>
+-->
+
+
+<!-- Versjon dashboard 4.1 - med forbedringer-->
+<!DOCTYPE html>
+<html lang="no" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeirskolePortalen - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+          --bg-light: #f9fafb;
+          --text-light: #212529;
+          --card-bg-light: #fff;
+          --bg-dark: #212529;
+          --text-dark: #f8f9fa;
+          --card-bg-dark: #2c2f33;
+        }
+
+        body.light {
+          background-color: var(--bg-light);
+          color: var(--text-light);
+        }
+
+        body.dark {
+          background-color: var(--bg-dark);
+          color: var(--text-dark);
+        }
+
+        .card {
+          border-radius: 1rem;
+          transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .card:hover {
+          transform: translateY(-3px);
+        }
+
+        body.light .card {
+          background-color: var(--card-bg-light);
+          color: var(--text-light);
+          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark .card {
+          background-color: var(--card-bg-dark);
+          color: var(--text-dark);
+          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle {
+          background: none;
+          border: none;
+          font-size: 1.2rem;
+          color: inherit;
+          margin-left: 1rem;
+          cursor: pointer;
+        }
+
+        /* 🔧 Navbar farge tilpasses tema */
+        #navbar {
+          transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light #navbar {
+          background-color: #ffffff;
+          color: #212529;
+        }
+
+        body.dark #navbar {
+          background-color: #1a1a1a;
+          color: #f8f9fa;
+        }
+
+        body.dark #navbar .nav-link,
+        body.dark #navbar .navbar-brand {
+          color: #f8f9fa !important;
+        }
+
+        body.light #navbar .nav-link,
+        body.light #navbar .navbar-brand {
+          color: #212529 !important;
+        }
+
+        .navbar-collapse.show {
+          background-color: inherit;
+        }
+    </style>
+</head>
+<body class="light">
+<header>
+    <nav id="navbar" class="navbar navbar-expand-lg shadow-sm fixed-top" role="navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="#">LeirskolePortalen</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-label="Vis meny">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="d-flex">
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Bytt fargetema">
+                    <i id="themeIcon" class="fas fa-moon"></i>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/leir/liste">Leirer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/deltaker/liste/1">Deltakere</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/innkvartering">Innkvartering</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/skole/kunder">Skoler</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/risiko">Risikovurdering</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt me-1"></i>Logg ut</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="container mt-5 pt-4" role="main">
+    <h2 class="my-4"><i class="fas fa-calendar-alt me-2"></i>Oversikt - Kommende leirer</h2>
+    <p class="text-muted">Sist oppdatert: <span th:text="${sistOppdatert}">28.05.2025</span></p>
+
+    <div class="row g-4">
+        <div class="col-sm-6 col-lg-3">
+            <a href="/leir/liste" class="text-decoration-none">
+                <div class="card text-center p-4">
+                    <h5><i class="fas fa-campground me-2"></i>Neste Leir</h5>
+                    <h3 th:text="${kommendeLeirAntall}">3</h3>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <a href="/deltaker/liste/1" class="text-decoration-none">
+                <div class="card text-center p-4">
+                    <h5><i class="fas fa-users me-2"></i>Totalt deltakere</h5>
+                    <h3 th:text="${deltakerCount}">120</h3>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <a href="/deltaker/liste/1?filter=allergi" class="text-decoration-none">
+                <div class="card text-center p-4">
+                    <h5><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Med allergier</h5>
+                    <h3 th:text="${allergiCount}">16</h3>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <a href="/hytte/liste/1" class="text-decoration-none">
+                <div class="card text-center p-4">
+                    <h5><i class="fas fa-house-user me-2"></i>Hytter i bruk</h5>
+                    <h3 th:text="${aktiveHytter}">8</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <hr class="my-5">
+    <section aria-labelledby="snarveier">
+        <h4 id="snarveier"><i class="fas fa-bolt me-2"></i>Snarveier</h4>
+        <div class="row g-3 mt-2">
+            <div class="col-sm-6 col-md-3">
+                <a class="btn btn-outline-primary w-100" href="/leir/ny"><i class="fas fa-plus me-1"></i>Ny Leir</a>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <a class="btn btn-outline-primary w-100" href="/deltaker/ny/1"><i class="fas fa-user-plus me-1"></i>Ny Deltaker</a>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <a class="btn btn-outline-primary w-100" href="/hytte/liste/1"><i class="fas fa-cogs me-1"></i>Administrer Hytter</a>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <a class="btn btn-outline-primary w-100" href="/skole/ny"><i class="fas fa-school me-1"></i>Ny Skole</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div class="toast align-items-center text-bg-danger border-0" id="allergiToast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                Allergivarsel: Det er registrerte deltakere med allergier.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Lukk"></button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function toggleTheme() {
+      const body = document.body;
+      const icon = document.getElementById('themeIcon');
+      const isDark = body.classList.toggle('dark');
+      body.classList.toggle('light', !isDark);
+      icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const theme = localStorage.getItem('theme') || 'light';
+      document.body.classList.remove('light', 'dark');
+      document.body.classList.add(theme);
+      document.getElementById('themeIcon').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+      const allergiEl = document.querySelector('[th\\:text="${allergiCount}"]');
+      const allergiAntall = parseInt(allergiEl?.textContent || "0");
+      if (allergiAntall > 0) {
+        const toast = new bootstrap.Toast(document.getElementById('allergiToast'));
+        toast.show();
+      }
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Versjon dashboard 3.0 28.05.2025
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leirskole Dashboard</title>
+    <style>
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background-color: #111;
+          color: #fff;
+        }
+
+        header {
+          background-color: #1a1a1a;
+          padding: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .logo {
+          font-size: 1.5rem;
+        }
+
+        nav ul {
+          display: flex;
+          list-style: none;
+          gap: 1rem;
+        }
+
+        nav ul li a {
+          color: #fff;
+          text-decoration: none;
+        }
+
+        .menu-toggle {
+          display: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+        }
+
+        .content {
+          padding: 1rem;
+        }
+
+        .actions button {
+          display: block;
+          width: 100%;
+          background-color: #222;
+          color: #fff;
+          border: 1px solid #333;
+          padding: 0.75rem;
+          margin: 0.5rem 0;
+          text-align: left;
+          cursor: pointer;
+        }
+
+        .participants, .cabins {
+          margin-top: 2rem;
+        }
+
+        .box {
+          background-color: #222;
+          padding: 1rem;
+          margin: 0.5rem 0;
+          border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+          nav ul {
+            flex-direction: column;
+            display: none;
+            background-color: #1a1a1a;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+          }
+
+          nav ul.active {
+            display: flex;
+          }
+
+          .menu-toggle {
+            display: block;
+          }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Leirskole</div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav>
+        <ul id="menu">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Deltakere</a></li>
+            <li><a href="#">Hytter</a></li>
+            <li><a href="#">Innstillinger</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="content">
+    <h1>Hello!</h1>
+
+    <div class="actions">
+        <button onclick="alert('Opprett Hytte')">🏠 Opprett Hytte</button>
+        <button onclick="alert('Legg til deltaker')">👤 Legg til Deltaker</button>
+        <button onclick="alert('Rediger Hytte')">✏️ Rediger Hytte</button>
+        <button onclick="alert('Se Hytter')">📁 Se Hytter</button>
+    </div>
+
+    <div class="participants">
+        <h2>Deltakere</h2>
+        <div class="box">Anne <button onclick="alert('Rediger Anne')">✏️</button> <button onclick="alert('Slett Anne')">🗑️</button></div>
+        <div class="box">Henrik <button onclick="alert('Rediger Henrik')">✏️</button> <button onclick="alert('Slett Henrik')">🗑️</button></div>
+    </div>
+
+    <div class="cabins">
+        <h2>Hytter</h2>
+        <div class="box">Hytte A <button onclick="alert('Rediger Hytte A')">✏️</button> <button onclick="alert('Slett Hytte A')">🗑️</button></div>
+        <div class="box">Hytte B <button onclick="alert('Rediger Hytte B')">✏️</button> <button onclick="alert('Slett Hytte B')">🗑️</button></div>
+    </div>
+</div>
+
+<script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.classList.toggle("active");
+    }
+</script>
+
+</body>
+</html>
+-->
+
+
+
+<!-- Versjon dashboard 2.0 28.05.2025 -->
+<!-- <!DOCTYPE html>
+<html lang="no" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeirskolePortalen – Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f9fafb; }
+        .sidebar {
+          height: 100vh;
+          background: #ffffff;
+          border-right: 1px solid #e1e5eb;
+          padding: 1rem;
+        }
+        .calendar-cell {
+          min-height: 100px;
+          background: #fff;
+          border: 1px solid #e9ecef;
+        }
+        .event-card {
+          padding: 0.25rem 0.5rem;
+          margin-bottom: 0.5rem;
+          border-radius: 0.4rem;
+          color: #fff;
+          font-size: 0.875rem;
+        }
+        .purple { background: #c8b6ff; }
+        .blue { background: #a0c4ff; }
+        .green { background: #b9fbc0; color: #000; }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 sidebar">
+            <h5 class="fw-bold">LeirskolePortalen</h5>
+            <ul class="nav flex-column mt-4">
+                <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/leir/liste}">Leirer</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/deltaker/liste/1}">Deltakere</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/hytte/liste/1}">Hytter</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/skole/kunder}">Skoler</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/innkvartering}">Innkvartering</a></li>
+                <li class="nav-item"><a class="nav-link text-danger" th:href="@{/logout}">Logg ut</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-10 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Ukesoversikt</h3>
+                <div class="btn-group">
+                    <a class="btn btn-success" th:href="@{/deltaker/ny/1}">+ Deltaker</a>
+                    <a class="btn btn-info" th:href="@{/hytte/opprett}">+ Hytte</a>
+                    <a class="btn btn-primary" th:href="@{/skole/ny}">+ Skole</a>
+                    <a class="btn btn-secondary" th:href="@{/risiko}">+ Risikovurdering</a>
+                </div>
+            </div>
+
+            <div class="row text-center mb-2">
+                <div class="col">Søndag</div>
+                <div class="col">Mandag</div>
+                <div class="col">Tirsdag</div>
+                <div class="col">Onsdag</div>
+                <div class="col">Torsdag</div>
+                <div class="col">Fredag</div>
+                <div class="col">Lørdag</div>
+            </div>
+
+            <div class="row">
+                <div class="col"><div class="calendar-cell"></div></div>
+                <div class="col">
+                    <div class="calendar-cell">
+                        <div class="event-card purple">Leirplanlegging<br>09:00–11:00</div>
+                    </div>
+                </div>
+                <div class="col"><div class="calendar-cell"></div></div>
+                <div class="col">
+                    <div class="calendar-cell">
+                        <div class="event-card blue">Hyttesamling<br>10:00–11:30</div>
+                        <div class="event-card green">Tur til vannet<br>13:00–15:00</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="calendar-cell">
+                        <div class="event-card blue">Fellesaktivitet<br>09:00–11:00</div>
+                    </div>
+                </div>
+                <div class="col"><div class="calendar-cell"></div></div>
+                <div class="col"><div class="calendar-cell"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+-->
+
+
+
+<!-- Versjon dashboard 1.0 -->
+
+<!--<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -112,8 +844,8 @@
         </div>
     </div>
 </div>
-
-<!-- Toast container -->
+-->
+<!-- Toast container
 <div class="toast-container" id="toastContainer">
     <div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="allergiToast">
         <div class="d-flex">
@@ -137,3 +869,4 @@
 </script>
 </body>
 </html>
+-->

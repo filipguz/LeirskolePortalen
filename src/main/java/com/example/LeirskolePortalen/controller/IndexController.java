@@ -20,6 +20,8 @@ public class IndexController {
     public String index(Model model) {
         model.addAttribute("leirCount", leirRepo.count());
         model.addAttribute("deltakerCount", deltakerRepo.count());
+      // Legg til at jeg kan få filter på ulikeleirer...
+       // model.addAttribute("alleLeirer", leirService.finnAlleKommende());
         return "index";
     }
 }

@@ -1,4 +1,9 @@
-<!-- Versjon dashboard 4.1 - med forbedringer-->
+
+
+
+
+
+<!-- Versjon dashboard 4.1 - med forbedringer -->
 <!DOCTYPE html>
 <html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -57,7 +62,6 @@
       cursor: pointer;
     }
 
-    /* 🔧 Navbar farge tilpasses tema */
     #navbar {
       transition: background-color 0.3s, color 0.3s;
     }
@@ -85,7 +89,21 @@
     .navbar-collapse.show {
       background-color: inherit;
     }
+
+    /* Responsiv forbedring */
+    .card h5 {
+      font-size: 1rem;
+    }
+
+    .card h3 {
+      font-size: 2rem;
+    }
+
+    .lead {
+      font-size: 1.1rem;
+    }
   </style>
+
 </head>
 <body class="light">
 <header>
@@ -118,6 +136,23 @@
 
 <main class="container mt-5 pt-4" role="main">
   <h2 class="my-4"><i class="fas fa-calendar-alt me-2"></i>Oversikt - Kommende leirer</h2>
+  <!-- 🔽 Ny introduksjon lagt til her -->
+  <p class="lead">
+    LeirskolePortalen gir deg oversikt over kommende leirer, deltakere, innkvartering og risikovurderinger.
+    Plattformen er laget for å forenkle planlegging og administrasjon for skoler og arrangører.
+  </p>
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="leirFilter" class="form-label">Filtrer på leir:</label>
+      <select id="leirFilter" class="form-select" onchange="filterLeirer()">
+        <option selected>Alle leirer</option>
+        <option>Leirskole - Uke 23</option>
+        <option>Sommerleir 2025</option>
+        <option>Høstcamp for 7. trinn</option>
+      </select>
+    </div>
+  </div>
+
   <p class="text-muted">Sist oppdatert: <span th:text="${sistOppdatert}">28.05.2025</span></p>
 
   <div class="row g-4">
@@ -157,19 +192,27 @@
 
   <hr class="my-5">
   <section aria-labelledby="snarveier">
-    <h4 id="snarveier"><i class="fas fa-bolt me-2"></i>Snarveier</h4>
+    <!-- Snarveier med modaler -->
     <div class="row g-3 mt-2">
       <div class="col-sm-6 col-md-3">
-        <a class="btn btn-outline-primary w-100" href="/leir/ny"><i class="fas fa-plus me-1"></i>Ny Leir</a>
+        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#nyLeirModal">
+          <i class="fas fa-plus me-1"></i>Ny Leir
+        </button>
       </div>
       <div class="col-sm-6 col-md-3">
-        <a class="btn btn-outline-primary w-100" href="/deltaker/ny/1"><i class="fas fa-user-plus me-1"></i>Ny Deltaker</a>
+        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#nyDeltakerModal">
+          <i class="fas fa-user-plus me-1"></i>Ny Deltaker
+        </button>
       </div>
       <div class="col-sm-6 col-md-3">
-        <a class="btn btn-outline-primary w-100" href="/hytte/liste/1"><i class="fas fa-cogs me-1"></i>Administrer Hytter</a>
+        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#adminHytteModal">
+          <i class="fas fa-cogs me-1"></i>Administrer Hytter
+        </button>
       </div>
       <div class="col-sm-6 col-md-3">
-        <a class="btn btn-outline-primary w-100" href="/skole/ny"><i class="fas fa-school me-1"></i>Ny Skole</a>
+        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#nySkoleModal">
+          <i class="fas fa-school me-1"></i>Ny Skole
+        </button>
       </div>
     </div>
   </section>
@@ -212,5 +255,127 @@
     }
   });
 </script>
+<!-- Modal: Ny Leir -->
+<div class="modal fade" id="nyLeirModal" tabindex="-1" aria-labelledby="nyLeirModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" action="/leir/ny" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="nyLeirModalLabel">Registrer Ny Leir</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="leirNavn" class="form-label">Leirnavn</label>
+          <input type="text" class="form-control" id="leirNavn" name="leirNavn" required>
+        </div>
+        <div class="mb-3">
+          <label for="startDato" class="form-label">Startdato</label>
+          <input type="date" class="form-control" id="startDato" name="startDato" required>
+        </div>
+        <div class="mb-3">
+          <label for="sluttDato" class="form-label">Sluttdato</label>
+          <input type="date" class="form-control" id="sluttDato" name="sluttDato" required>
+        </div>
+        <div class="mb-3">
+          <label for="beskrivelse" class="form-label">Beskrivelse</label>
+          <textarea class="form-control" id="beskrivelse" name="beskrivelse" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Lagre</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Ny Deltaker -->
+<div class="modal fade" id="nyDeltakerModal" tabindex="-1" aria-labelledby="nyDeltakerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" action="/deltaker/ny/1" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="nyDeltakerModalLabel">Registrer Ny Deltaker</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="fornavn" class="form-label">Fornavn</label>
+          <input type="text" class="form-control" id="fornavn" name="fornavn" required>
+        </div>
+        <div class="mb-3">
+          <label for="etternavn" class="form-label">Etternavn</label>
+          <input type="text" class="form-control" id="etternavn" name="etternavn" required>
+        </div>
+        <div class="mb-3">
+          <label for="fødselsdato" class="form-label">Fødselsdato</label>
+          <input type="date" class="form-control" id="fødselsdato" name="fødselsdato" required>
+        </div>
+        <div class="mb-3">
+          <label for="klasse" class="form-label">Klasse</label>
+          <input type="text" class="form-control" id="klasse" name="klasse">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Registrer</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Ny Skole -->
+<div class="modal fade" id="nySkoleModal" tabindex="-1" aria-labelledby="nySkoleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" action="/skole/ny" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="nySkoleModalLabel">Registrer Ny Skole</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="skoleNavn" class="form-label">Skolenavn</label>
+          <input type="text" class="form-control" id="skoleNavn" name="skoleNavn" required>
+        </div>
+        <div class="mb-3">
+          <label for="kontaktperson" class="form-label">Kontaktperson</label>
+          <input type="text" class="form-control" id="kontaktperson" name="kontaktperson" required>
+        </div>
+        <div class="mb-3">
+          <label for="epost" class="form-label">E-post</label>
+          <input type="email" class="form-control" id="epost" name="epost">
+        </div>
+        <div class="mb-3">
+          <label for="telefon" class="form-label">Telefon</label>
+          <input type="text" class="form-control" id="telefon" name="telefon">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Lagre</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Administrer Hytter (informasjonsmodal) -->
+<div class="modal fade" id="adminHytteModal" tabindex="-1" aria-labelledby="adminHytteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adminHytteModalLabel">Administrer Hytter</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
+      </div>
+      <div class="modal-body">
+        Gå til oversikten for å administrere hytter og romfordeling.
+      </div>
+      <div class="modal-footer">
+        <a href="/hytte/liste/1" class="btn btn-primary">Gå til Hytteoversikt</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lukk</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </body>
 </html>

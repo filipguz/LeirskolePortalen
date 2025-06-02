@@ -5,9 +5,12 @@ import com.example.LeirskolePortalen.repository.LeirRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/leir") // Alle ruter starter med /leir
+@RequestMapping("/leir")
 public class LeirController {
 
     private final LeirRepository leirRepo;
@@ -17,22 +20,20 @@ public class LeirController {
     }
 
     // ---------- CREATE ----------
-    // Viser skjema for å opprette en ny leir
     @GetMapping("/ny")
     public String nyLeirForm(Model model) {
         model.addAttribute("leir", new Leir());
-        return "leir/ny"; // Vis skjema (ny.html)
+        return "leir/ny";
     }
 
-    // Lagre ny leir fra skjema
     @PostMapping("/lagre")
-    public String lagreLeir(@ModelAttribute Leir leir) {
-        leirRepo.save(leir); // Lagre i database
-        return "redirect:/leir/liste"; // Gå til oversikt
+    public String lagreLeir(@ModelAttribute Leir leir, RedirectAttributes ra) {
+        leirRepo.save(leir);
+        ra.addFlashAttribute("melding", "Leiren ble opprettet.");
+        return "redirect:/leir/liste";
     }
 
     // ---------- READ ----------
-    // Vis alle leirer
     @GetMapping("/liste")
     public String visAlle(Model model) {
         model.addAttribute("leirer", leirRepo.findAll());
@@ -40,26 +41,34 @@ public class LeirController {
     }
 
     // ---------- UPDATE ----------
-    // Vise redigeringsskjema for en eksisterende leir
     @GetMapping("/rediger/{id}")
-    public String redigerLeirForm(@PathVariable Long id, Model model) {
-        Leir leir = leirRepo.findById(id).orElseThrow();
-        model.addAttribute("leir", leir);
-        return "leir/rediger"; // Viser redigeringsskjema
+    public String redigerLeirForm(@PathVariable Long id, Model model, RedirectAttributes ra) {
+        Optional<Leir> leirOpt = leirRepo.findById(id);
+        if (leirOpt.isPresent()) {
+            model.addAttribute("leir", leirOpt.get());
+            return "leir/rediger";
+        } else {
+            ra.addFlashAttribute("feil", "Leir med ID " + id + " ble ikke funnet.");
+            return "redirect:/leir/liste";
+        }
     }
 
-    // Lagre endringer etter redigering
     @PostMapping("/oppdater")
-    public String oppdaterLeir(@ModelAttribute Leir leir) {
-        leirRepo.save(leir); // Lagre oppdatert leir
+    public String oppdaterLeir(@ModelAttribute Leir leir, RedirectAttributes ra) {
+        leirRepo.save(leir);
+        ra.addFlashAttribute("melding", "Leiren ble oppdatert.");
         return "redirect:/leir/liste";
     }
 
     // ---------- DELETE ----------
-    // Slett en leir (via POST for sikkerhet)
     @PostMapping("/slett/{id}")
-    public String slettLeir(@PathVariable Long id) {
-        leirRepo.deleteById(id);
+    public String slettLeir(@PathVariable Long id, RedirectAttributes ra) {
+        if (leirRepo.existsById(id)) {
+            leirRepo.deleteById(id);
+            ra.addFlashAttribute("melding", "Leiren ble slettet.");
+        } else {
+            ra.addFlashAttribute("feil", "Fant ikke leiren du prøvde å slette.");
+        }
         return "redirect:/leir/liste";
     }
 }

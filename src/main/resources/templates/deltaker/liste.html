@@ -117,10 +117,96 @@
 </header>
 
 <main class="container mt-5 pt-4" role="main">
-  <h2 class="my-4"><i class="fas fa-calendar-alt me-2"></i>Deltageroversikt</h2>
-  <p class="text-muted">Sist oppdatert: <span th:text="${sistOppdatert}">28.05.2025</span></p>
+  <section class="container my-5 pt-5" aria-labelledby="deltakerOversiktTittel">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 id="deltakerOversiktTittel" class="mb-0">
+        <i class="fas fa-users me-2"></i>Deltakeroversikt
+      </h2>
+    </div>
 
-  <!-- ✅ Deltakerliste -->
+    <div class="table-responsive shadow-sm rounded">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+        <tr>
+          <th><i class="fas fa-user me-1"></i>Navn</th>
+          <th><i class="fas fa-exclamation-circle me-1 text-danger"></i>Allergi</th>
+          <th><i class="fas fa-house-user me-1"></i>Hytte</th>
+          <th class="text-center"><i class="fas fa-cogs me-1"></i>Tildel hytte</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="deltaker, stat : ${deltakere}">
+          <td th:text="${deltaker.navn}">Navn</td>
+          <td th:text="${deltaker.allergi}">Ingen</td>
+          <td th:text="${deltaker.hytte != null ? deltaker.hytte.navn : 'Ingen tildelt'}">Ingen tildelt</td>
+          <td class="text-center">
+            <form th:action="@{/deltaker/tildel-hytte}" method="post" class="d-flex justify-content-center align-items-center">
+              <input type="hidden" name="deltakerId" th:value="${deltaker.id}">
+              <select class="form-select me-2 w-auto" name="hytteId">
+                <option th:each="h : ${hytter}"
+                        th:value="${h.id}"
+                        th:text="${h.navn}"
+                        th:selected="${deltaker.hytte?.id == h.id}">
+                </option>
+              </select>
+              <button class="btn btn-sm btn-primary" type="submit" aria-label="Tildel hytte">
+                <i class="fas fa-check"></i>
+              </button>
+            </form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(deltakere)}">
+          <td colspan="4" class="text-center text-muted py-3">
+            <i class="fas fa-info-circle me-2"></i>Ingen deltakere registrert.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-center mt-3">
+      <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#visFlereDeltakere" aria-expanded="false" aria-controls="visFlereDeltakere">
+        <i class="fas fa-chevron-down me-1"></i>Vis flere
+      </button>
+    </div>
+
+    <div class="collapse mt-3" id="visFlereDeltakere">
+      <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+          <tr>
+            <th>Navn</th>
+            <th>Allergi</th>
+            <th>Hytte</th>
+            <th class="text-center">Tildel hytte</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="deltaker : ${deltakereEkstra}">
+            <td th:text="${deltaker.navn}">Navn</td>
+            <td th:text="${deltaker.allergi}">Ingen</td>
+            <td th:text="${deltaker.hytte != null ? deltaker.hytte.navn : 'Ingen tildelt'}">Ingen tildelt</td>
+            <td class="text-center">
+              <form th:action="@{/deltaker/tildel-hytte}" method="post" class="d-flex justify-content-center align-items-center">
+                <input type="hidden" name="deltakerId" th:value="${deltaker.id}">
+                <select class="form-select me-2 w-auto" name="hytteId">
+                  <option th:each="h : ${hytter}"
+                          th:value="${h.id}"
+                          th:text="${h.navn}"
+                          th:selected="${deltaker.hytte?.id == h.id}">
+                  </option>
+                </select>
+                <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-check"></i></button>
+              </form>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ Deltakerliste
   <table class="table table-bordered">
     <thead class="table-light">
     <tr>
@@ -151,6 +237,12 @@
     </tr>
     </tbody>
   </table>
+  -->
+
+
+
+
+
     <div class="row g-4">
       <div class="col-sm-6 col-lg-3">
         <a href="/leir/liste" class="text-decoration-none">
@@ -243,6 +335,32 @@
       }
     });
   </script>
+<footer class="bg-light text-center text-lg-start mt-5 border-top shadow-sm">
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-3 mb-lg-0 text-start">
+        <h6 class="text-uppercase fw-bold">Om LeirskolePortalen</h6>
+        <p class="mb-0">
+          LeirskolePortalen forenkler administrasjonen av leirskoleopphold. Her kan du enkelt håndtere deltakere, innkvartering, skoler og risikovurderinger.
+        </p>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
+        <h6 class="text-uppercase fw-bold">Lenker</h6>
+        <ul class="list-unstyled mb-0">
+          <li><a href="/leir/liste" class="text-decoration-none text-dark">Leirer</a></li>
+          <li><a href="/skole/kunder" class="text-decoration-none text-dark">Skoler</a></li>
+          <li><a href="/risiko" class="text-decoration-none text-dark">Risikovurdering</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6 text-md-end">
+        <h6 class="text-uppercase fw-bold">Kontakt</h6>
+        <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-decoration-none">kontakt@leirskoleportalen.no</a></p>
+        <p class="mb-0">© 2025 LeirskolePortalen</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Footer end-->
   </body>
   </html>
 

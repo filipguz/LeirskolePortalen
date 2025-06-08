@@ -1,79 +1,193 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="no">
+<html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:text="${skoleplan.id == null} ? 'Ny skoleplan' : 'Rediger skoleplan'">Skoleplan</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f9fafb;
+            --text-light: #212529;
+            --card-bg-light: #fff;
+            --bg-dark: #212529;
+            --text-dark: #f8f9fa;
+            --card-bg-dark: #2c2f33;
+        }
+
+        body.light {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        body.dark {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        body.light .card {
+            background-color: var(--card-bg-light);
+            color: var(--text-light);
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark .card {
+            background-color: var(--card-bg-dark);
+            color: var(--text-dark);
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: inherit;
+            margin-left: 1rem;
+            cursor: pointer;
+        }
+
+        #navbar {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light #navbar {
+            background-color: #ffffff;
+            color: #212529;
+        }
+
+        body.dark #navbar {
+            background-color: #1a1a1a;
+            color: #f8f9fa;
+        }
+
+        body.dark #navbar .nav-link,
+        body.dark #navbar .navbar-brand {
+            color: #f8f9fa !important;
+        }
+
+        body.light #navbar .nav-link,
+        body.light #navbar .navbar-brand {
+            color: #212529 !important;
+        }
+    </style>
 </head>
-<body>
-<div class="container my-5 pt-4">
-    <h2 th:text="${skoleplan.id == null} ? 'Registrer ny skoleplan' : 'Rediger skoleplan'" class="mb-4">Skoleplan-skjema</h2>
+<body class="light">
+<!-- 🌐 Navbar -->
+<header>
+    <nav id="navbar" class="navbar navbar-expand-lg shadow-sm fixed-top bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="#">LeirskolePortalen</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/leir/liste">Leirer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/deltaker/liste/1">Deltakere</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/innkvartering">Innkvartering</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/skole/kunder">Skoler</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/risiko">Risikovurdering</a></li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button class="nav-link btn btn-link theme-toggle p-0" type="button" onclick="toggleTheme()" aria-label="Bytt fargetema">
+                            <i id="themeIcon" class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt me-1"></i>Logg ut
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
 
-    <form th:action="@{/skoleplan/lagre}" method="post" class="needs-validation" novalidate>
-        <!-- Id-felt -->
-        <input type="hidden" name="id" th:value="${skoleplan.id}" />
-
-        <!-- Skole -->
-        <div class="mb-3">
-            <label for="skole" class="form-label">Skole *</label>
-            <select name="skole" id="skole" class="form-select" required>
-                <option value="">-- Velg skole --</option>
-                <option th:each="skole : ${skoler}"
-                        th:value="${skole.id}"
-                        th:text="${skole.navn}"
-                        th:selected="${skoleplan.skole?.id == skole.id}">
-                </option>
-            </select>
-            <div class="invalid-feedback">Du må velge en skole.</div>
+<!-- 📋 Innhold -->
+<main class="container mt-5 pt-5" role="main">
+    <section class="my-5" aria-labelledby="skjemaTittel">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 id="skjemaTittel" class="mb-0">
+                <i class="fas fa-clipboard me-2"></i>
+                <span th:text="${skoleplan.id == null} ? 'Registrer ny skoleplan' : 'Rediger skoleplan'">Skoleplan-skjema</span>
+            </h2>
         </div>
 
-        <!-- Leir -->
-        <div class="mb-3">
-            <label for="leir" class="form-label">Leir *</label>
-            <select name="leir" id="leir" class="form-select" required>
-                <option value="">-- Velg leir --</option>
-                <option th:each="leir : ${leirer}"
-                        th:value="${leir.id}"
-                        th:text="${leir.navn}"
-                        th:selected="${skoleplan.leir?.id == leir.id}">
-                </option>
-            </select>
-            <div class="invalid-feedback">Du må velge en leir.</div>
-        </div>
+        <form th:action="@{/skoleplan/lagre}" th:object="${skoleplan}" method="post" class="card p-4 needs-validation" novalidate>
+            <input type="hidden" th:field="*{id}" />
 
-        <!-- UkePlan (valgfri) -->
-        <div class="mb-3">
-            <label for="ukePlan" class="form-label">Ukeplan</label>
-            <select name="ukePlan" id="ukePlan" class="form-select">
-                <option value="">-- Valgfritt --</option>
-                <option th:each="uke : ${ukeplaner}"
-                        th:value="${uke.id}"
-                        th:text="${uke.navn}"
-                        th:selected="${skoleplan.ukePlan?.id == uke.id}">
-                </option>
-            </select>
-        </div>
+            <!-- Skole -->
+            <div class="mb-3">
+                <label for="skole" class="form-label">Skole *</label>
+                <select th:field="*{skole.id}" id="skole" class="form-select" required>
+                    <option value="">-- Velg skole --</option>
+                    <option th:each="skole : ${skoler}"
+                            th:value="${skole.id}"
+                            th:text="${skole.navn}">
+                    </option>
+                </select>
+                <div class="invalid-feedback">Du må velge en skole.</div>
+            </div>
 
-        <!-- Knappene -->
-        <button type="submit" class="btn btn-success">💾 Lagre</button>
-        <a class="btn btn-secondary ms-2" th:href="@{/skoleplan/liste}">Avbryt</a>
-    </form>
-</div>
+            <!-- Leir -->
+            <div class="mb-3">
+                <label for="leir" class="form-label">Leir *</label>
+                <select th:field="*{leir.id}" id="leir" class="form-select" required>
+                    <option value="">-- Velg leir --</option>
+                    <option th:each="leir : ${leirer}"
+                            th:value="${leir.id}"
+                            th:text="${leir.navn}">
+                    </option>
+                </select>
+                <div class="invalid-feedback">Du må velge en leir.</div>
+            </div>
 
+
+            <div class="d-flex justify-content-between mt-4">
+                <a class="btn btn-secondary" th:href="@{/skoleplan/liste}">
+                    <i class="fas fa-chevron-left me-1"></i>Avbryt
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save me-1"></i>Lagre
+                </button>
+            </div>
+        </form>
+    </section>
+</main>
+
+
+<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     (() => {
-      'use strict';
-      const form = document.querySelector('form');
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
+        'use strict';
+        const form = document.querySelector('form');
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+
+        const theme = localStorage.getItem('theme') || 'light';
+        document.body.classList.remove('light', 'dark');
+        document.body.classList.add(theme);
+        document.getElementById('themeIcon').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     })();
+
+    function toggleTheme() {
+        const body = document.body;
+        const icon = document.getElementById('themeIcon');
+        const isDark = body.classList.toggle('dark');
+        body.classList.toggle('light', !isDark);
+        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
 </script>
 </body>
 </html>

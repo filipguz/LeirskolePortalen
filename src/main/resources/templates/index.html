@@ -1,15 +1,260 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeirskolePortalen</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-light: #f9fafb;
+      --text-light: #212529;
+      --card-bg-light: #fff;
+      --bg-dark: #212529;
+      --text-dark: #f8f9fa;
+      --card-bg-dark: #2c2f33;
+    }
+
+    body.light {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .card {
+      border-radius: 1rem;
+      transition: transform 0.2s, background-color 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    body.light .card {
+      background-color: var(--card-bg-light);
+      color: var(--text-light);
+      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark .card {
+      background-color: var(--card-bg-dark);
+      color: var(--text-dark);
+      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+    }
+
+    .dnb-style-navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #d0ece9;
+      background-color: white;
+      color: #007072;
+      font-family: "Segoe UI", sans-serif;
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+    }
+
+    .nav-left, .nav-center, .nav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-left i, .nav-right i {
+      font-size: 1.2rem;
+    }
+
+    .nav-left span, .nav-right span {
+      font-size: 0.8rem;
+      margin-left: 0.3rem;
+    }
+
+    .nav-center {
+      flex-grow: 1;
+      justify-content: center;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 2.0rem;
+      color: #007072;
+      text-decoration: none;
+    }
+
+    .nav-right .nav-icon {
+      display: flex;
+      align-items: center;
+      margin-left: 1.5rem;
+    }
+
+    .nav-right .nav-icon a {
+      display: flex;
+      align-items: center;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 260px;
+      height: 100%;
+      background-color: #ffffff;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      padding: 1rem;
+      transition: left 0.3s ease-in-out;
+      z-index: 1051;
+    }
+
+    .side-menu.active {
+      left: 0;
+    }
+
+    .side-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .side-menu ul li {
+      margin: 1rem 0;
+    }
+
+    .side-menu ul li a {
+      color: #007072;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .side-menu-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.3);
+      z-index: 1050;
+    }
+
+    .side-menu-overlay.active {
+      display: block;
+    }
+
+    @media (max-width: 576px) {
+      .nav-left span, .nav-right span {
+        display: none;
+      }
+
+      .nav-right .nav-icon {
+        margin-left: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body class="light">
+<header>
+  <nav class="dnb-style-navbar">
+    <div class="nav-left" onclick="toggleSideMenu()">
+      <i class="fas fa-bars"></i>
+      <span>Meny</span>
+    </div>
+    <div class="nav-center">
+      <a href="/" class="logo">
+        LeirskolePortalen
+      </a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-icon">
+        <a href="/sok"><i class="fas fa-search"></i><span>Søk</span></a>
+      </div>
+      <div class="nav-icon">
+        <a href="/login"><i class="fas fa-sign-in-alt"></i><span>Logg inn</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="sideMenu" class="side-menu">
+    <div class="side-menu-header">
+      <span>Hovedmeny</span>
+      <button class="btn-close" onclick="toggleSideMenu()"></button>
+    </div>
+    <ul class="list-unstyled">
+      <li><a href="/leir/liste"><i class="fas fa-campground me-2"></i>Leirer</a></li>
+      <li><a href="/deltaker/liste/1"><i class="fas fa-users me-2"></i>Deltakere</a></li>
+      <li><a href="/innkvartering"><i class="fas fa-bed me-2"></i>Innkvartering</a></li>
+      <li><a href="/skole/kunder"><i class="fas fa-school me-2"></i>Skoler</a></li>
+      <li><a href="/risiko"><i class="fas fa-exclamation-triangle me-2"></i>Risikovurdering</a></li>
+      <li><a href="/hytte/liste/1"><i class="fas fa-house-user me-2"></i>Administrere hytter</a></li>
+    </ul>
+  </div>
+  <div id="sideMenuOverlay" class="side-menu-overlay" onclick="toggleSideMenu()"></div>
+</header>
+
+<main class="container mt-5 pt-4">
+  <h2 class="my-4"><i class="fas fa-calendar-alt me-2"></i>Oversikt - Kommende leirer</h2>
+  <p class="lead">
+    LeirskolePortalen gir deg oversikt over kommende leirer, deltakere, innkvartering og risikovurderinger.
+    Plattformen er laget for å forenkle planlegging og administrasjon for skoler og arrangører.
+  </p>
+</main>
+
+<footer class="bg-light text-center text-lg-start mt-5 border-top shadow-sm">
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-3 mb-lg-0 text-start">
+        <h6 class="text-uppercase fw-bold">Om LeirskolePortalen</h6>
+        <p class="mb-0">
+          LeirskolePortalen forenkler administrasjonen av leirskoleopphold. Her kan du enkelt håndtere deltakere, innkvartering, skoler og risikovurderinger.
+        </p>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
+        <h6 class="text-uppercase fw-bold">Lenker</h6>
+        <ul class="list-unstyled mb-0">
+          <li><a href="/leir/liste" class="text-decoration-none text-dark">Leirer</a></li>
+          <li><a href="/skole/kunder" class="text-decoration-none text-dark">Skoler</a></li>
+          <li><a href="/risiko" class="text-decoration-none text-dark">Risikovurdering</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6 text-md-end">
+        <h6 class="text-uppercase fw-bold">Kontakt</h6>
+        <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-decoration-none">kontakt@leirskoleportalen.no</a></p>
+        <p class="mb-0">&copy; 2025 LeirskolePortalen</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function toggleSideMenu() {
+    document.getElementById("sideMenu").classList.toggle("active");
+    document.getElementById("sideMenuOverlay").classList.toggle("active");
+  }
+</script>
+</body>
+</html>
 
 
 
 
-
-<!-- Versjon dashboard 4.1 - med forbedringer -->
+<!-- Versjon dashboard 4.1 - med forbedringer
 <!DOCTYPE html>
 <html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LeirskolePortalen - Dashboard</title>
+  <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
+    <img src="/static/img/logo1.png" alt="LeirskolePortalen" height="40" class="me-2">
+    <span>LeirskolePortalen</span>
+  </a>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
@@ -79,6 +324,7 @@
     body.dark #navbar .nav-link,
     body.dark #navbar .navbar-brand {
       color: #f8f9fa !important;
+
     }
 
     body.light #navbar .nav-link,
@@ -89,6 +335,8 @@
     .navbar-collapse.show {
       background-color: inherit;
     }
+
+
 
     /* Responsiv forbedring */
     .card h5 {
@@ -109,7 +357,7 @@
 <header>
   <nav id="navbar" class="navbar navbar-expand-lg shadow-sm fixed-top bg-light" role="navigation">
     <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="#">LeirskolePortalen</a>
+      <a class="navbar-brand fw-bold" href="/">LeirskolePortalen</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarMenu" aria-label="Vis meny"
@@ -124,9 +372,7 @@
           <li class="nav-item"><a class="nav-link" href="/innkvartering">Innkvartering</a></li>
           <li class="nav-item"><a class="nav-link" href="/skole/kunder">Skoler</a></li>
           <li class="nav-item"><a class="nav-link" href="/risiko">Risikovurdering</a></li>
-          <li class="nav-item"><a class="nav-link" href="/hytte/liste/1">Administrere hytter</a></li>
         </ul>
-
 
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
@@ -145,10 +391,9 @@
   </nav>
 </header>
 
-
 <main class="container mt-5 pt-4" role="main">
   <h2 class="my-4"><i class="fas fa-calendar-alt me-2"></i>Oversikt - Kommende leirer</h2>
-  <!-- 🔽 Ny introduksjon lagt til her -->
+  <!-- 🔽 Ny introduksjon lagt til her
   <p class="lead">
     LeirskolePortalen gir deg oversikt over kommende leirer, deltakere, innkvartering og risikovurderinger.
     Plattformen er laget for å forenkle planlegging og administrasjon for skoler og arrangører.
@@ -204,7 +449,7 @@
 
   <hr class="my-5">
   <section aria-labelledby="snarveier">
-    <!-- Snarveier med modaler -->
+    <!-- Snarveier med modaler
     <div class="row g-3 mt-2">
       <div class="col-sm-6 col-md-3">
         <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#nyLeirModal">
@@ -244,7 +489,7 @@
 <br>
 <br>
 <br>
-<!-- Footer start-->
+<!-- Footer start
 
 <footer class="bg-light text-center text-lg-start mt-5 border-top shadow-sm">
   <div class="container py-4">
@@ -271,7 +516,7 @@
     </div>
   </div>
 </footer>
-<!-- Footer end-->
+<!-- Footer end -
 
 
 
@@ -300,7 +545,7 @@
     }
   });
 </script>
-<!-- Modal: Ny Leir -->
+<!-- Modal: Ny Leir
 <div class="modal fade" id="nyLeirModal" tabindex="-1" aria-labelledby="nyLeirModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form method="post" action="/leir/ny" class="modal-content">
@@ -334,7 +579,7 @@
   </div>
 </div>
 
-<!-- Modal: Ny Deltaker -->
+<!-- Modal: Ny Deltaker
 <div class="modal fade" id="nyDeltakerModal" tabindex="-1" aria-labelledby="nyDeltakerModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form method="post" action="/deltaker/ny/1" class="modal-content">
@@ -368,7 +613,7 @@
   </div>
 </div>
 
-<!-- Modal: Ny Skole -->
+<!-- Modal: Ny Skole
 <div class="modal fade" id="nySkoleModal" tabindex="-1" aria-labelledby="nySkoleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form method="post" action="/skole/ny" class="modal-content">
@@ -402,7 +647,7 @@
   </div>
 </div>
 
-<!-- Modal: Administrer Hytter (informasjonsmodal) -->
+<!-- Modal: Administrer Hytter (informasjonsmodal)
 <div class="modal fade" id="adminHytteModal" tabindex="-1" aria-labelledby="adminHytteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -420,7 +665,6 @@
     </div>
   </div>
 </div>
-
-
 </body>
 </html>
+-->

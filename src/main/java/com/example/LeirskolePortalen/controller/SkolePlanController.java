@@ -8,9 +8,11 @@ import com.example.LeirskolePortalen.repository.LeirRepository;
 import com.example.LeirskolePortalen.repository.SkolePlanRepository;
 import com.example.LeirskolePortalen.repository.SkoleRepository;
 import com.example.LeirskolePortalen.repository.UkePlanRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -33,7 +35,7 @@ public class SkolePlanController {
         this.ukePlanRepo = ukePlanRepo;
     }
 
-    // ---------------- CREATE form ----------------
+    // --------- CREATE form ---------
     @GetMapping("/ny")
     public String nyPlan(Model model) {
         model.addAttribute("skoleplan", new SkolePlan());
@@ -43,17 +45,24 @@ public class SkolePlanController {
         return "skoleplan/skjema";
     }
 
-    // ---------------- SAVE (create or update) ----------------
+    // --------- SAVE (create or update) ---------
     @PostMapping("/lagre")
     public String lagre(@RequestParam Long skole,
                         @RequestParam Long leir,
                         @RequestParam(required = false) Long ukePlan,
                         SkolePlan skoleplan) {
 
-        skoleplan.setSkole(skoleRepo.findById(skole).orElseThrow());
-        skoleplan.setLeir(leirRepo.findById(leir).orElseThrow());
+        Skole valgtSkole = skoleRepo.findById(skole)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Skole ikke funnet"));
+        Leir valgtLeir = leirRepo.findById(leir)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Leir ikke funnet"));
+
+        skoleplan.setSkole(valgtSkole);
+        skoleplan.setLeir(valgtLeir);
+
         if (ukePlan != null) {
-            skoleplan.setUkePlan(ukePlanRepo.findById(ukePlan).orElse(null));
+            UkePlan valgtUke = ukePlanRepo.findById(ukePlan).orElse(null);
+            skoleplan.setUkePlan(valgtUke);
         } else {
             skoleplan.setUkePlan(null);
         }
@@ -62,28 +71,36 @@ public class SkolePlanController {
         return "redirect:/skoleplan/liste";
     }
 
-    // ---------------- LIST ----------------
+    // --------- LIST all ---------
     @GetMapping("/liste")
     public String visAlle(Model model) {
         model.addAttribute("skoleplaner", skolePlanRepo.findAll());
         return "skoleplan/liste";
     }
 
-    // ---------------- EDIT ----------------
-    @GetMapping("/rediger/{id}")
-    public String rediger(@PathVariable Long id, Model model) {
-        Optional<SkolePlan> plan = skolePlanRepo.findById(id);
-        if (plan.isPresent()) {
-            model.addAttribute("skoleplan", plan.get());
-            model.addAttribute("skoler", skoleRepo.findAll());
-            model.addAttribute("leirer", leirRepo.findAll());
-            model.addAttribute("ukeplaner", ukePlanRepo.findAll());
-            return "skoleplan/skjema";
-        }
-        return "redirect:/skoleplan/liste";
+    // --------- READ (single view) ---------
+    @GetMapping("/vis/{id}")
+    public String visEnkelt(@PathVariable Long id, Model model) {
+        SkolePlan plan = skolePlanRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Skoleplan ikke funnet"));
+        model.addAttribute("skoleplan", plan);
+        return "skoleplan/detalj";
     }
 
-    // ---------------- DELETE ----------------
+    // --------- EDIT form ---------
+    @GetMapping("/rediger/{id}")
+    public String rediger(@PathVariable Long id, Model model) {
+        SkolePlan plan = skolePlanRepo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Skoleplan ikke funnet"));
+
+        model.addAttribute("skoleplan", plan);
+        model.addAttribute("skoler", skoleRepo.findAll());
+        model.addAttribute("leirer", leirRepo.findAll());
+        model.addAttribute("ukeplaner", ukePlanRepo.findAll());
+        return "skoleplan/skjema";
+    }
+
+    // --------- DELETE ---------
     @GetMapping("/slett/{id}")
     public String slett(@PathVariable Long id) {
         if (skolePlanRepo.existsById(id)) {

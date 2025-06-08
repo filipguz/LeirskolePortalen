@@ -1,0 +1,94 @@
+<style>
+    :root {
+      --bg-light: #f9fafb;
+      --text-light: #212529;
+      --card-bg-light: #fff;
+      --bg-dark: #212529;
+      --text-dark: #f8f9fa;
+      --card-bg-dark: #2c2f33;
+    }
+
+    body.light {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .card {
+      border-radius: 1rem;
+      transition: transform 0.2s, background-color 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    body.light .card {
+      background-color: var(--card-bg-light);
+      color: var(--text-light);
+      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark .card {
+      background-color: var(--card-bg-dark);
+      color: var(--text-dark);
+      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: inherit;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+
+    #navbar {
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.light #navbar {
+      background-color: #ffffff;
+      color: #212529;
+    }
+
+    body.dark #navbar {
+      background-color: #1a1a1a;
+      color: #f8f9fa;
+    }
+
+    body.dark #navbar .nav-link,
+    body.dark #navbar .navbar-brand {
+      color: #f8f9fa !important;
+
+    }
+
+    body.light #navbar .nav-link,
+    body.light #navbar .navbar-brand {
+      color: #212529 !important;
+    }
+
+    .navbar-collapse.show {
+      background-color: inherit;
+    }
+
+
+
+    /* Responsiv forbedring */
+    .card h5 {
+      font-size: 1rem;
+    }
+
+    .card h3 {
+      font-size: 2rem;
+    }
+
+    .lead {
+      font-size: 1.1rem;
+    }
+  </style>

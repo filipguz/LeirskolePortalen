@@ -87,7 +87,7 @@
     .logo {
       font-weight: bold;
       font-size: 1.0rem;
-      color:  #0d6efd;
+      color:  #d63384;
       text-decoration: none;
     }
 
@@ -132,6 +132,13 @@
       margin: 1rem 0;
     }
 
+.bg-footer-top {
+  background-color: #c84646 /* rØD*/
+}
+
+.bg-footer-bottom {
+  background-color: #972121 /* Dypere bunnstripe */
+}
     .side-menu ul li a {
       color: #0d6efd;
       text-decoration: none;
@@ -285,31 +292,62 @@
 
 
 <! footer -->
-<footer class="bg-light text-center text-lg-start mt-5 border-top shadow-sm">
-  <div class="container py-4">
-    <div class="row">
-      <div class="col-lg-6 col-md-12 mb-3 mb-lg-0 text-start">
-        <h6 class="text-uppercase fw-bold">Om LeirskolePortalen</h6>
-        <p class="mb-0">
-          LeirskolePortalen forenkler administrasjonen av leirskoleopphold. Her kan du enkelt håndtere deltakere, innkvartering, skoler og risikovurderinger.
-        </p>
+<footer>
+  <!-- ØVRE DEL -->
+  <div class="bg-footer-top text-white pt-5 pb-4">
+    <div class="container">
+      <div class="row">
+
+        <!-- Kontaktinfo -->
+        <div class="col-md-4 mb-4">
+          <h6 class="fw-bold">Hovedkontor</h6>
+          <p class="mb-1">LeirskolePortalen AS</p>
+          <p class="mb-1">Fjellveien 12</p>
+          <p class="mb-1">0123 Oslo</p>
+
+          <h6 class="fw-bold mt-3">Org.nr</h6>
+          <p class="mb-1">999 888 777</p>
+        </div>
+
+        <!-- Lenker -->
+        <div class="col-md-4 mb-4">
+          <h6 class="fw-bold">Lenker</h6>
+          <ul class="list-unstyled">
+            <li><a href="/leir/liste" class="text-white text-decoration-underline">Leirer</a></li>
+            <li><a href="/skole/kunder" class="text-white text-decoration-underline">Skoler</a></li>
+            <li><a href="/risiko" class="text-white text-decoration-underline">Risikovurdering</a></li>
+            <li><a href="/skoleplan/liste" class="text-white text-decoration-underline">Skoleplaner</a></li>
+          </ul>
+        </div>
+
+        <!-- Kontakt og vilkår -->
+        <div class="col-md-4 mb-4">
+          <h6 class="fw-bold">Kontakt & Informasjon</h6>
+          <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-white text-decoration-underline">kontakt@leirskoleportalen.no</a></p>
+
+          <h6 class="fw-bold mt-3">Juridisk</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-underline">Personvern</a></li>
+            <li><a href="#" class="text-white text-decoration-underline">Brukervilkår</a></li>
+            <li><a href="#" class="text-white text-decoration-underline">Cookies</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
-        <h6 class="text-uppercase fw-bold">Lenker</h6>
-        <ul class="list-unstyled mb-0">
-          <li><a href="/leir/liste" class="text-decoration-none text-dark">Leirer</a></li>
-          <li><a href="/skole/kunder" class="text-decoration-none text-dark">Skoler</a></li>
-          <li><a href="/risiko" class="text-decoration-none text-dark">Risikovurdering</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-3 col-md-6 text-md-end">
-        <h6 class="text-uppercase fw-bold">Kontakt</h6>
-        <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-decoration-none">kontakt@leirskoleportalen.no</a></p>
-        <p class="mb-0">&copy; 2025 LeirskolePortalen</p>
+
+      <!-- Til toppen -->
+      <div class="text-end mt-3">
+        <a href="#" class="text-white text-decoration-underline">Til toppen ↑</a>
       </div>
     </div>
   </div>
+
+  <!-- NEDRE DEL -->
+  <div class="bg-footer-bottom text-center text-white small py-2">
+    © 2025 LeirskolePortalen
+  </div>
 </footer>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -320,430 +358,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-<!-- Versjon dashboard 4.1 - med forbedringer
-<!DOCTYPE html>
-<html lang="no" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
-    <img src="/static/img/logo1.png" alt="LeirskolePortalen" height="40" class="me-2">
-    <span>LeirskolePortalen</span>
-  </a>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <style>
-    :root {
-      --bg-light: #f9fafb;
-      --text-light: #212529;
-      --card-bg-light: #fff;
-      --bg-dark: #212529;
-      --text-dark: #f8f9fa;
-      --card-bg-dark: #2c2f33;
-    }
-
-    body.light {
-      background-color: var(--bg-light);
-      color: var(--text-light);
-    }
-
-    body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
-    .card {
-      border-radius: 1rem;
-      transition: transform 0.2s, background-color 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-    }
-
-    body.light .card {
-      background-color: var(--card-bg-light);
-      color: var(--text-light);
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-    }
-
-    body.dark .card {
-      background-color: var(--card-bg-dark);
-      color: var(--text-dark);
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
-    }
-
-    .theme-toggle {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      color: inherit;
-      margin-left: 1rem;
-      cursor: pointer;
-    }
-
-    #navbar {
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    body.light #navbar {
-      background-color: #ffffff;
-      color: #212529;
-    }
-
-    body.dark #navbar {
-      background-color: #1a1a1a;
-      color: #f8f9fa;
-    }
-
-    body.dark #navbar .nav-link,
-    body.dark #navbar .navbar-brand {
-      color: #f8f9fa !important;
-
-    }
-
-    body.light #navbar .nav-link,
-    body.light #navbar .navbar-brand {
-      color: #212529 !important;
-    }
-
-    .navbar-collapse.show {
-      background-color: inherit;
-    }
-
-
-
-    /* Responsiv forbedring */
-    .card h5 {
-      font-size: 1rem;
-    }
-
-    .card h3 {
-      font-size: 2rem;
-    }
-
-    .lead {
-      font-size: 1.1rem;
-    }
-  </style>
-
-</head>
-<body class="light">
-<header>
-  <nav id="navbar" class="navbar navbar-expand-lg shadow-sm fixed-top bg-light" role="navigation">
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="/">LeirskolePortalen</a>
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-              data-bs-target="#navbarMenu" aria-label="Vis meny"
-              aria-controls="navbarMenu" aria-expanded="false">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link" href="/leir/liste">Leirer</a></li>
-          <li class="nav-item"><a class="nav-link" href="/deltaker/liste/1">Deltakere</a></li>
-          <li class="nav-item"><a class="nav-link" href="/innkvartering">Innkvartering</a></li>
-          <li class="nav-item"><a class="nav-link" href="/skole/kunder">Skoler</a></li>
-          <li class="nav-item"><a class="nav-link" href="/risiko">Risikovurdering</a></li>
-        </ul>
-
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <button class="nav-link btn btn-link theme-toggle p-0" type="button" onclick="toggleTheme()" aria-label="Bytt fargetema">
-              <i id="themeIcon" class="fas fa-moon"></i>
-            </button>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">
-              <i class="fas fa-sign-out-alt me-1"></i>Logg ut
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
-
-<main class="container mt-5 pt-4" role="main">
-  <h2 class="my-4"><i class="fas fa-calendar-alt me-2"></i>Oversikt - Kommende leirer</h2>
-  <!-- 🔽 Ny introduksjon lagt til her
-  <p class="lead">
-    LeirskolePortalen gir deg oversikt over kommende leirer, deltakere, innkvartering og risikovurderinger.
-    Plattformen er laget for å forenkle planlegging og administrasjon for skoler og arrangører.
-  </p>
-  <div class="row mb-3">
-    <div class="col-md-4">
-      <label for="leirFilter" class="form-label">Filtrer på leir:</label>
-      <select id="leirFilter" class="form-select" onchange="filterLeirer()">
-        <option selected>Alle leirer</option>
-        <option>Leirskole - Uke 23</option>
-        <option>Sommerleir 2025</option>
-        <option>Høstcamp for 7. trinn</option>
-      </select>
-    </div>
-  </div>
-
-  <p class="text-muted">Sist oppdatert: <span th:text="${sistOppdatert}">28.05.2025</span></p>
-
-  <div class="row g-4">
-    <div class="col-sm-6 col-lg-3">
-      <a href="/leir/liste" class="text-decoration-none">
-        <div class="card text-center p-4">
-          <h5><i class="fas fa-campground me-2"></i>Neste Leir</h5>
-          <h3 th:text="${kommendeLeirAntall}">3</h3>
-        </div>
-      </a>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <a href="/deltaker/liste/1" class="text-decoration-none">
-        <div class="card text-center p-4">
-          <h5><i class="fas fa-users me-2"></i>Totalt deltakere</h5>
-          <h3 th:text="${deltakerCount}">120</h3>
-        </div>
-      </a>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <a href="/deltaker/liste/1?filter=allergi" class="text-decoration-none">
-        <div class="card text-center p-4">
-          <h5><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Allergier</h5>
-          <h3 th:text="${allergiCount}">16</h3>
-        </div>
-      </a>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <a href="/hytte/liste/1" class="text-decoration-none">
-        <div class="card text-center p-4">
-          <h5><i class="fas fa-house-user me-2"></i>Hytter i bruk</h5>
-          <h3 th:text="${aktiveHytter}">8</h3>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <hr class="my-5">
-  <section aria-labelledby="snarveier">
-    <!-- Snarveier med modaler
-    <div class="row g-3 mt-2">
-      <div class="col-sm-6 col-md-3">
-        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#nyLeirModal">
-          <i class="fas fa-plus me-1"></i>Ny Leir
-        </button>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#nyDeltakerModal">
-          <i class="fas fa-user-plus me-1"></i>Ny Deltaker
-        </button>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#adminHytteModal">
-          <i class="fas fa-cogs me-1"></i>Administrer Hytter
-        </button>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#nySkoleModal">
-          <i class="fas fa-school me-1"></i>Ny Skole
-        </button>
-      </div>
-    </div>
-  </section>
-</main>
-
-<div class="toast-container position-fixed top-0 end-0 p-3">
-  <div class="toast align-items-center text-bg-danger border-0" id="allergiToast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body">
-        <i class="fas fa-exclamation-circle me-2"></i>
-        Allergivarsel: Det er registrerte deltakere med allergier.
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Lukk"></button>
-    </div>
-  </div>
-</div>
-<br>
-<br>
-<br>
-<!-- Footer start
-
-<footer class="bg-light text-center text-lg-start mt-5 border-top shadow-sm">
-  <div class="container py-4">
-    <div class="row">
-      <div class="col-lg-6 col-md-12 mb-3 mb-lg-0 text-start">
-        <h6 class="text-uppercase fw-bold">Om LeirskolePortalen</h6>
-        <p class="mb-0">
-          LeirskolePortalen forenkler administrasjonen av leirskoleopphold. Her kan du enkelt håndtere deltakere, innkvartering, skoler og risikovurderinger.
-        </p>
-      </div>
-      <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
-        <h6 class="text-uppercase fw-bold">Lenker</h6>
-        <ul class="list-unstyled mb-0">
-          <li><a href="/leir/liste" class="text-decoration-none text-dark">Leirer</a></li>
-          <li><a href="/skole/kunder" class="text-decoration-none text-dark">Skoler</a></li>
-          <li><a href="/risiko" class="text-decoration-none text-dark">Risikovurdering</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-3 col-md-6 text-md-end">
-        <h6 class="text-uppercase fw-bold">Kontakt</h6>
-        <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-decoration-none">kontakt@leirskoleportalen.no</a></p>
-        <p class="mb-0">© 2025 LeirskolePortalen</p>
-      </div>
-    </div>
-  </div>
-</footer>
-<!-- Footer end -
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  function toggleTheme() {
-    const body = document.body;
-    const icon = document.getElementById('themeIcon');
-    const isDark = body.classList.toggle('dark');
-    body.classList.toggle('light', !isDark);
-    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    const theme = localStorage.getItem('theme') || 'light';
-    document.body.classList.remove('light', 'dark');
-    document.body.classList.add(theme);
-    document.getElementById('themeIcon').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-
-    const allergiEl = document.querySelector('[th\\:text="${allergiCount}"]');
-    const allergiAntall = parseInt(allergiEl?.textContent || "0");
-    if (allergiAntall > 0) {
-      const toast = new bootstrap.Toast(document.getElementById('allergiToast'));
-      toast.show();
-    }
-  });
-</script>
-<!-- Modal: Ny Leir
-<div class="modal fade" id="nyLeirModal" tabindex="-1" aria-labelledby="nyLeirModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form method="post" action="/leir/ny" class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="nyLeirModalLabel">Registrer Ny Leir</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="leirNavn" class="form-label">Leirnavn</label>
-          <input type="text" class="form-control" id="leirNavn" name="leirNavn" required>
-        </div>
-        <div class="mb-3">
-          <label for="startDato" class="form-label">Startdato</label>
-          <input type="date" class="form-control" id="startDato" name="startDato" required>
-        </div>
-        <div class="mb-3">
-          <label for="sluttDato" class="form-label">Sluttdato</label>
-          <input type="date" class="form-control" id="sluttDato" name="sluttDato" required>
-        </div>
-        <div class="mb-3">
-          <label for="beskrivelse" class="form-label">Beskrivelse</label>
-          <textarea class="form-control" id="beskrivelse" name="beskrivelse" rows="3"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Lagre</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Modal: Ny Deltaker
-<div class="modal fade" id="nyDeltakerModal" tabindex="-1" aria-labelledby="nyDeltakerModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form method="post" action="/deltaker/ny/1" class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="nyDeltakerModalLabel">Registrer Ny Deltaker</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="fornavn" class="form-label">Fornavn</label>
-          <input type="text" class="form-control" id="fornavn" name="fornavn" required>
-        </div>
-        <div class="mb-3">
-          <label for="etternavn" class="form-label">Etternavn</label>
-          <input type="text" class="form-control" id="etternavn" name="etternavn" required>
-        </div>
-        <div class="mb-3">
-          <label for="fødselsdato" class="form-label">Fødselsdato</label>
-          <input type="date" class="form-control" id="fødselsdato" name="fødselsdato" required>
-        </div>
-        <div class="mb-3">
-          <label for="klasse" class="form-label">Klasse</label>
-          <input type="text" class="form-control" id="klasse" name="klasse">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Registrer</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Modal: Ny Skole
-<div class="modal fade" id="nySkoleModal" tabindex="-1" aria-labelledby="nySkoleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form method="post" action="/skole/ny" class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="nySkoleModalLabel">Registrer Ny Skole</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="skoleNavn" class="form-label">Skolenavn</label>
-          <input type="text" class="form-control" id="skoleNavn" name="skoleNavn" required>
-        </div>
-        <div class="mb-3">
-          <label for="kontaktperson" class="form-label">Kontaktperson</label>
-          <input type="text" class="form-control" id="kontaktperson" name="kontaktperson" required>
-        </div>
-        <div class="mb-3">
-          <label for="epost" class="form-label">E-post</label>
-          <input type="email" class="form-control" id="epost" name="epost">
-        </div>
-        <div class="mb-3">
-          <label for="telefon" class="form-label">Telefon</label>
-          <input type="text" class="form-control" id="telefon" name="telefon">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Lagre</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Modal: Administrer Hytter (informasjonsmodal)
-<div class="modal fade" id="adminHytteModal" tabindex="-1" aria-labelledby="adminHytteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="adminHytteModalLabel">Administrer Hytter</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
-      </div>
-      <div class="modal-body">
-        Gå til oversikten for å administrere hytter og romfordeling.
-      </div>
-      <div class="modal-footer">
-        <a href="/hytte/liste/1" class="btn btn-primary">Gå til Hytteoversikt</a>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Lukk</button>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
-</html>
--->

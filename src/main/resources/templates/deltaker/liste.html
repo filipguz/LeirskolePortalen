@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LeirskolePortalen</title>
+  <title>Deltakerliste - LeirskolePortalen</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     :root {
       --bg-light: #f9fafb;
@@ -21,32 +22,6 @@
       color: var(--text-light);
     }
 
-    body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
-    .card {
-      border-radius: 1rem;
-      transition: transform 0.2s, background-color 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-    }
-
-    body.light .card {
-      background-color: var(--card-bg-light);
-      color: var(--text-light);
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-    }
-
-    body.dark .card {
-      background-color: var(--card-bg-dark);
-      color: var(--text-dark);
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
-    }
-
     .dnb-style-navbar {
       display: flex;
       justify-content: space-between;
@@ -54,10 +29,12 @@
       padding: 0.75rem 1rem;
       border-bottom: 1px solid #d0ece9;
       background-color: white;
-      color: #007072;
+      color: #0d6efd;
       font-family: "Segoe UI", sans-serif;
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 1050;
     }
 
@@ -70,176 +47,44 @@
       font-size: 1.2rem;
     }
 
-    .nav-left span, .nav-right span {
-      font-size: 0.8rem;
-      margin-left: 0.3rem;
-    }
-
-    .nav-center {
-      flex-grow: 1;
-      justify-content: center;
-    }
-
     .logo {
       font-weight: bold;
-      font-size: 2.0rem;
-      color: #007072;
+      font-size: 1.0rem;
+      color:  #d63384;
       text-decoration: none;
     }
 
-    .nav-right .nav-icon {
-      display: flex;
-      align-items: center;
-      margin-left: 1.5rem;
+    .bg-footer-top {
+      background-color: #c84646;
     }
 
-    .nav-right .nav-icon a {
-      display: flex;
-      align-items: center;
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .side-menu {
-      position: fixed;
-      top: 0;
-      left: -260px;
-      width: 260px;
-      height: 100%;
-      background-color: #ffffff;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      padding: 1rem;
-      transition: left 0.3s ease-in-out;
-      z-index: 1051;
-    }
-
-    .side-menu.active {
-      left: 0;
-    }
-
-    .side-menu-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .side-menu ul li {
-      margin: 1rem 0;
-    }
-
-    .side-menu ul li a {
-      color: #007072;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .side-menu-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.3);
-      z-index: 1050;
-    }
-
-    .side-menu-overlay.active {
-      display: block;
-    }
-
-    @media (max-width: 576px) {
-      .nav-left span, .nav-right span {
-        display: none;
-      }
-
-      .nav-right .nav-icon {
-        margin-left: 0.8rem;
-      }
+    .bg-footer-bottom {
+      background-color: #972121;
     }
   </style>
 </head>
-<body class="light">
+<body class="light" id="top" style="padding-top: 70px;">
 <header>
   <nav class="dnb-style-navbar">
-    <div class="nav-left" onclick="toggleSideMenu()">
+    <div class="nav-left">
       <i class="fas fa-bars"></i>
-      <span>Meny</span>
+      <span class="ms-2">Meny</span>
     </div>
     <div class="nav-center">
-      <a href="/" class="logo">
-        LeirskolePortalen
-      </a>
+      <a href="/" class="logo">LeirskolePortalen</a>
     </div>
     <div class="nav-right">
-      <div class="nav-icon">
-        <a href="/sok"><i class="fas fa-search"></i><span>Søk</span></a>
-      </div>
-      <div class="nav-icon">
-        <a href="/login"><i class="fas fa-sign-in-alt"></i><span>Logg inn</span></a>
-      </div>
-    </div>
-  </nav>
-
-  <div id="sideMenu" class="side-menu">
-    <div class="side-menu-header">
-      <span>Hovedmeny</span>
-      <button class="btn-close" onclick="toggleSideMenu()"></button>
-    </div>
-    <ul class="list-unstyled">
-      <li><a href="/leir/liste"><i class="fas fa-campground me-2"></i>Leirer</a></li>
-      <li><a href="/deltaker/liste/1"><i class="fas fa-users me-2"></i>Deltakere</a></li>
-      <li><a href="/innkvartering"><i class="fas fa-bed me-2"></i>Innkvartering</a></li>
-      <li><a href="/skole/kunder"><i class="fas fa-school me-2"></i>Skoler</a></li>
-      <li><a href="/risiko"><i class="fas fa-exclamation-triangle me-2"></i>Risikovurdering</a></li>
-      <li><a href="/hytte/liste/1"><i class="fas fa-house-user me-2"></i>Administrere hytter</a></li>
-    </ul>
-  </div>
-  <div id="sideMenuOverlay" class="side-menu-overlay" onclick="toggleSideMenu()"></div>
-</header>
-  <nav id="navbar" class="navbar navbar-expand-lg shadow-sm fixed-top bg-light" role="navigation">
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="#">LeirskolePortalen</a>
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-              data-bs-target="#navbarMenu" aria-label="Vis meny"
-              aria-controls="navbarMenu" aria-expanded="false">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link" href="/leir/liste">Leirer</a></li>
-          <li class="nav-item"><a class="nav-link" href="/deltaker/liste/1">Deltakere</a></li>
-          <li class="nav-item"><a class="nav-link" href="/innkvartering">Innkvartering</a></li>
-          <li class="nav-item"><a class="nav-link" href="/skole/kunder">Skoler</a></li>
-          <li class="nav-item"><a class="nav-link" href="/risiko">Risikovurdering</a></li>
-        </ul>
-
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <button class="nav-link btn btn-link theme-toggle p-0" type="button" onclick="toggleTheme()" aria-label="Bytt fargetema">
-              <i id="themeIcon" class="fas fa-moon"></i>
-            </button>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">
-              <i class="fas fa-sign-out-alt me-1"></i>Logg ut
-            </a>
-          </li>
-        </ul>
-      </div>
+      <a href="/login" class="text-decoration-none text-dark">
+        <i class="fas fa-sign-in-alt"></i><span class="ms-2">Logg inn</span>
+      </a>
     </div>
   </nav>
 </header>
-<!-- HEADER SLUTT-->
-
-
 
 <main class="container mt-5 pt-4" role="main">
-  <section class="container my-5 pt-5" aria-labelledby="deltakerOversiktTittel">
- <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 id="deltakerOversiktTittel" class="mb-0">
+  <section aria-labelledby="deltakerOversiktTittel">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 id="deltakerOversiktTittel">
         <i class="fas fa-users me-2"></i>Deltakeroversikt
       </h2>
     </div>
@@ -248,10 +93,10 @@
       <table class="table table-hover align-middle mb-0">
         <thead class="table-light">
         <tr>
-          <th><i class="fas fa-user me-1"></i>Navn</th>
-          <th><i class="fas fa-exclamation-circle me-1 text-danger"></i>Allergi</th>
-          <th><i class="fas fa-house-user me-1"></i>Hytte</th>
-          <th class="text-center"><i class="fas fa-cogs me-1"></i>Tildel hytte</th>
+          <th>Navn</th>
+          <th>Allergi</th>
+          <th>Hytte</th>
+          <th class="text-center">Tildel hytte</th>
         </tr>
         </thead>
         <tbody>
@@ -263,305 +108,58 @@
             <form th:action="@{/deltaker/tildel-hytte}" method="post" class="d-flex justify-content-center align-items-center">
               <input type="hidden" name="deltakerId" th:value="${deltaker.id}">
               <select class="form-select me-2 w-auto" name="hytteId">
-                <option th:each="h : ${hytter}"
-                        th:value="${h.id}"
-                        th:text="${h.navn}"
-                        th:selected="${deltaker.hytte?.id == h.id}">
-                </option>
+                <option th:each="h : ${hytter}" th:value="${h.id}" th:text="${h.navn}" th:selected="${deltaker.hytte?.id == h.id}"></option>
               </select>
-              <button class="btn btn-sm btn-primary" type="submit" aria-label="Tildel hytte">
-                <i class="fas fa-check"></i>
-              </button>
+              <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-check"></i></button>
             </form>
-          </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(deltakere)}">
-          <td colspan="4" class="text-center text-muted py-3">
-            <i class="fas fa-info-circle me-2"></i>Ingen deltakere registrert.
           </td>
         </tr>
         </tbody>
       </table>
     </div>
-
-    <div class="text-center mt-3">
-      <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#visFlereDeltakere" aria-expanded="false" aria-controls="visFlereDeltakere">
-        <i class="fas fa-chevron-down me-1"></i>Vis flere
-      </button>
-    </div>
-
-    <div class="collapse mt-3" id="visFlereDeltakere">
-      <div class="table-responsive shadow-sm rounded">
-        <table class="table table-hover align-middle">
-          <thead class="table-light">
-          <tr>
-            <th>Navn</th>
-            <th>Allergi</th>
-            <th>Hytte</th>
-            <th class="text-center">Tildel hytte</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="deltaker : ${deltakereEkstra}">
-            <td th:text="${deltaker.navn}">Navn</td>
-            <td th:text="${deltaker.allergi}">Ingen</td>
-            <td th:text="${deltaker.hytte != null ? deltaker.hytte.navn : 'Ingen tildelt'}">Ingen tildelt</td>
-            <td class="text-center">
-              <form th:action="@{/deltaker/tildel-hytte}" method="post" class="d-flex justify-content-center align-items-center">
-                <input type="hidden" name="deltakerId" th:value="${deltaker.id}">
-                <select class="form-select me-2 w-auto" name="hytteId">
-                  <option th:each="h : ${hytter}"
-                          th:value="${h.id}"
-                          th:text="${h.navn}"
-                          th:selected="${deltaker.hytte?.id == h.id}">
-                  </option>
-                </select>
-                <button class="btn btn-sm btn-primary" type="submit"><i class="fas fa-check"></i></button>
-              </form>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </section>
+</main>
 
-  <!-- ✅ Deltakerliste
-  <table class="table table-bordered">
-    <thead class="table-light">
-    <tr>
-      <th>Navn</th>
-      <th>Allergi</th>
-      <th>Hytte</th>
-      <th>Tildel hytte</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="deltaker : ${deltakere}">
-      <td th:text="${deltaker.navn}">Navn</td>
-      <td th:text="${deltaker.allergi}">Ingen</td>
-      <td th:text="${deltaker.hytte != null ? deltaker.hytte.navn : 'Ingen tildelt'}"></td>
-      <td>
-        <form th:action="@{/deltaker/tildel-hytte}" method="post" class="d-flex">
-          <input type="hidden" name="deltakerId" th:value="${deltaker.id}">
-          <select class="form-select me-2" name="hytteId">
-            <option th:each="h : ${hytter}"
-                    th:value="${h.id}"
-                    th:text="${h.navn}"
-                    th:selected="${deltaker.hytte?.id == h.id}">
-            </option>
-          </select>
-          <button class="btn btn-primary btn-sm" type="submit">Tildel</button>
-        </form>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  -->
-
-
-
-
-
-    <div class="row g-4">
-      <div class="col-sm-6 col-lg-3">
-        <a href="/leir/liste" class="text-decoration-none">
-          <div class="card text-center p-4">
-            <h5><i class="fas fa-campground me-2"></i>Neste Leir</h5>
-            <h3 th:text="${kommendeLeirAntall}">3</h3>
-          </div>
-        </a>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-        <a href="/deltaker/liste/1" class="text-decoration-none">
-          <div class="card text-center p-4">
-            <h5><i class="fas fa-users me-2"></i>Totalt deltakere</h5>
-            <h3 th:text="${deltakerCount}">120</h3>
-          </div>
-        </a>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-        <a href="/deltaker/liste/1?filter=allergi" class="text-decoration-none">
-          <div class="card text-center p-4">
-            <h5><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Med allergier</h5>
-            <h3 th:text="${allergiCount}">16</h3>
-          </div>
-        </a>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-        <a href="/hytte/liste/1" class="text-decoration-none">
-          <div class="card text-center p-4">
-            <h5><i class="fas fa-house-user me-2"></i>Hytter i bruk</h5>
-            <h3 th:text="${aktiveHytter}">8</h3>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <hr class="my-5">
-    <section aria-labelledby="snarveier">
-      <h4 id="snarveier"><i class="fas fa-bolt me-2"></i>Snarveier</h4>
-      <div class="row g-3 mt-2">
-        <div class="col-sm-6 col-md-3">
-          <a class="btn btn-outline-primary w-100" href="/leir/ny"><i class="fas fa-plus me-1"></i>Ny Leir</a>
+<footer>
+  <div class="bg-footer-top text-white pt-5 pb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <h6 class="fw-bold">Hovedkontor</h6>
+          <p>LeirskolePortalen AS<br>Fjellveien 12<br>0123 Oslo</p>
+          <h6 class="fw-bold">Org.nr</h6>
+          <p>999 888 777</p>
         </div>
-        <div class="col-sm-6 col-md-3">
-          <a class="btn btn-outline-primary w-100" href="/deltaker/ny/1"><i class="fas fa-user-plus me-1"></i>Ny Deltaker</a>
+        <div class="col-md-4 mb-4">
+          <h6 class="fw-bold">Lenker</h6>
+          <ul class="list-unstyled">
+            <li><a href="/leir/liste" class="text-white text-decoration-underline">Leirer</a></li>
+            <li><a href="/skole/kunder" class="text-white text-decoration-underline">Skoler</a></li>
+            <li><a href="/risiko" class="text-white text-decoration-underline">Risikovurdering</a></li>
+            <li><a href="/skoleplan/liste" class="text-white text-decoration-underline">Skoleplaner</a></li>
+          </ul>
         </div>
-        <div class="col-sm-6 col-md-3">
-          <a class="btn btn-outline-primary w-100" href="/hytte/liste/1"><i class="fas fa-cogs me-1"></i>Administrer Hytter</a>
-        </div>
-        <div class="col-sm-6 col-md-3">
-          <a class="btn btn-outline-primary w-100" href="/skole/ny"><i class="fas fa-school me-1"></i>Ny Skole</a>
+        <div class="col-md-4 mb-4">
+          <h6 class="fw-bold">Kontakt</h6>
+          <p><a href="mailto:kontakt@leirskoleportalen.no" class="text-white text-decoration-underline">kontakt@leirskoleportalen.no</a></p>
+          <h6 class="fw-bold">Juridisk</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-underline">Personvern</a></li>
+            <li><a href="#" class="text-white text-decoration-underline">Brukervilkår</a></li>
+            <li><a href="#" class="text-white text-decoration-underline">Cookies</a></li>
+          </ul>
         </div>
       </div>
-    </section>
-  </main>
-
-  <div class="toast-container position-fixed top-0 end-0 p-3">
-    <div class="toast align-items-center text-bg-danger border-0" id="allergiToast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="d-flex">
-        <div class="toast-body">
-          <i class="fas fa-exclamation-circle me-2"></i>
-          Allergivarsel: Det er registrerte deltakere med allergier.
-        </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Lukk"></button>
+      <div class="text-end mt-3">
+        <a href="#top" class="text-white text-decoration-underline">Til toppen ↑</a>
       </div>
     </div>
   </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  function toggleSideMenu() {
-    document.getElementById("sideMenu").classList.toggle("active");
-    document.getElementById("sideMenuOverlay").classList.toggle("active");
-  }
-</script>
-<footer class="bg-light text-center text-lg-start mt-5 border-top shadow-sm">
-  <div class="container py-4">
-    <div class="row">
-      <div class="col-lg-6 col-md-12 mb-3 mb-lg-0 text-start">
-        <h6 class="text-uppercase fw-bold">Om LeirskolePortalen</h6>
-        <p class="mb-0">
-          LeirskolePortalen forenkler administrasjonen av leirskoleopphold. Her kan du enkelt håndtere deltakere, innkvartering, skoler og risikovurderinger.
-        </p>
-      </div>
-      <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
-        <h6 class="text-uppercase fw-bold">Lenker</h6>
-        <ul class="list-unstyled mb-0">
-          <li><a href="/leir/liste" class="text-decoration-none text-dark">Leirer</a></li>
-          <li><a href="/skole/kunder" class="text-decoration-none text-dark">Skoler</a></li>
-          <li><a href="/risiko" class="text-decoration-none text-dark">Risikovurdering</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-3 col-md-6 text-md-end">
-        <h6 class="text-uppercase fw-bold">Kontakt</h6>
-        <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-decoration-none">kontakt@leirskoleportalen.no</a></p>
-        <p class="mb-0">© 2025 LeirskolePortalen</p>
-      </div>
-    </div>
+  <div class="bg-footer-bottom text-center text-white small py-2">
+    © 2025 LeirskolePortalen
   </div>
 </footer>
-<!-- Footer end-->
-  </body>
-  </html>
 
-
-
-
-
-  <!--
-  <!DOCTYPE html>
-  <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8">
-    <title>Deltakere - LeirskolePortalen</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      body { padding-top: 70px; }
-    </style>
-  </head>
-  <body class="container mt-4">
-
-  <!-- ✅ Sticky & responsive toppmeny
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">LeirskolePortalen</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny" aria-controls="meny" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="meny">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" th:href="@{/}">Hjem</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/leir/liste}">Leirer</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/deltaker/liste/1}">Deltakere</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/innkvartering}">Innkvartering</a></li>
-          <li class="nav-item"><a class="nav-link" th:href="@{/admin/brukere}">Admin</a></li>
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logg ut</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- ✅ Tittel og nytt deltakerskjema
-  <h2 class="mb-4">Deltakere for leir ID: <span th:text="${leirId}"></span></h2>
-
-
-
-  <div class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">Legg til ny deltaker</h5>
-      <form th:action="@{/deltaker/lagre}" th:object="${deltaker}" method="post" class="row g-3">
-        <input type="hidden" name="leirId" th:value="${leirId}" />
-        <div class="col-md-4">
-          <input type="text" name="navn" class="form-control" placeholder="Navn" required />
-        </div>
-        <div class="col-md-4">
-          <input type="text" name="allergi" class="form-control" placeholder="Allergi (valgfritt)" />
-        </div>
-        <div class="col-md-4">
-          <button type="submit" class="btn btn-success w-100">➕ Legg til deltaker</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- ✅ Deltakerliste
-  <table class="table table-bordered">
-    <thead class="table-light">
-    <tr>
-      <th>Navn</th>
-      <th>Allergi</th>
-      <th>Hytte</th>
-      <th>Tildel hytte</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="deltaker : ${deltakere}">
-      <td th:text="${deltaker.navn}">Navn</td>
-      <td th:text="${deltaker.allergi}">Ingen</td>
-      <td th:text="${deltaker.hytte != null ? deltaker.hytte.navn : 'Ingen tildelt'}"></td>
-      <td>
-        <form th:action="@{/deltaker/tildel-hytte}" method="post" class="d-flex">
-          <input type="hidden" name="deltakerId" th:value="${deltaker.id}">
-          <select class="form-select me-2" name="hytteId">
-            <option th:each="h : ${hytter}"
-                    th:value="${h.id}"
-                    th:text="${h.navn}"
-                    th:selected="${deltaker.hytte?.id == h.id}">
-            </option>
-          </select>
-          <button class="btn btn-primary btn-sm" type="submit">Tildel</button>
-        </form>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-  </html>
-  -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

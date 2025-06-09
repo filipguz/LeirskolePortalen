@@ -1,19 +1,83 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Registrer bruker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registrering - LeirskolePortalen</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+          background: #f8f9fa;
+        }
+
+        .register-container {
+          max-width: 480px;
+          margin: auto;
+          margin-top: 80px;
+          background: white;
+          padding: 2rem;
+          border-radius: 1rem;
+          box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.1);
+        }
+
+        .register-title {
+          color: #d63384;
+        }
+
+        .form-control:focus {
+          border-color: #d63384;
+          box-shadow: 0 0 0 0.2rem rgba(214, 51, 132, 0.25);
+        }
+
+        .btn-primary {
+          background-color: #d63384;
+          border-color: #d63384;
+        }
+
+        .btn-primary:hover {
+          background-color: #c22671;
+        }
+
+        a {
+          color: #d63384;
+        }
+
+        a:hover {
+          text-decoration: underline;
+        }
+    </style>
 </head>
-<body class="container mt-5">
-<h2>Registrer ny bruker</h2>
-<form th:action="@{/register}" method="post" th:object="${bruker}">
-    <input type="text" th:field="*{brukernavn}" />
-    <input type="password" th:field="*{passord}" />
-    <select th:field="*{rolle}">
-        <option value="TEACHER">Lærer</option>
-        <option value="ADMIN">Admin</option>
-    </select>
-    <button type="submit">Registrer</button>
-</form>
+<body>
+
+<div class="register-container">
+    <h2 class="text-center mb-4 register-title"><i class="fas fa-user-plus me-2"></i>Registrer deg</h2>
+
+    <div th:if="${param.error}" class="alert alert-danger">
+        <i class="fas fa-exclamation-circle me-1"></i> E-posten er allerede registrert.
+    </div>
+
+    <form th:action="@{/register}" method="post">
+        <div class="mb-3">
+            <label for="email" class="form-label">E-post</label>
+            <input name="email" id="email" type="email" class="form-control" placeholder="din@epost.no" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Passord</label>
+            <input name="password" id="password" type="password" class="form-control" placeholder="Minst 6 tegn" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Opprett konto</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <small>Har du konto? <a th:href="@{/login}">Logg inn her</a></small>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

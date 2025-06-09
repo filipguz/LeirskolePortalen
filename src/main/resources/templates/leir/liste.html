@@ -6,6 +6,9 @@
     <title>LeirskolePortalen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap og ikoner -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
           --bg-light: #f9fafb;
@@ -47,20 +50,21 @@
           box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
         }
 
-        .dnb-style-navbar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0.75rem 1rem;
-          border-bottom: 1px solid #d0ece9;
-          background-color: white;
-          color: #007072;
-          font-family: "Segoe UI", sans-serif;
-          position: sticky;
-          top: 0;
-          z-index: 1050;
-        }
-
+       .dnb-style-navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #d0ece9;
+      background-color: white;
+      color: #0d6efd;
+      font-family: "Segoe UI", sans-serif;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1050;
+    }
         .nav-left, .nav-center, .nav-right {
           display: flex;
           align-items: center;
@@ -82,8 +86,8 @@
 
         .logo {
           font-weight: bold;
-          font-size: 2.0rem;
-          color: #007072;
+          font-size: 1.0rem;
+          color:  #d63384;
           text-decoration: none;
         }
 
@@ -128,8 +132,15 @@
           margin: 1rem 0;
         }
 
+    .bg-footer-top {
+      background-color: #c84646 /* rØD*/
+    }
+
+    .bg-footer-bottom {
+      background-color: #972121 /* Dypere bunnstripe */
+    }
         .side-menu ul li a {
-          color: #007072;
+          color: #0d6efd;
           text-decoration: none;
           font-weight: 500;
         }
@@ -159,7 +170,7 @@
         }
     </style>
 </head>
-<body class="light">
+<body class="light" style="padding-top: 70px;">
 <header>
     <nav class="dnb-style-navbar">
         <div class="nav-left" onclick="toggleSideMenu()">
@@ -405,29 +416,59 @@
 </script>
 <!-- Footer start-->
 
-<footer class="bg-light text-center text-lg-start mt-5 border-top shadow-sm">
-    <div class="container py-4">
-        <div class="row">
-            <div class="col-lg-6 col-md-12 mb-3 mb-lg-0 text-start">
-                <h6 class="text-uppercase fw-bold">Om LeirskolePortalen</h6>
-                <p class="mb-0">
-                    LeirskolePortalen forenkler administrasjonen av leirskoleopphold. Her kan du enkelt håndtere deltakere, innkvartering, skoler og risikovurderinger.
-                </p>
+<<! footer -->
+<footer>
+    <!-- ØVRE DEL -->
+    <div class="bg-footer-top text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+
+                <!-- Kontaktinfo -->
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold">Hovedkontor</h6>
+                    <p class="mb-1">LeirskolePortalen AS</p>
+                    <p class="mb-1">Fjellveien 12</p>
+                    <p class="mb-1">0123 Oslo</p>
+
+                    <h6 class="fw-bold mt-3">Org.nr</h6>
+                    <p class="mb-1">999 888 777</p>
+                </div>
+
+                <!-- Lenker -->
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold">Lenker</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/leir/liste" class="text-white text-decoration-underline">Leirer</a></li>
+                        <li><a href="/skole/kunder" class="text-white text-decoration-underline">Skoler</a></li>
+                        <li><a href="/risiko" class="text-white text-decoration-underline">Risikovurdering</a></li>
+                        <li><a href="/skoleplan/liste" class="text-white text-decoration-underline">Skoleplaner</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kontakt og vilkår -->
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold">Kontakt & Informasjon</h6>
+                    <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-white text-decoration-underline">kontakt@leirskoleportalen.no</a></p>
+
+                    <h6 class="fw-bold mt-3">Juridisk</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-underline">Personvern</a></li>
+                        <li><a href="#" class="text-white text-decoration-underline">Brukervilkår</a></li>
+                        <li><a href="#" class="text-white text-decoration-underline">Cookies</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
-                <h6 class="text-uppercase fw-bold">Lenker</h6>
-                <ul class="list-unstyled mb-0">
-                    <li><a href="/leir/liste" class="text-decoration-none text-dark">Leirer</a></li>
-                    <li><a href="/skole/kunder" class="text-decoration-none text-dark">Skoler</a></li>
-                    <li><a href="/risiko" class="text-decoration-none text-dark">Risikovurdering</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-3 col-md-6 text-md-end">
-                <h6 class="text-uppercase fw-bold">Kontakt</h6>
-                <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-decoration-none">kontakt@leirskoleportalen.no</a></p>
-                <p class="mb-0">© 2025 LeirskolePortalen</p>
+
+            <!-- Til toppen -->
+            <div class="text-end mt-3">
+                <a href="#" class="text-white text-decoration-underline">Til toppen ↑</a>
             </div>
         </div>
+    </div>
+
+    <!-- NEDRE DEL -->
+    <div class="bg-footer-bottom text-center text-white small py-2">
+        © 2025 LeirskolePortalen
     </div>
 </footer>
 <!-- Footer end-->

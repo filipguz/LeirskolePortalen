@@ -6,6 +6,9 @@
   <title>LeirskolePortalen</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <!-- Bootstrap og ikoner -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     :root {
       --bg-light: #f9fafb;
@@ -47,20 +50,21 @@
       box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
     }
 
-    .dnb-style-navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #d0ece9;
-      background-color: white;
-      color: #007072;
-      font-family: "Segoe UI", sans-serif;
-      position: sticky;
-      top: 0;
-      z-index: 1050;
-    }
-
+   .dnb-style-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #d0ece9;
+  background-color: white;
+  color: #0d6efd;
+  font-family: "Segoe UI", sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+}
     .nav-left, .nav-center, .nav-right {
       display: flex;
       align-items: center;
@@ -82,8 +86,8 @@
 
     .logo {
       font-weight: bold;
-      font-size: 2.0rem;
-      color: #007072;
+      font-size: 1.0rem;
+      color:  #d63384;
       text-decoration: none;
     }
 
@@ -128,8 +132,15 @@
       margin: 1rem 0;
     }
 
+.bg-footer-top {
+  background-color: #c84646 /* rØD*/
+}
+
+.bg-footer-bottom {
+  background-color: #972121 /* Dypere bunnstripe */
+}
     .side-menu ul li a {
-      color: #007072;
+      color: #0d6efd;
       text-decoration: none;
       font-weight: 500;
     }
@@ -159,7 +170,7 @@
     }
   </style>
 </head>
-<body class="light">
+<body class="light" style="padding-top: 70px;">
 <header>
   <nav class="dnb-style-navbar">
     <div class="nav-left" onclick="toggleSideMenu()">
@@ -251,41 +262,6 @@
     </div>
   </section>
 </main>
-<!-- <br>
-  <div class="row g-4">
-    <div class="col-sm-6 col-lg-3">
-      <a href="/leir/liste" class="text-decoration-none">
-        <div class="card text-center p-4">
-          <h5><i class="fas fa-campground me-2"></i>Neste Leir</h5>
-          <h3 th:text="${kommendeLeirAntall}">3</h3>
-        </div>
-      </a>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <a href="/deltaker/liste/1" class="text-decoration-none">
-        <div class="card text-center p-4">
-          <h5><i class="fas fa-users me-2"></i>Totalt deltakere</h5>
-          <h3 th:text="${deltakerCount}">120</h3>
-        </div>
-      </a>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <a href="/deltaker/liste/1?filter=allergi" class="text-decoration-none">
-        <div class="card text-center p-4">
-          <h5><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Med allergier</h5>
-          <h3 th:text="${allergiCount}">16</h3>
-        </div>
-      </a>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-      <a href="/hytte/liste/1" class="text-decoration-none">
-        <div class="card text-center p-4">
-          <h5><i class="fas fa-house-user me-2"></i>Hytter i bruk</h5>
-          <h3 th:text="${aktiveHytter}">8</h3>
-        </div>
-      </a>
-    </div>
-  </div> -->
 
 <div class="toast-container position-fixed top-0 end-0 p-3">
   <div class="toast align-items-center text-bg-danger border-0" id="allergiToast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -298,6 +274,10 @@
     </div>
   </div>
 </div>
+<br>
+<br>
+<br>
+<!--SCript -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -306,31 +286,61 @@
     document.getElementById("sideMenuOverlay").classList.toggle("active");
   }
 </script>
-<!-- Footer start-->
 
-<footer class="bg-light text-center text-lg-start mt-5 border-top shadow-sm">
-  <div class="container py-4">
-    <div class="row">
-      <div class="col-lg-6 col-md-12 mb-3 mb-lg-0 text-start">
-        <h6 class="text-uppercase fw-bold">Om LeirskolePortalen</h6>
-        <p class="mb-0">
-          LeirskolePortalen forenkler administrasjonen av leirskoleopphold. Her kan du enkelt håndtere deltakere, innkvartering, skoler og risikovurderinger.
-        </p>
+<!-- Footer start-->
+<! footer -->
+<footer>
+  <!-- ØVRE DEL -->
+  <div class="bg-footer-top text-white pt-5 pb-4">
+    <div class="container">
+      <div class="row">
+
+        <!-- Kontaktinfo -->
+        <div class="col-md-4 mb-4">
+          <h6 class="fw-bold">Hovedkontor</h6>
+          <p class="mb-1">LeirskolePortalen AS</p>
+          <p class="mb-1">Fjellveien 12</p>
+          <p class="mb-1">0123 Oslo</p>
+
+          <h6 class="fw-bold mt-3">Org.nr</h6>
+          <p class="mb-1">999 888 777</p>
+        </div>
+
+        <!-- Lenker -->
+        <div class="col-md-4 mb-4">
+          <h6 class="fw-bold">Lenker</h6>
+          <ul class="list-unstyled">
+            <li><a href="/leir/liste" class="text-white text-decoration-underline">Leirer</a></li>
+            <li><a href="/skole/kunder" class="text-white text-decoration-underline">Skoler</a></li>
+            <li><a href="/risiko" class="text-white text-decoration-underline">Risikovurdering</a></li>
+            <li><a href="/skoleplan/liste" class="text-white text-decoration-underline">Skoleplaner</a></li>
+          </ul>
+        </div>
+
+        <!-- Kontakt og vilkår -->
+        <div class="col-md-4 mb-4">
+          <h6 class="fw-bold">Kontakt & Informasjon</h6>
+          <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-white text-decoration-underline">kontakt@leirskoleportalen.no</a></p>
+
+          <h6 class="fw-bold mt-3">Juridisk</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white text-decoration-underline">Personvern</a></li>
+            <li><a href="#" class="text-white text-decoration-underline">Brukervilkår</a></li>
+            <li><a href="#" class="text-white text-decoration-underline">Cookies</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
-        <h6 class="text-uppercase fw-bold">Lenker</h6>
-        <ul class="list-unstyled mb-0">
-          <li><a href="/leir/liste" class="text-decoration-none text-dark">Leirer</a></li>
-          <li><a href="/skole/kunder" class="text-decoration-none text-dark">Skoler</a></li>
-          <li><a href="/risiko" class="text-decoration-none text-dark">Risikovurdering</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-3 col-md-6 text-md-end">
-        <h6 class="text-uppercase fw-bold">Kontakt</h6>
-        <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-decoration-none">kontakt@leirskoleportalen.no</a></p>
-        <p class="mb-0">© 2025 LeirskolePortalen</p>
+
+      <!-- Til toppen -->
+      <div class="text-end mt-3">
+        <a href="#" class="text-white text-decoration-underline">Til toppen ↑</a>
       </div>
     </div>
+  </div>
+
+  <!-- NEDRE DEL -->
+  <div class="bg-footer-bottom text-center text-white small py-2">
+    © 2025 LeirskolePortalen
   </div>
 </footer>
 <!-- Footer end-->
@@ -342,91 +352,3 @@
 
 
 
-<!-- versjon 1
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="no">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ny Leir</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-
-<!-- ✅ Navbar
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">LeirskolePortalen</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny" aria-controls="meny" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="meny">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" th:href="@{/}">Hjem</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/leir/liste}">Leirer</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/deltaker/liste/1}">Deltakere</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/innkvartering}">Innkvartering</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/admin/brukere}">Admin</a></li>
-      </ul>
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logg ut</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- ✅ Innhold
-<div class="container mt-5 pt-5">
-  <h2 class="mb-4">Opprett ny leir</h2>
-  <form th:action="@{/leir/lagre}" th:object="${leir}" method="post" class="needs-validation" novalidate>
-
-    <div class="mb-3">
-      <label for="navn" class="form-label">Navn</label>
-      <input type="text" class="form-control" id="navn" th:field="*{navn}" required />
-      <div class="invalid-feedback">Vennligst fyll inn navn.</div>
-    </div>
-
-    <div class="mb-3">
-      <label for="startDato" class="form-label">Startdato</label>
-      <input type="date" class="form-control" id="startDato" th:field="*{startDato}" required />
-      <div class="invalid-feedback">Vennligst velg startdato.</div>
-    </div>
-
-    <div class="mb-3">
-      <label for="sluttDato" class="form-label">Sluttdato</label>
-      <input type="date" class="form-control" id="sluttDato" th:field="*{sluttDato}" required />
-      <div class="invalid-feedback">Vennligst velg sluttdato.</div>
-    </div>
-
-    <div class="mb-3">
-      <label for="ansvarligLaerer" class="form-label">Lærer</label>
-      <input type="text" class="form-control" id="ansvarligLaerer" th:field="*{ansvarligLaerer}" required />
-      <div class="invalid-feedback">Vennligst fyll inn lærer.</div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Lagre</button>
-    <a class="btn btn-secondary" th:href="@{/}">Gå til dashboard</a>
-  </form>
-</div>
-
-<!-- ✅ Bootstrap JS
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  (() => {
-    'use strict';
-    const forms = document.querySelectorAll('.needs-validation');
-    Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  })();
-</script>
-</body>
-</html>

@@ -21,6 +21,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         UserDetails user = User.builder()
@@ -37,7 +38,7 @@ public class SecurityConfig {
 
         return new InMemoryUserDetailsManager(user, admin);
     }
-
+/*
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -57,4 +58,19 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+
+
+ */
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+            .csrf().disable() // Deaktiver CSRF midlertidig (valgfritt, men ofte nødvendig for testing uten autentisering)
+            .authorizeHttpRequests(auth -> auth
+                    .anyRequest().permitAll() // Tillat alle forespørsler uten autentisering
+            )
+            .formLogin().disable() // Deaktiver form login
+            .logout().disable(); // Deaktiver logout
+
+    return http.build();
+}
 }

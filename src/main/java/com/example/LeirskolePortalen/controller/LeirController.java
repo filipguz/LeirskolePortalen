@@ -37,6 +37,14 @@ public class LeirController {
     @GetMapping("/liste")
     public String visAlle(Model model) {
         model.addAttribute("leirer", leirRepo.findAll());
+
+        // Dummy/statistikkdata – disse må legges inn eller kalkuleres
+        model.addAttribute("leirerExtra", leirRepo.findAll()); // evt. en annen metode
+        model.addAttribute("kommendeLeirAntall", leirRepo.count()); // eksempel
+        model.addAttribute("deltakerCount", 120); // hent fra deltakerService
+        model.addAttribute("allergiCount", 16); // hent fra deltakerService
+        model.addAttribute("aktiveHytter", 8); // hent fra hytteService
+
         return "leir/liste";
     }
 
@@ -71,4 +79,7 @@ public class LeirController {
         }
         return "redirect:/leir/liste";
     }
+
+
+
 }

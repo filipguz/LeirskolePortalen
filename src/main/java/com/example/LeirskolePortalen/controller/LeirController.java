@@ -1,5 +1,4 @@
 package com.example.LeirskolePortalen.controller;
-
 import com.example.LeirskolePortalen.model.Leir;
 import com.example.LeirskolePortalen.repository.LeirRepository;
 import org.springframework.stereotype.Controller;

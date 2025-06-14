@@ -1,366 +1,210 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LeirskolePortalen</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <!-- Bootstrap og ikoner -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leirskoleportalen</title>
   <style>
-    :root {
-      --bg-light: #f9fafb;
-      --text-light: #212529;
-      --card-bg-light: #fff;
-      --bg-dark: #212529;
-      --text-dark: #f8f9fa;
-      --card-bg-dark: #2c2f33;
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #e5f9fb;
+      color: #000;
     }
 
-    body.light {
-      background-color: var(--bg-light);
-      color: var(--text-light);
-    }
-
-    body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
-    .card {
-      border-radius: 1rem;
-      transition: transform 0.2s, background-color 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-    }
-
-    body.light .card {
-      background-color: var(--card-bg-light);
-      color: var(--text-light);
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-    }
-
-    body.dark .card {
-      background-color: var(--card-bg-dark);
-      color: var(--text-dark);
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
-    }
-
-   .dnb-style-navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #d0ece9;
-  background-color: white;
-  color: #0d6efd;
-  font-family: "Segoe UI", sans-serif;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1050;
-}
-    .nav-left, .nav-center, .nav-right {
+    header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-    }
-
-    .nav-left i, .nav-right i {
-      font-size: 1.2rem;
-    }
-
-    .nav-left span, .nav-right span {
-      font-size: 0.8rem;
-      margin-left: 0.3rem;
-    }
-
-    .nav-center {
-      flex-grow: 1;
-      justify-content: center;
+      padding: 1rem;
+      font-size: 1rem;
+      position: relative;
     }
 
     .logo {
       font-weight: bold;
-      font-size: 1.0rem;
-      color:  #d63384;
-      text-decoration: none;
+      line-height: 1.2;
+      letter-spacing: 0.1rem;
     }
 
-    .nav-right .nav-icon {
+    .actions {
       display: flex;
+      gap: 1.2rem;
       align-items: center;
-      margin-left: 1.5rem;
     }
 
-    .nav-right .nav-icon a {
-      display: flex;
-      align-items: center;
-      color: inherit;
-      text-decoration: none;
+    .menu-button {
+      background: none;
+      border: none;
+      cursor: pointer;
     }
 
-    .side-menu {
-      position: fixed;
-      top: 0;
-      left: -260px;
-      width: 260px;
-      height: 100%;
-      background-color: #ffffff;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      padding: 1rem;
-      transition: left 0.3s ease-in-out;
-      z-index: 1051;
-    }
-
-    .side-menu.active {
-      left: 0;
-    }
-
-    .side-menu-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .side-menu ul li {
-      margin: 1rem 0;
-    }
-
-.bg-footer-top {
-  background-color: #c84646 /* rØD*/
+   .mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 220px;
+  background: white;
+  border-right: 1px solid #ccc;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 2rem 1rem;
+  flex-direction: column;
 }
 
-.bg-footer-bottom {
-  background-color: #972121 /* Dypere bunnstripe */
+.mobile-menu.open {
+  display: flex;
 }
-    .side-menu ul li a {
-      color: #0d6efd;
+
+.mobile-menu a {
+  display: block;
+  padding: 0.75rem 0;
+  text-decoration: none;
+  color: #000;
+}
+
+.mobile-menu a:hover {
+  text-decoration: underline;
+}
+    main {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.5rem;
+      border: 1px solid #cfeff2;
+      border-radius: 0.5rem;
+      background-color: #fff;
+      font-weight: bold;
+      font-size: 1.1rem;
       text-decoration: none;
-      font-weight: 500;
+      color: #000;
+      transition: background-color 0.2s;
     }
 
-    .side-menu-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.3);
-      z-index: 1050;
+    .option:hover {
+      background-color: #d9f0f3;
     }
 
-    .side-menu-overlay.active {
-      display: block;
+    .option svg {
+      margin-right: 1rem;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
     }
 
-    @media (max-width: 576px) {
-      .nav-left span, .nav-right span {
-        display: none;
-      }
+    .btn {
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #118090;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
 
-      .nav-right .nav-icon {
-        margin-left: 0.8rem;
+    .btn:hover {
+      background-color: #0d6c77;
+    }
+
+   @media (min-width: 600px) {
+  .options {
+    flex-direction: row; /* horisontal på større skjermer */
+  }
+      .option {
+        width: 250px;
       }
     }
   </style>
 </head>
-<body class="light" style="padding-top: 70px;">
+<body>
 <header>
-  <nav class="dnb-style-navbar">
-    <div class="nav-left" onclick="toggleSideMenu()">
-      <i class="fas fa-bars"></i>
-      <span>Meny</span>
-    </div>
-    <div class="nav-center">
-      <a href="/" class="logo">
-        LeirskolePortalen
-      </a>
-    </div>
-    <div class="nav-right">
-      <div class="nav-icon">
-        <a href="/sok"><i class="fas fa-search"></i><span>Søk</span></a>
-      </div>
-      <div class="nav-icon">
-        <a href="/login"><i class="fas fa-sign-in-alt"></i><span>Logg inn</span></a>
-      </div>
-    </div>
-  </nav>
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <!-- Flyttet menyknappen hit -->
+    <button class="menu-button" onclick="toggleMenu()" aria-label="Meny">
+      <!-- Hamburger icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+        <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
 
-  <div id="sideMenu" class="side-menu">
-    <div class="side-menu-header">
-      <span>Hovedmeny</span>
-      <button class="btn-close" onclick="toggleSideMenu()"></button>
+    <div class="logo">
+      LEIRSKOLE<br />PORTALEN
     </div>
-    <ul class="list-unstyled">
-      <li><a href="/leir/liste"><i class="fas fa-campground me-2"></i>Leirer</a></li>
-      <li><a href="/deltaker/liste/1"><i class="fas fa-users me-2"></i>Deltakere</a></li>
-      <li><a href="/innkvartering"><i class="fas fa-bed me-2"></i>Innkvartering</a></li>
-      <li><a href="/skole/kunder"><i class="fas fa-school me-2"></i>Skoler</a></li>
-      <li><a href="/risiko"><i class="fas fa-exclamation-triangle me-2"></i>Risikovurdering</a></li>
-      <li><a href="/hytte/liste/1"><i class="fas fa-house-user me-2"></i>Administrere hytter</a></li>
-    </ul>
   </div>
-  <div id="sideMenuOverlay" class="side-menu-overlay" onclick="toggleSideMenu()"></div>
+
+  <div class="actions">
+    <a href="#" aria-label="Søk">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+        <circle cx="11" cy="11" r="8" stroke-width="2"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+      </svg>
+    </a>
+    <a href="/login" aria-label="Logg inn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+        <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/leir/liste">Leirer</a>
+    <a href="/deltaker/liste/1">Deltakere</a>
+    <a href="/innkvartering">Innkvartering</a>
+    <a href="/risiko">Risikovurdering</a>
+    <a href="/skole/kunder">Skoler</a>
+    <a href="/skoleplan/liste">Skoleplaner</a>
+  </div>
 </header>
+<h1>Rediger leir</h1>
 
+<form method="POST" action="/leir/oppdater">
+  <!-- Skjult felt for ID -->
+  <input type="hidden" name="id" value="1" />
 
-<main class="container mt-5 pt-4" role="main">
-  <!-- ✅ Innhold -->
-  <div class="container mt-5 pt-4">
-    <h2>Rediger Leir</h2>
-    <form th:action="@{/leir/oppdater}" th:object="${leir}" method="post" class="needs-validation" novalidate>
-      <input type="hidden" th:field="*{id}" />
+  <label for="navn">Leirnavn</label>
+  <input type="text" id="navn" name="navn" value="Sommerleir 2025" required>
 
-      <div class="mb-3">
-        <label for="navn" class="form-label">Navn</label>
-        <input type="text" class="form-control" id="navn" th:field="*{navn}" required />
-      </div>
+  <label for="startDato">Startdato</label>
+  <input type="date" id="startDato" name="startDato" value="2025-07-01" required>
 
-      <div class="mb-3">
-        <label for="startDato" class="form-label">Startdato</label>
-        <input type="date" class="form-control" id="startDato" th:field="*{startDato}" required />
-      </div>
+  <label for="sluttDato">Sluttdato</label>
+  <input type="date" id="sluttDato" name="sluttDato" value="2025-07-07" required>
 
-      <div class="mb-3">
-        <label for="sluttDato" class="form-label">Sluttdato</label>
-        <input type="date" class="form-control" id="sluttDato" th:field="*{sluttDato}" required />
-      </div>
+  <label for="skole">Skoler</label>
+  <select id="skole" name="skoleIds" multiple size="4">
+    <!-- Dynamisk generert; "selected" legges til for valgte skoler -->
+    <option value="1" selected>Skole A</option>
+    <option value="2">Skole B</option>
+    <option value="3" selected>Skole C</option>
+  </select>
 
-      <div class="mb-3">
-        <label for="ansvarligLaerer" class="form-label">Lærer</label>
-        <input type="text" class="form-control" id="ansvarligLaerer" th:field="*{ansvarligLaerer}" required />
-      </div>
+  <label for="info">Tilleggsinformasjon</label>
+  <textarea id="info" name="info" rows="4">Dette er en oppdatert info om leiren.</textarea>
 
-      <button type="submit" class="btn btn-primary">Lagre endringer</button>
-      <a class="btn btn-secondary" th:href="@{/leir/liste}">Tilbake</a>
-    </form>
-  </div>
+  <button type="submit">Oppdater leir</button>
+</form>
 
-  </form>
-  </div>
-  <br>
-  <hr class="my-5">
-  <section aria-labelledby="snarveier">
-    <h4 id="snarveier"><i class="fas fa-bolt me-2"></i>Snarveier</h4>
-    <div class="row g-3 mt-2">
-      <div class="col-sm-6 col-md-3">
-        <a class="btn btn-outline-primary w-100" href="/leir/ny"><i class="fas fa-plus me-1"></i>Ny Leir</a>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <a class="btn btn-outline-primary w-100" href="/deltaker/ny/1"><i class="fas fa-user-plus me-1"></i>Ny Deltaker</a>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <a class="btn btn-outline-primary w-100" href="/hytte/liste/1"><i class="fas fa-cogs me-1"></i>Administrer Hytter</a>
-      </div>
-      <div class="col-sm-6 col-md-3">
-        <a class="btn btn-outline-primary w-100" href="/skole/ny"><i class="fas fa-school me-1"></i>Ny Skole</a>
-      </div>
-    </div>
-  </section>
-</main>
-
-<div class="toast-container position-fixed top-0 end-0 p-3">
-  <div class="toast align-items-center text-bg-danger border-0" id="allergiToast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body">
-        <i class="fas fa-exclamation-circle me-2"></i>
-        Allergivarsel: Det er registrerte deltakere med allergier.
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Lukk"></button>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  function toggleSideMenu() {
-    document.getElementById("sideMenu").classList.toggle("active");
-    document.getElementById("sideMenuOverlay").classList.toggle("active");
-  }
-</script>
-<!-- Footer start-->
-<! footer -->
-<footer>
-  <!-- ØVRE DEL -->
-  <div class="bg-footer-top text-white pt-5 pb-4">
-    <div class="container">
-      <div class="row">
-
-        <!-- Kontaktinfo -->
-        <div class="col-md-4 mb-4">
-          <h6 class="fw-bold">Hovedkontor</h6>
-          <p class="mb-1">LeirskolePortalen AS</p>
-          <p class="mb-1">Fjellveien 12</p>
-          <p class="mb-1">0123 Oslo</p>
-
-          <h6 class="fw-bold mt-3">Org.nr</h6>
-          <p class="mb-1">999 888 777</p>
-        </div>
-
-        <!-- Lenker -->
-        <div class="col-md-4 mb-4">
-          <h6 class="fw-bold">Lenker</h6>
-          <ul class="list-unstyled">
-            <li><a href="/leir/liste" class="text-white text-decoration-underline">Leirer</a></li>
-            <li><a href="/skole/kunder" class="text-white text-decoration-underline">Skoler</a></li>
-            <li><a href="/risiko" class="text-white text-decoration-underline">Risikovurdering</a></li>
-            <li><a href="/skoleplan/liste" class="text-white text-decoration-underline">Skoleplaner</a></li>
-          </ul>
-        </div>
-
-        <!-- Kontakt og vilkår -->
-        <div class="col-md-4 mb-4">
-          <h6 class="fw-bold">Kontakt & Informasjon</h6>
-          <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-white text-decoration-underline">kontakt@leirskoleportalen.no</a></p>
-
-          <h6 class="fw-bold mt-3">Juridisk</h6>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-white text-decoration-underline">Personvern</a></li>
-            <li><a href="#" class="text-white text-decoration-underline">Brukervilkår</a></li>
-            <li><a href="#" class="text-white text-decoration-underline">Cookies</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Til toppen -->
-      <div class="text-end mt-3">
-        <a href="#" class="text-white text-decoration-underline">Til toppen ↑</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- NEDRE DEL -->
-  <div class="bg-footer-bottom text-center text-white small py-2">
-    © 2025 LeirskolePortalen
-  </div>
-</footer>
-<!-- Footer end-->
-
-<!-- Script -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  function toggleSideMenu() {
-    document.getElementById("sideMenu").classList.toggle("active");
-    document.getElementById("sideMenuOverlay").classList.toggle("active");
-  }
-</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

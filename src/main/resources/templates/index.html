@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="no" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="no">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,26 +57,6 @@
       display: flex;
       role: navigation;
     }
-
-    .dashboard-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1rem;
-}
-
-.card {
-  background-color: #fff;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #ccc;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  text-align: center;
-}
-
 
     .mobile-menu.open {
       transform: translateX(0);
@@ -219,17 +199,6 @@
     </a>
   </div>
   <a href="/leirskoleportal/tjenester" class="btn">Se alle funksjoner</a>
-  <br>
-  <br>
-<br>
-  <br>
-  <div class="dashboard-cards">
-    <div class="card">Aktive leirer: <strong th:text="${kommendeLeirAntall}">...</strong></div>
-    <div class="card">Totalt deltakere: <strong th:text="${deltakerCount}">...</strong></div>
-    <div class="card">Skoler: <strong>8</strong></div> <!-- eller legg til skoleCount -->
-  </div>
-  </div>
-
 </main>
 
 <script>

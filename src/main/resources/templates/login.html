@@ -4,90 +4,143 @@
   <meta charset="UTF-8">
   <title>Logg inn - Leirskoleportalen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
+    :root {
+      --primær: #118090;
+      --bakgrunn: #e5f9fb;
+      --hvit: #ffffff;
+      --tekst: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: sans-serif;
-      background-color: #e5f9fb;
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: var(--bakgrunn);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      padding: 1rem;
     }
+
     .form-container {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      max-width: 400px;
+      background-color: var(--hvit);
+      padding: 2rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
       width: 100%;
-      text-align: left;
+      max-width: 400px;
     }
 
+    .logo {
+      display: block;
+      margin: 0 auto 1.5rem;
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+    }
 
-
-
-
-    .form-container img.logo {
-      max-width: 180px;
+    h2 {
+      text-align: center;
       margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: var(--primær);
     }
+
+    label {
+      font-size: 0.95rem;
+      color: var(--tekst);
+    }
+
     input {
       width: 100%;
       padding: 0.75rem;
-      margin-top: 0.5rem;
+      margin-top: 0.25rem;
       margin-bottom: 1rem;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 6px;
+      font-size: 1rem;
     }
+
     button {
       width: 100%;
       padding: 0.75rem;
-      background-color: #118090;
+      background-color: var(--primær);
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
+      font-size: 1rem;
       font-weight: bold;
+      margin-top: 0.5rem;
+      cursor: pointer;
     }
-    .error {
+
+    button:hover {
+      background-color: #0d6c77;
+    }
+
+    .error, .success {
       color: red;
+      font-size: 0.9rem;
       margin-bottom: 1rem;
+      text-align: center;
     }
-    h2 {
-      margin-bottom: 1rem;
+
+    p {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 1rem;
     }
-.logo {
-  max-width: 200px;
-  margin: 0 auto 1rem;
-  display: block;
-}
+
+    a {
+      color: var(--primær);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 400px) {
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      .form-container {
+        padding: 1.5rem 1rem;
+      }
+    }
   </style>
 </head>
 <body>
 <div class="form-container">
-  <!-- LOGO -->
+  <!-- SVG LOGO -->
   <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 80" role="img" aria-label="Leirskoleportalen">
-    <!-- Telt-symbol -->
     <polygon points="40,70 75,20 110,70" fill="#118090"/>
     <line x1="75" y1="20" x2="75" y2="70" stroke="white" stroke-width="2"/>
-    <!-- Tekst -->
     <text x="130" y="45" font-size="28" fill="#118090" font-family="Helvetica, sans-serif">Leirskole</text>
     <text x="130" y="65" font-size="14" fill="#444">Portalen</text>
   </svg>
-
 
   <h2>Logg inn</h2>
   <form th:action="@{/login}" method="post">
     <div th:if="${param.error}" class="error">Ugyldig brukernavn eller passord</div>
     <div th:if="${param.logout}" class="success">Du er nå logget ut</div>
 
-    <label for="username">Brukernavn:</label>
+    <label for="username">Brukernavn</label>
     <input type="text" id="username" name="username" required>
 
-    <label for="password">Passord:</label>
+    <label for="password">Passord</label>
     <input type="password" id="password" name="password" required>
 
     <button type="submit">Logg inn</button>
   </form>
+
   <p>Ingen konto? <a th:href="@{/register}">Registrer deg her</a></p>
 </div>
 </body>

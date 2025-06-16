@@ -2,33 +2,27 @@ package com.example.LeirskolePortalen.model;
 
 import jakarta.persistence.*;
 
+@Entity
+public class Bruker {
 
-    @Entity
-    public class Bruker {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        private String brukernavn;
-        private String passord;
+    private String brukernavn;
+    private String passord;
 
-        @Enumerated(EnumType.STRING)
-        private Rolle rolle;
+    @Enumerated(EnumType.STRING) // Lagres som "ADMIN", "TEACHER" i databasen
+    private Rolle rolle;
 
+    // Gettere og settere
 
-
-    // Konstruktører
-    public Bruker() {}
-
-    public Bruker(String brukernavn, String passord, Rolle rolle) {
-        this.brukernavn = brukernavn;
-        this.passord = passord;
-        this.rolle = rolle;
-    }
-
-    // Getters og setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getBrukernavn() {
@@ -55,5 +49,3 @@ import jakarta.persistence.*;
         this.rolle = rolle;
     }
 }
-
-

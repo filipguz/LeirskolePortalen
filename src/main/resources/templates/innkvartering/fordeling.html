@@ -193,6 +193,49 @@
       button.setAttribute("aria-expanded", "false");
     }
   });
+
+  // === Drag and Drop ===
+  let draggedItem = null;
+
+  function initDragAndDrop() {
+    const deltakere = document.querySelectorAll('.deltaker');
+    const hytter = document.querySelectorAll('.hytte');
+
+    deltakere.forEach(d => {
+      d.setAttribute('draggable', true);
+
+      d.addEventListener('dragstart', (e) => {
+        draggedItem = d;
+        e.dataTransfer.effectAllowed = "move";
+        setTimeout(() => {
+          d.style.display = 'none';
+        }, 0);
+      });
+
+      d.addEventListener('dragend', () => {
+        setTimeout(() => {
+          draggedItem.style.display = 'block';
+          draggedItem = null;
+        }, 0);
+      });
+    });
+
+    hytter.forEach(hytte => {
+      hytte.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+
+      hytte.addEventListener('drop', (e) => {
+        e.preventDefault();
+        if (draggedItem) {
+          const dropLabel = hytte.querySelector('.drop-zone-label');
+          hytte.insertBefore(draggedItem, dropLabel);
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initDragAndDrop);
 </script>
 </body>
 </html>

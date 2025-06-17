@@ -1,107 +1,47 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeirskolePortalen</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <!-- Bootstrap og ikoner -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${deltaker.id == null} ? 'Ny deltaker' : 'Rediger deltaker'">Deltaker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
     <style>
-        :root {
-          --bg-light: #f9fafb;
-          --text-light: #212529;
-          --card-bg-light: #fff;
-          --bg-dark: #212529;
-          --text-dark: #f8f9fa;
-          --card-bg-dark: #2c2f33;
+        body {
+          background-color: #f9fafb;
+          font-family: "Segoe UI", sans-serif;
+          padding-top: 70px;
         }
 
-        body.light {
-          background-color: var(--bg-light);
-          color: var(--text-light);
+        .dnb-style-navbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid #d0ece9;
+          background-color: white;
+          color: #0d6efd;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 1050;
         }
 
-        body.dark {
-          background-color: var(--bg-dark);
-          color: var(--text-dark);
+        .logo {
+          font-weight: bold;
+          font-size: 1.1rem;
+          color: #d63384;
+          text-decoration: none;
         }
 
-        .card {
-          border-radius: 1rem;
-          transition: transform 0.2s, background-color 0.3s;
-        }
-
-        .card:hover {
-          transform: translateY(-3px);
-        }
-
-        body.light .card {
-          background-color: var(--card-bg-light);
-          color: var(--text-light);
-          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-        }
-
-        body.dark .card {
-          background-color: var(--card-bg-dark);
-          color: var(--text-dark);
-          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
-        }
-
-       .dnb-style-navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #d0ece9;
-      background-color: white;
-      color: #0d6efd;
-      font-family: "Segoe UI", sans-serif;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1050;
-    }
         .nav-left, .nav-center, .nav-right {
           display: flex;
           align-items: center;
         }
 
-        .nav-left i, .nav-right i {
-          font-size: 1.2rem;
-        }
-
-        .nav-left span, .nav-right span {
-          font-size: 0.8rem;
-          margin-left: 0.3rem;
-        }
-
-        .nav-center {
-          flex-grow: 1;
-          justify-content: center;
-        }
-
-        .logo {
-          font-weight: bold;
-          font-size: 1.0rem;
-          color:  #d63384;
-          text-decoration: none;
-        }
-
         .nav-right .nav-icon {
-          display: flex;
-          align-items: center;
           margin-left: 1.5rem;
-        }
-
-        .nav-right .nav-icon a {
-          display: flex;
-          align-items: center;
-          color: inherit;
-          text-decoration: none;
         }
 
         .side-menu {
@@ -111,7 +51,7 @@
           width: 260px;
           height: 100%;
           background-color: #ffffff;
-          box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+          box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
           padding: 1rem;
           transition: left 0.3s ease-in-out;
           z-index: 1051;
@@ -121,34 +61,26 @@
           left: 0;
         }
 
-        .side-menu-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1rem;
+        .side-menu ul {
+          padding-left: 0;
+          list-style: none;
         }
 
         .side-menu ul li {
           margin: 1rem 0;
         }
 
-    .bg-footer-top {
-      background-color: #c84646 /* rØD*/
-    }
-
-    .bg-footer-bottom {
-      background-color: #972121 /* Dypere bunnstripe */
-    }
         .side-menu ul li a {
-          color: #0d6efd;
           text-decoration: none;
+          color: #0d6efd;
           font-weight: 500;
         }
 
         .side-menu-overlay {
           display: none;
           position: fixed;
-          top: 0; left: 0;
+          top: 0;
+          left: 0;
           width: 100%;
           height: 100%;
           background-color: rgba(0,0,0,0.3);
@@ -159,93 +91,114 @@
           display: block;
         }
 
+        .form-section {
+          background-color: white;
+          border-radius: 0.75rem;
+          padding: 2rem;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+          color: #118090;
+          font-size: 1.75rem;
+          margin-bottom: 1.5rem;
+          text-align: center;
+        }
+
+        .btn-primary {
+          background-color: #118090;
+          border-color: #118090;
+        }
+
+        .btn-primary:hover {
+          background-color: #0d6c77;
+          border-color: #0d6c77;
+        }
+
+        .card {
+          border-radius: 1rem;
+          border: none;
+          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+        }
+
         @media (max-width: 576px) {
           .nav-left span, .nav-right span {
             display: none;
           }
-
-          .nav-right .nav-icon {
-            margin-left: 0.8rem;
-          }
         }
     </style>
 </head>
-<body class="light" style="padding-top: 70px;">
-<header>
-    <nav class="dnb-style-navbar">
-        <div class="nav-left" onclick="toggleSideMenu()">
-            <i class="fas fa-bars"></i>
-            <span>Meny</span>
-        </div>
-        <div class="nav-center">
-            <a href="/" class="logo">
-                LeirskolePortalen
-            </a>
-        </div>
-        <div class="nav-right">
-            <div class="nav-icon">
-                <a href="/sok"><i class="fas fa-search"></i><span>Søk</span></a>
-            </div>
-            <div class="nav-icon">
-                <a href="/login"><i class="fas fa-sign-in-alt"></i><span>Logg inn</span></a>
-            </div>
-        </div>
-    </nav>
 
-    <div id="sideMenu" class="side-menu">
-        <div class="side-menu-header">
-            <span>Hovedmeny</span>
-            <button class="btn-close" onclick="toggleSideMenu()"></button>
-        </div>
-        <ul class="list-unstyled">
-            <li><a href="/leir/liste"><i class="fas fa-campground me-2"></i>Leirer</a></li>
-            <li><a href="/deltaker/liste/1"><i class="fas fa-users me-2"></i>Deltakere</a></li>
-            <li><a href="/innkvartering"><i class="fas fa-bed me-2"></i>Innkvartering</a></li>
-            <li><a href="/skole/kunder"><i class="fas fa-school me-2"></i>Skoler</a></li>
-            <li><a href="/risiko"><i class="fas fa-exclamation-triangle me-2"></i>Risikovurdering</a></li>
-            <li><a href="/hytte/liste/1"><i class="fas fa-house-user me-2"></i>Administrere hytter</a></li>
-        </ul>
+<body class="light">
+<!-- Navbar -->
+<nav class="dnb-style-navbar">
+    <div class="nav-left" onclick="toggleSideMenu()">
+        <i class="fas fa-bars"></i>
+        <span class="ms-2">Meny</span>
     </div>
-    <div id="sideMenuOverlay" class="side-menu-overlay" onclick="toggleSideMenu()"></div>
-</header>
-<main class="container mt-5 pt-4" role="main">
-    <!-- ✅ Sideoverskrift -->
-    <h1 class="mb-4" th:text="${deltaker.id == null} ? 'Registrer ny deltaker' : 'Rediger deltaker'"></h1>
+    <div class="nav-center">
+        <a href="/" class="logo">LeirskolePortalen</a>
+    </div>
+    <div class="nav-right">
+        <div class="nav-icon"><a href="/sok"><i class="fas fa-search"></i><span class="ms-1">Søk</span></a></div>
+        <div class="nav-icon"><a href="/login"><i class="fas fa-sign-in-alt"></i><span class="ms-1">Logg inn</span></a></div>
+    </div>
+</nav>
 
-    <!-- ✅ Skjema for oppretting/redigering -->
-    <form th:action="@{/deltaker/lagre}" th:object="${deltaker}" method="post" class="row g-3">
-        <input type="hidden" th:field="*{id}" />
-        <input type="hidden" th:field="*{leir.id}" />
+<!-- Sidemeny -->
+<div id="sideMenu" class="side-menu">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <strong>Hovedmeny</strong>
+        <button class="btn-close" onclick="toggleSideMenu()"></button>
+    </div>
+    <ul>
+        <li><a href="/leir/liste"><i class="fas fa-campground me-2"></i>Leirer</a></li>
+        <li><a href="/deltaker/liste/1"><i class="fas fa-users me-2"></i>Deltakere</a></li>
+        <li><a href="/innkvartering"><i class="fas fa-bed me-2"></i>Innkvartering</a></li>
+        <li><a href="/skole/kunder"><i class="fas fa-school me-2"></i>Skoler</a></li>
+        <li><a href="/risiko"><i class="fas fa-exclamation-triangle me-2"></i>Risikovurdering</a></li>
+    </ul>
+</div>
+<div id="sideMenuOverlay" class="side-menu-overlay" onclick="toggleSideMenu()"></div>
 
-        <div class="col-md-6">
-            <label for="navn" class="form-label">Navn</label>
-            <input type="text" id="navn" th:field="*{navn}" class="form-control" required>
-        </div>
+<!-- Main -->
+<main class="container mt-5 pt-4">
+    <div class="form-section">
+        <h1 th:text="${deltaker.id == null} ? 'Registrer ny deltaker' : 'Rediger deltaker'">Deltaker</h1>
 
-        <div class="col-md-2">
-            <label for="alder" class="form-label">Alder</label>
-            <input type="number" id="alder" th:field="*{alder}" class="form-control" min="0" required>
-        </div>
+        <form th:action="@{/deltaker/lagre}" th:object="${deltaker}" method="post" class="row g-3">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{leir.id}" />
 
-        <div class="col-md-6">
-            <label for="allergi" class="form-label">Allergier</label>
-            <input type="text" id="allergi" th:field="*{allergi}" class="form-control">
-        </div>
+            <div class="col-md-6">
+                <label for="navn" class="form-label">Navn</label>
+                <input type="text" id="navn" th:field="*{navn}" class="form-control" required>
+            </div>
 
-        <div class="col-md-6">
-            <label for="kontaktperson" class="form-label">Kontaktperson</label>
-            <input type="text" id="kontaktperson" th:field="*{kontaktperson}" class="form-control">
-        </div>
+            <div class="col-md-2">
+                <label for="alder" class="form-label">Alder</label>
+                <input type="number" id="alder" th:field="*{alder}" class="form-control" min="0" required>
+            </div>
 
-        <!-- ✅ Handlingsknapper -->
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary" th:text="${deltaker.id == null} ? '➕ Lagre deltaker' : '💾 Oppdater deltaker'"></button>
-            <a th:href="@{/deltaker/liste/{leirId}(leirId=${deltaker.leir.id})}" class="btn btn-secondary ms-2">Tilbake</a>
-            <a class="btn btn-outline-primary ms-2" th:href="@{/}">Gå til dashboard</a>
-        </div>
-    </form>
+            <div class="col-md-6">
+                <label for="allergi" class="form-label">Allergier</label>
+                <input type="text" id="allergi" th:field="*{allergi}" class="form-control">
+            </div>
 
-    <!-- ✅ Excel-opplasting for masseimport -->
+            <div class="col-md-6">
+                <label for="kontaktperson" class="form-label">Kontaktperson</label>
+                <input type="text" id="kontaktperson" th:field="*{kontaktperson}" class="form-control">
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary" th:text="${deltaker.id == null} ? '➕ Lagre deltaker' : '💾 Oppdater deltaker'"></button>
+                <a th:href="@{/deltaker/liste/{leirId}(leirId=${deltaker.leir.id})}" class="btn btn-secondary ms-2">Tilbake</a>
+                <a class="btn btn-outline-primary ms-2" th:href="@{/}">Gå til dashboard</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Excel-opplasting -->
     <div class="card mt-5">
         <div class="card-body">
             <h5 class="card-title">📥 Last opp deltakere fra Excel</h5>
@@ -258,155 +211,39 @@
             </form>
         </div>
     </div>
+</main>
 
-        <hr class="my-5">
-        <section aria-labelledby="snarveier">
-            <h4 id="snarveier"><i class="fas fa-bolt me-2"></i>Snarveier</h4>
-            <div class="row g-3 mt-2">
-                <div class="col-sm-6 col-md-3">
-                    <a class="btn btn-outline-primary w-100" href="/leir/ny"><i class="fas fa-plus me-1"></i>Ny Leir</a>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <a class="btn btn-outline-primary w-100" href="/deltaker/ny/1"><i class="fas fa-user-plus me-1"></i>Ny Deltaker</a>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <a class="btn btn-outline-primary w-100" href="/hytte/liste/1"><i class="fas fa-cogs me-1"></i>Administrer Hytter</a>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <a class="btn btn-outline-primary w-100" href="/skole/ny"><i class="fas fa-school me-1"></i>Ny Skole</a>
-                </div>
-            </div>
-        </section>
-    </main>
-<br>
-<br>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function toggleSideMenu() {
-      document.getElementById("sideMenu").classList.toggle("active");
-      document.getElementById("sideMenuOverlay").classList.toggle("active");
-    }
-</script>
-
-
-<!-- Footer start-->
-
+<!-- Footer -->
 <footer class="bg-light text-center text-lg-start mt-5 border-top shadow-sm">
     <div class="container py-4">
         <div class="row">
-            <div class="col-lg-6 col-md-12 mb-3 mb-lg-0 text-start">
-                <h6 class="text-uppercase fw-bold">Om LeirskolePortalen</h6>
-                <p class="mb-0">
-                    LeirskolePortalen forenkler administrasjonen av leirskoleopphold. Her kan du enkelt håndtere deltakere, innkvartering, skoler og risikovurderinger.
-                </p>
+            <div class="col-lg-6 text-start">
+                <h6 class="fw-bold">Om LeirskolePortalen</h6>
+                <p>LeirskolePortalen forenkler administrasjonen av leirskoleopphold. Her kan du håndtere deltakere, innkvartering, skoler og risikovurderinger.</p>
             </div>
-            <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
-                <h6 class="text-uppercase fw-bold">Lenker</h6>
-                <ul class="list-unstyled mb-0">
-                    <li><a href="/leir/liste" class="text-decoration-none text-dark">Leirer</a></li>
-                    <li><a href="/skole/kunder" class="text-decoration-none text-dark">Skoler</a></li>
-                    <li><a href="/risiko" class="text-decoration-none text-dark">Risikovurdering</a></li>
+            <div class="col-lg-3">
+                <h6 class="fw-bold">Lenker</h6>
+                <ul class="list-unstyled">
+                    <li><a href="/leir/liste" class="text-dark text-decoration-none">Leirer</a></li>
+                    <li><a href="/skole/kunder" class="text-dark text-decoration-none">Skoler</a></li>
+                    <li><a href="/risiko" class="text-dark text-decoration-none">Risikovurdering</a></li>
                 </ul>
             </div>
-            <div class="col-lg-3 col-md-6 text-md-end">
-                <h6 class="text-uppercase fw-bold">Kontakt</h6>
+            <div class="col-lg-3 text-end">
+                <h6 class="fw-bold">Kontakt</h6>
                 <p class="mb-1">E-post: <a href="mailto:kontakt@leirskoleportalen.no" class="text-decoration-none">kontakt@leirskoleportalen.no</a></p>
                 <p class="mb-0">© 2025 LeirskolePortalen</p>
             </div>
         </div>
     </div>
 </footer>
-<!-- Footer end-->
-    </body>
-    </html>
 
-
-
-    <!--Ny deltager
-    <!DOCTYPE html>
-    <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title th:text="${deltaker.id == null} ? 'Ny deltaker' : 'Rediger deltaker'">Deltaker</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <body class="container mt-5">
-
-    <!-- ✅ Sticky toppmeny
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">LeirskolePortalen</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny"
-                    aria-controls="meny" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="meny">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/}">Hjem</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/leir/liste}">Leirer</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/deltaker/liste/1}">Deltakere</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/innkvartering}">Innkvartering</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/brukere}">Admin</a></li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logg ut</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- ✅ Sideoverskrift
-    <h1 class="mb-4" th:text="${deltaker.id == null} ? 'Registrer ny deltaker' : 'Rediger deltaker'"></h1>
-
-    <!-- ✅ Skjema for oppretting/redigering
-    <form th:action="@{/deltaker/lagre}" th:object="${deltaker}" method="post" class="row g-3">
-        <input type="hidden" th:field="*{id}" />
-        <input type="hidden" th:field="*{leir.id}" />
-
-        <div class="col-md-6">
-            <label for="navn" class="form-label">Navn</label>
-            <input type="text" id="navn" th:field="*{navn}" class="form-control" required>
-        </div>
-
-        <div class="col-md-2">
-            <label for="alder" class="form-label">Alder</label>
-            <input type="number" id="alder" th:field="*{alder}" class="form-control" min="0" required>
-        </div>
-
-        <div class="col-md-6">
-            <label for="allergi" class="form-label">Allergier</label>
-            <input type="text" id="allergi" th:field="*{allergi}" class="form-control">
-        </div>
-
-        <div class="col-md-6">
-            <label for="kontaktperson" class="form-label">Kontaktperson</label>
-            <input type="text" id="kontaktperson" th:field="*{kontaktperson}" class="form-control">
-        </div>
-
-        <!-- ✅ Handlingsknapper
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary" th:text="${deltaker.id == null} ? '➕ Lagre deltaker' : '💾 Oppdater deltaker'"></button>
-            <a th:href="@{/deltaker/liste/{leirId}(leirId=${deltaker.leir.id})}" class="btn btn-secondary ms-2">Tilbake</a>
-            <a class="btn btn-outline-primary ms-2" th:href="@{/}">Gå til dashboard</a>
-        </div>
-    </form>
-
-    <!-- ✅ Excel-opplasting for masseimport
-    <div class="card mt-5">
-        <div class="card-body">
-            <h5 class="card-title">📥 Last opp deltakere fra Excel</h5>
-            <form method="POST" enctype="multipart/form-data" th:action="@{/deltaker/lastopp}">
-                <div class="mb-3">
-                    <label for="file" class="form-label">Velg Excel-fil</label>
-                    <input class="form-control" type="file" name="file" id="file" required>
-                </div>
-                <button type="submit" class="btn btn-success">Last opp</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
-    </html>
+<script>
+    function toggleSideMenu() {
+      document.getElementById("sideMenu").classList.toggle("active");
+      document.getElementById("sideMenuOverlay").classList.toggle("active");
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

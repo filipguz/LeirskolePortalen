@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leirskoleportalen</title>
+  <title>Rediger leir | Leirskoleportalen</title>
   <style>
     body {
       margin: 0;
@@ -39,82 +39,75 @@
       cursor: pointer;
     }
 
-   .mobile-menu {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 220px;
-  background: white;
-  border-right: 1px solid #ccc;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  padding: 2rem 1rem;
-  flex-direction: column;
-}
-
-.mobile-menu.open {
-  display: flex;
-}
-
-.mobile-menu a {
-  display: block;
-  padding: 0.75rem 0;
-  text-decoration: none;
-  color: #000;
-}
-
-.mobile-menu a:hover {
-  text-decoration: underline;
-}
-    main {
-      text-align: center;
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 220px;
+      background: white;
+      border-right: 1px solid #ccc;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 100;
       padding: 2rem 1rem;
+      flex-direction: column;
+    }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.75rem 0;
+      text-decoration: none;
+      color: #000;
+    }
+
+    .mobile-menu a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     h1 {
-      font-size: 2rem;
+      text-align: center;
+      color: #118090;
       margin-bottom: 2rem;
     }
 
-    .options {
+    form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      max-width: 600px;
-      margin: 0 auto;
     }
 
-    .option {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 1.5rem;
-      border: 1px solid #cfeff2;
-      border-radius: 0.5rem;
-      background-color: #fff;
+    label {
       font-weight: bold;
-      font-size: 1.1rem;
-      text-decoration: none;
-      color: #000;
-      transition: background-color 0.2s;
     }
 
-    .option:hover {
-      background-color: #d9f0f3;
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 0.4rem;
+      font-size: 1rem;
+      width: 100%;
+      box-sizing: border-box;
     }
 
-    .option svg {
-      margin-right: 1rem;
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
-    }
-
-    .btn {
-      margin-top: 2rem;
-      padding: 0.75rem 1.5rem;
+    button[type="submit"] {
+      margin-top: 1rem;
+      padding: 0.75rem;
       background-color: #118090;
       color: white;
       border: none;
@@ -123,51 +116,42 @@
       cursor: pointer;
     }
 
-    .btn:hover {
+    button[type="submit"]:hover {
       background-color: #0d6c77;
-    }
-
-   @media (min-width: 600px) {
-  .options {
-    flex-direction: row; /* horisontal på større skjermer */
-  }
-      .option {
-        width: 250px;
-      }
     }
   </style>
 </head>
 <body>
 <header>
   <div style="display: flex; align-items: center; gap: 1rem;">
-    <!-- Flyttet menyknappen hit -->
     <button class="menu-button" onclick="toggleMenu()" aria-label="Meny">
-      <!-- Hamburger icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+           viewBox="0 0 24 24" width="24" height="24">
         <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
       </svg>
     </button>
 
-    <div class="logo">
+    <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
       LEIRSKOLE<br />PORTALEN
-    </div>
+    </a>
   </div>
 
   <div class="actions">
     <a href="#" aria-label="Søk">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+           viewBox="0 0 24 24" width="24" height="24">
         <circle cx="11" cy="11" r="8" stroke-width="2"/>
         <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
       </svg>
     </a>
     <a href="/login" aria-label="Logg inn">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+           viewBox="0 0 24 24" width="24" height="24">
         <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
       </svg>
     </a>
   </div>
 
-  <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="/leir/liste">Leirer</a>
     <a href="/deltaker/liste/1">Deltakere</a>
@@ -177,34 +161,51 @@
     <a href="/skoleplan/liste">Skoleplaner</a>
   </div>
 </header>
-<h1>Rediger leir</h1>
 
-<form method="POST" action="/leir/oppdater">
-  <!-- Skjult felt for ID -->
-  <input type="hidden" name="id" value="1" />
+<main>
+  <h1>Rediger leir</h1>
 
-  <label for="navn">Leirnavn</label>
-  <input type="text" id="navn" name="navn" value="Sommerleir 2025" required>
+  <form th:action="@{/leir/oppdater}" th:object="${leir}" method="post">
+    <input type="hidden" th:field="*{id}" />
 
-  <label for="startDato">Startdato</label>
-  <input type="date" id="startDato" name="startDato" value="2025-07-01" required>
+    <label for="navn">Leirnavn</label>
+    <input type="text" id="navn" th:field="*{navn}" required>
 
-  <label for="sluttDato">Sluttdato</label>
-  <input type="date" id="sluttDato" name="sluttDato" value="2025-07-07" required>
+    <label for="startDato">Startdato</label>
+    <input type="date" id="startDato" th:field="*{startDato}" required>
 
-  <label for="skole">Skoler</label>
-  <select id="skole" name="skoleIds" multiple size="4">
-    <!-- Dynamisk generert; "selected" legges til for valgte skoler -->
-    <option value="1" selected>Skole A</option>
-    <option value="2">Skole B</option>
-    <option value="3" selected>Skole C</option>
-  </select>
+    <label for="sluttDato">Sluttdato</label>
+    <input type="date" id="sluttDato" th:field="*{sluttDato}" required>
 
-  <label for="info">Tilleggsinformasjon</label>
-  <textarea id="info" name="info" rows="4">Dette er en oppdatert info om leiren.</textarea>
+    <label for="ansvarligLaerer">Ansvarlig lærer</label>
+    <input type="text" id="ansvarligLaerer" th:field="*{ansvarligLaerer}" required>
 
-  <button type="submit">Oppdater leir</button>
-</form>
+    <label for="info">Tilleggsinformasjon</label>
+    <textarea id="info" name="info" rows="4">Her kan du legge inn mer info...</textarea>
+
+    <button type="submit">Oppdater leir</button>
+  </form>
+  <a href="/leir/ny" class="btn-add">➕ Opprett ny leir</a>
+  <a href="/" class="btn-add">🏠 Tilbake til Dashboard</a>
+</main>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("mobileMenu");
+    const button = document.querySelector(".menu-button");
+    const isOpen = menu.classList.toggle("open");
+    button.setAttribute("aria-expanded", isOpen);
+  }
+
+  document.addEventListener('click', function (e) {
+    const menu = document.getElementById("mobileMenu");
+    const button = document.querySelector(".menu-button");
+    if (!menu.contains(e.target) && !button.contains(e.target)) {
+      menu.classList.remove("open");
+      button.setAttribute("aria-expanded", "false");
+    }
+  });
+</script>
 
 </body>
 </html>

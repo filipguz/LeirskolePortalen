@@ -1,91 +1,15 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Leirliste</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leirer | Leirskoleportalen</title>
     <style>
         body {
-          font-family: sans-serif;
-          background-color: #f4f9fa;
-          padding: 2rem;
-          max-width: 900px;
-          margin: auto;
-        }
-
-        h1 {
-          text-align: center;
-          color: #118090;
-        }
-
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          background-color: white;
-          border-radius: 0.5rem;
-          overflow: hidden;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        th, td {
-          padding: 1rem;
-          border-bottom: 1px solid #eee;
-          text-align: left;
-        }
-
-        th {
+          margin: 0;
+          font-family: "Helvetica Neue", sans-serif;
           background-color: #e5f9fb;
-          color: #118090;
-          font-weight: bold;
-        }
-
-        tr:hover {
-          background-color: #f0f7f8;
-        }
-
-        .actions {
-          display: flex;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-        }
-
-        .btn {
-          padding: 0.4rem 0.8rem;
-          font-size: 0.9rem;
-          border: none;
-          border-radius: 0.4rem;
-          text-decoration: none;
-          color: white;
-          cursor: pointer;
-        }
-
-        .btn-edit {
-          background-color: #0d6c77;
-        }
-
-        .btn-view {
-          background-color: #118090;
-        }
-
-        .btn-delete {
-          background-color: #c0392b;
-        }
-
-        .btn-add {
-          display: inline-block;
-          margin-top: 2rem;
-          padding: 0.75rem 1.5rem;
-          background-color: #118090;
-          color: white;
-          border: none;
-          border-radius: 0.5rem;
-          font-size: 1rem;
-          text-decoration: none;
-          text-align: center;
-        }
-
-        .btn-add:hover {
-          background-color: #0d6c77;
+          color: #000;
         }
 
         header {
@@ -102,6 +26,12 @@
           line-height: 1.2;
           letter-spacing: 0.1rem;
           padding-left: 0.5rem;
+        }
+
+        .actions {
+          display: flex;
+          gap: 1.2rem;
+          align-items: center;
         }
 
         .menu-button {
@@ -142,39 +72,119 @@
         .mobile-menu a:hover {
           background-color: #f1f1f1;
         }
+
+        main {
+          max-width: 900px;
+          margin: 2rem auto;
+          background: #fff;
+          padding: 2rem;
+          border-radius: 0.5rem;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+          text-align: center;
+          color: #118090;
+          margin-bottom: 2rem;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          background-color: white;
+          border-radius: 0.5rem;
+          overflow: hidden;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+          padding: 1rem;
+          border-bottom: 1px solid #eee;
+          text-align: left;
+        }
+
+        th {
+          background-color: #e5f9fb;
+          color: #118090;
+          font-weight: bold;
+        }
+
+        tr:hover {
+          background-color: #f0f7f8;
+        }
+
+        .btn {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.9rem;
+          border: none;
+          border-radius: 0.4rem;
+          text-decoration: none;
+          color: white;
+          cursor: pointer;
+        }
+
+        .btn-edit {
+          background-color: #0d6c77;
+        }
+
+        .btn-view {
+          background-color: #118090;
+        }
+
+        .btn-delete {
+          background-color: #c0392b;
+        }
+
+        .btn-add {
+          display: inline-block;
+          margin-top: 2rem;
+          padding: 0.75rem 1.5rem;
+          background-color: #118090;
+          color: white;
+          border: none;
+          border-radius: 0.5rem;
+          font-size: 1rem;
+          text-decoration: none;
+          text-align: center;
+        }
+
+        .btn-add:hover {
+          background-color: #0d6c77;
+        }
     </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
     <div style="display: flex; align-items: center; gap: 1rem;">
         <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" width="24" height="24">
                 <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
         </button>
 
-        <div class="logo">
+        <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
             LEIRSKOLE<br />PORTALEN
-        </div>
+        </a>
     </div>
 
     <div class="actions">
         <a href="#" aria-label="Søk">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" width="24" height="24">
                 <circle cx="11" cy="11" r="8" stroke-width="2"/>
                 <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
             </svg>
         </a>
         <a href="/login" aria-label="Logg inn">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" width="24" height="24">
                 <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
             </svg>
         </a>
     </div>
 
-    <!-- Mobile Menu -->
     <nav class="mobile-menu" id="mobileMenu" role="navigation">
         <a href="/leir/liste">Leirer</a>
         <a href="/deltaker/liste/1">Deltakere</a>
@@ -185,56 +195,57 @@
     </nav>
 </header>
 
-<!-- HOVEDINNHOLD -->
-<h1>Leirskole – Oversikt over leirer</h1>
+<main>
+    <h1>Leirskole – Oversikt over leirer</h1>
 
-<table>
-    <thead>
-    <tr>
-        <th>Navn</th>
-        <th>Startdato</th>
-        <th>Sluttdato</th>
-        <th>Ansvarlig lærer</th>
-        <th>Handlinger</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Sommerleir 2025</td>
-        <td>2025-07-01</td>
-        <td>2025-07-07</td>
-        <td>Anne Lærer</td>
-        <td>
-            <div class="actions">
-                <a href="/leir/rediger/1" class="btn btn-edit">Rediger</a>
-                <a href="/deltaker/liste/1" class="btn btn-view">Se deltakere</a>
-                <form method="POST" action="/leir/slett/1" style="display:inline;">
-                    <button type="submit" class="btn btn-delete" onclick="return confirm('Slett leiren?')">Slett</button>
-                </form>
-            </div>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    <table>
+        <thead>
+        <tr>
+            <th>Navn</th>
+            <th>Startdato</th>
+            <th>Sluttdato</th>
+            <th>Ansvarlig lærer</th>
+            <th>Handlinger</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="leir : ${leirer}">
+            <td th:text="${leir.navn}">Navn</td>
+            <td th:text="${leir.startDato}">Startdato</td>
+            <td th:text="${leir.sluttDato}">Sluttdato</td>
+            <td th:text="${leir.ansvarligLaerer}">Ansvarlig lærer</td>
+            <td>
+                <div class="actions">
+                    <a th:href="@{/leir/rediger/{id}(id=${leir.id})}" class="btn btn-edit">Rediger</a>
+                    <a th:href="@{/deltaker/liste/{id}(id=${leir.id})}" class="btn btn-view">Se deltakere</a>
+                    <form th:action="@{/leir/slett/{id}(id=${leir.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-delete" onclick="return confirm('Slett leiren?')">Slett</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
-<a href="/leir/ny" class="btn-add">➕ Opprett ny leir</a>
+    <a href="/leir/ny" class="btn-add">➕ Opprett ny leir</a>
+    <a href="/" class="btn-add">🏠 Tilbake til Dashboard</a>
+</main>
 
-<!-- SCRIPT -->
 <script>
     function toggleMenu() {
-      const menu = document.getElementById("mobileMenu");
-      const button = document.querySelector(".menu-button");
-      const isOpen = menu.classList.toggle("open");
-      button.setAttribute("aria-expanded", isOpen);
+        const menu = document.getElementById("mobileMenu");
+        const button = document.querySelector(".menu-button");
+        const isOpen = menu.classList.toggle("open");
+        button.setAttribute("aria-expanded", isOpen);
     }
 
     document.addEventListener('click', function (e) {
-      const menu = document.getElementById("mobileMenu");
-      const button = document.querySelector(".menu-button");
-      if (!menu.contains(e.target) && !button.contains(e.target)) {
-        menu.classList.remove("open");
-        button.setAttribute("aria-expanded", "false");
-      }
+        const menu = document.getElementById("mobileMenu");
+        const button = document.querySelector(".menu-button");
+        if (!menu.contains(e.target) && !button.contains(e.target)) {
+            menu.classList.remove("open");
+            button.setAttribute("aria-expanded", "false");
+        }
     });
 </script>
 

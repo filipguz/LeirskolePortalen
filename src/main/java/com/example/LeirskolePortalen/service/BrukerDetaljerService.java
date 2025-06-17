@@ -26,4 +26,6 @@ public class BrukerDetaljerService implements UserDetailsService {
                 .roles(bruker.getRolle().name()) // ← viktig: konverter enum til String
                 .build();
     }
+
+
 }

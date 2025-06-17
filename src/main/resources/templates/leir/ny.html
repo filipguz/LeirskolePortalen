@@ -168,28 +168,23 @@
 <main>
   <h1>Opprett ny leir</h1>
 
-  <form method="POST" action="/leir/lagre">
+  <form th:action="@{/leir/lagre}" th:object="${leir}" method="post">
     <label for="navn">Leirnavn</label>
-    <input type="text" id="navn" name="navn" required>
+    <input type="text" id="navn" th:field="*{navn}" required>
 
     <label for="startDato">Startdato</label>
-    <input type="date" id="startDato" name="startDato" required>
+    <input type="date" id="startDato" th:field="*{startDato}" required>
 
     <label for="sluttDato">Sluttdato</label>
-    <input type="date" id="sluttDato" name="sluttDato" required>
+    <input type="date" id="sluttDato" th:field="*{sluttDato}" required>
 
-    <label for="skole">Skoler</label>
-    <select id="skole" name="skoleIds" multiple size="4">
-      <option value="1">Skole A</option>
-      <option value="2">Skole B</option>
-      <option value="3">Skole C</option>
-    </select>
-
-    <label for="info">Tilleggsinformasjon</label>
-    <textarea id="info" name="info" rows="4"></textarea>
+    <label for="ansvarligLaerer">Ansvarlig lærer</label>
+    <input type="text" id="ansvarligLaerer" th:field="*{ansvarligLaerer}" required>
 
     <button type="submit">Lagre leir</button>
   </form>
+  <a href="/leir/ny" class="btn-add">➕ Opprett ny leir</a>
+  <a href="/" class="btn-add">🏠 Tilbake til Dashboard</a>
 </main>
 
 <script>

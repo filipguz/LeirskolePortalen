@@ -1,343 +1,250 @@
-<!-- Versjon dashboard 4.1 - med forbedringer-->
 <!DOCTYPE html>
 <html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LeirskolePortalen - Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <title>Skoler | Leirskoleportalen</title>
     <style>
-        :root {
-          --bg-light: #f9fafb;
-          --text-light: #212529;
-          --card-bg-light: #fff;
-          --bg-dark: #212529;
-          --text-dark: #f8f9fa;
-          --card-bg-dark: #2c2f33;
+        body {
+          margin: 0;
+          font-family: "Helvetica Neue", sans-serif;
+          background-color: #e5f9fb;
+          color: #000;
         }
 
-        body.light {
-          background-color: var(--bg-light);
-          color: var(--text-light);
+        header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem;
+          font-size: 1rem;
+          position: relative;
         }
 
-        body.dark {
-          background-color: var(--bg-dark);
-          color: var(--text-dark);
+        .logo {
+          font-weight: bold;
+          line-height: 1.2;
+          letter-spacing: 0.1rem;
+          padding-left: 0.5rem;
         }
 
-        .card {
-          border-radius: 1rem;
-          transition: transform 0.2s, background-color 0.3s;
+        .actions {
+          display: flex;
+          gap: 1.2rem;
+          align-items: center;
         }
 
-        .card:hover {
-          transform: translateY(-3px);
-        }
-
-        body.light .card {
-          background-color: var(--card-bg-light);
-          color: var(--text-light);
-          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-        }
-
-        body.dark .card {
-          background-color: var(--card-bg-dark);
-          color: var(--text-dark);
-          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
-        }
-
-        .theme-toggle {
+        .menu-button {
           background: none;
           border: none;
-          font-size: 1.2rem;
-          color: inherit;
-          margin-left: 1rem;
           cursor: pointer;
         }
 
-        /* 🔧 Navbar farge tilpasses tema */
-        #navbar {
-          transition: background-color 0.3s, color 0.3s;
+        .mobile-menu {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease-in-out;
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100vh;
+          width: 220px;
+          background: white;
+          border-right: 1px solid #ccc;
+          box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+          z-index: 100;
+          padding: 2rem 1rem;
+          flex-direction: column;
+          display: flex;
         }
 
-        body.light #navbar {
-          background-color: #ffffff;
-          color: #212529;
+        .mobile-menu.open {
+          transform: translateX(0);
         }
 
-        body.dark #navbar {
-          background-color: #1a1a1a;
-          color: #f8f9fa;
+        .mobile-menu a {
+          display: block;
+          padding: 0.75rem 0;
+          text-decoration: none;
+          color: #000;
+          transition: background-color 0.2s;
         }
 
-        body.dark #navbar .nav-link,
-        body.dark #navbar .navbar-brand {
-          color: #f8f9fa !important;
+        .mobile-menu a:hover {
+          background-color: #f1f1f1;
         }
 
-        body.light #navbar .nav-link,
-        body.light #navbar .navbar-brand {
-          color: #212529 !important;
+        main {
+          max-width: 900px;
+          margin: 2rem auto;
+          background: #fff;
+          padding: 2rem;
+          border-radius: 0.5rem;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        .navbar-collapse.show {
-          background-color: inherit;
+        h1 {
+          text-align: center;
+          color: #118090;
+          margin-bottom: 2rem;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          background-color: white;
+          border-radius: 0.5rem;
+          overflow: hidden;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+          padding: 1rem;
+          border-bottom: 1px solid #eee;
+          text-align: left;
+        }
+
+        th {
+          background-color: #e5f9fb;
+          color: #118090;
+          font-weight: bold;
+        }
+
+        tr:hover {
+          background-color: #f0f7f8;
+        }
+
+        .btn {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.9rem;
+          border: none;
+          border-radius: 0.4rem;
+          text-decoration: none;
+          color: white;
+          cursor: pointer;
+        }
+
+        .btn-edit {
+          background-color: #0d6c77;
+        }
+
+        .btn-delete {
+          background-color: #c0392b;
+        }
+
+        .btn-add {
+          display: inline-block;
+          margin-top: 2rem;
+          padding: 0.75rem 1.5rem;
+          background-color: #118090;
+          color: white;
+          border: none;
+          border-radius: 0.5rem;
+          font-size: 1rem;
+          text-decoration: none;
+          text-align: center;
+        }
+
+        .btn-add:hover {
+          background-color: #0d6c77;
         }
     </style>
 </head>
-<body class="light">
+<body>
+
 <header>
-    <nav id="navbar" class="navbar navbar-expand-lg shadow-sm fixed-top" role="navigation">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="#">LeirskolePortalen</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-label="Vis meny">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="d-flex">
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Bytt fargetema">
-                    <i id="themeIcon" class="fas fa-moon"></i>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarMenu">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="/leir/liste">Leirer</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/deltaker/liste/1">Deltakere</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/innkvartering">Innkvartering</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/skole/kunder">Skoler</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/risiko">Risikovurdering</a></li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt me-1"></i>Logg ut</a></li>
-                </ul>
-            </div>
-        </div>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+        <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" width="24" height="24">
+                <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+
+        <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
+            LEIRSKOLE<br />PORTALEN
+        </a>
+    </div>
+
+    <div class="actions">
+        <a href="#" aria-label="Søk">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" width="24" height="24">
+                <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+            </svg>
+        </a>
+        <a href="/login" aria-label="Logg inn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                 viewBox="0 0 24 24" width="24" height="24">
+                <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
+            </svg>
+        </a>
+    </div>
+
+    <nav class="mobile-menu" id="mobileMenu" role="navigation">
+        <a href="/leir/liste">Leirer</a>
+        <a href="/deltaker/liste/1">Deltakere</a>
+        <a href="/innkvartering">Innkvartering</a>
+        <a href="/risiko">Risikovurdering</a>
+        <a href="/skole/kunder">Skoler</a>
     </nav>
 </header>
 
-<main class="container mt-5 pt-4" role="main">
-    <h2 class="my-4"><i class="fas fa-calendar-alt me-2"></i>Oversikt - Kommende leirer</h2>
-    <p class="text-muted">Sist oppdatert: <span th:text="${sistOppdatert}">28.05.2025</span></p>
-    <!-- 🔸 Innhold -->
-    <div class="container my-5 pt-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="mb-0">Skoleoversikt</h2>
-            <a class="btn btn-primary" th:href="@{/skole/ny}">➕ Legg til ny skole</a>
-        </div>
+<main>
+    <h1>Skoleoversikt</h1>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle">
-                <thead class="table-light">
-                <tr>
-                    <th>Navn</th>
-                    <th>Kontaktperson</th>
-                    <th>Telefon</th>
-                    <th>E-post</th>
-                    <th class="text-center">Handling</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="skole : ${skoler}">
-                    <td th:text="${skole.navn}">Skolenavn</td>
-                    <td th:text="${skole.kontaktperson}">Kontaktperson</td>
-                    <td th:text="${skole.telefon}">Telefon</td>
-                    <td th:text="${skole.epost}">E-post</td>
-                    <td class="text-center">
-                        <a class="btn btn-sm btn-warning me-1" th:href="@{'/skole/rediger/' + ${skole.id}}">
-                            ✏️ Rediger
-                        </a>
-                        <a class="btn btn-sm btn-danger"
-                           th:href="@{'/skole/slett/' + ${skole.id}}"
-                           onclick="return confirm('Er du sikker på at du vil slette denne skolen?');">
-                            🗑️ Slett
-                        </a>
-                    </td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(skoler)}">
-                    <td colspan="5" class="text-center text-muted">Ingen skoler registrert enda.</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Skole</th>
+            <th>Kontaktperson</th>
+            <th>Telefon</th>
+            <th>E-post</th>
+            <th>Handlinger</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="skole : ${skoler}">
+            <td th:text="${skole.navn}">Skolenavn</td>
+            <td th:text="${skole.kontaktperson}">Kontaktperson</td>
+            <td th:text="${skole.telefon}">Telefon</td>
+            <td th:text="${skole.epost}">E-post</td>
+            <td>
+                <div class="actions">
+                    <a th:href="@{'/skole/rediger/' + ${skole.id}}" class="btn btn-edit">Rediger</a>
+                    <form th:action="@{'/skole/slett/' + ${skole.id}}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-delete" onclick="return confirm('Slett skolen?')">Slett</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(skoler)}">
+            <td colspan="5" class="text-center text-muted">Ingen skoler registrert enda.</td>
+        </tr>
+        </tbody>
+    </table>
 
-    <div class="row g-4">
-        <div class="col-sm-6 col-lg-3">
-            <a href="/leir/liste" class="text-decoration-none">
-                <div class="card text-center p-4">
-                    <h5><i class="fas fa-campground me-2"></i>Neste Leir</h5>
-                    <h3 th:text="${kommendeLeirAntall}">3</h3>
-                </div>
-            </a>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-            <a href="/deltaker/liste/1" class="text-decoration-none">
-                <div class="card text-center p-4">
-                    <h5><i class="fas fa-users me-2"></i>Totalt deltakere</h5>
-                    <h3 th:text="${deltakerCount}">120</h3>
-                </div>
-            </a>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-            <a href="/deltaker/liste/1?filter=allergi" class="text-decoration-none">
-                <div class="card text-center p-4">
-                    <h5><i class="fas fa-exclamation-triangle me-2 text-danger"></i>Med allergier</h5>
-                    <h3 th:text="${allergiCount}">16</h3>
-                </div>
-            </a>
-        </div>
-        <div class="col-sm-6 col-lg-3">
-            <a href="/hytte/liste/1" class="text-decoration-none">
-                <div class="card text-center p-4">
-                    <h5><i class="fas fa-house-user me-2"></i>Hytter i bruk</h5>
-                    <h3 th:text="${aktiveHytter}">8</h3>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <hr class="my-5">
-    <section aria-labelledby="snarveier">
-        <h4 id="snarveier"><i class="fas fa-bolt me-2"></i>Snarveier</h4>
-        <div class="row g-3 mt-2">
-            <div class="col-sm-6 col-md-3">
-                <a class="btn btn-outline-primary w-100" href="/leir/ny"><i class="fas fa-plus me-1"></i>Ny Leir</a>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <a class="btn btn-outline-primary w-100" href="/deltaker/ny/1"><i class="fas fa-user-plus me-1"></i>Ny Deltaker</a>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <a class="btn btn-outline-primary w-100" href="/hytte/liste/1"><i class="fas fa-cogs me-1"></i>Administrer Hytter</a>
-            </div>
-            <div class="col-sm-6 col-md-3">
-                <a class="btn btn-outline-primary w-100" href="/skole/ny"><i class="fas fa-school me-1"></i>Ny Skole</a>
-            </div>
-        </div>
-    </section>
+    <a href="/skole/ny" class="btn-add">➕ Opprett ny skole</a>
+    <a href="/" class="btn-add">🏠 Tilbake til Dashboard</a>
 </main>
 
-<div class="toast-container position-fixed top-0 end-0 p-3">
-    <div class="toast align-items-center text-bg-danger border-0" id="allergiToast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                <i class="fas fa-exclamation-circle me-2"></i>
-                Allergivarsel: Det er registrerte deltakere med allergier.
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Lukk"></button>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function toggleTheme() {
-      const body = document.body;
-      const icon = document.getElementById('themeIcon');
-      const isDark = body.classList.toggle('dark');
-      body.classList.toggle('light', !isDark);
-      icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    function toggleMenu() {
+        const menu = document.getElementById("mobileMenu");
+        const button = document.querySelector(".menu-button");
+        const isOpen = menu.classList.toggle("open");
+        button.setAttribute("aria-expanded", isOpen);
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const theme = localStorage.getItem('theme') || 'light';
-      document.body.classList.remove('light', 'dark');
-      document.body.classList.add(theme);
-      document.getElementById('themeIcon').className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-
-      const allergiEl = document.querySelector('[th\\:text="${allergiCount}"]');
-      const allergiAntall = parseInt(allergiEl?.textContent || "0");
-      if (allergiAntall > 0) {
-        const toast = new bootstrap.Toast(document.getElementById('allergiToast'));
-        toast.show();
-      }
+    document.addEventListener('click', function (e) {
+        const menu = document.getElementById("mobileMenu");
+        const button = document.querySelector(".menu-button");
+        if (!menu.contains(e.target) && !button.contains(e.target)) {
+            menu.classList.remove("open");
+            button.setAttribute("aria-expanded", "false");
+        }
     });
 </script>
-</body>
-</html>
 
-
-
-<!--
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="no">
-<head>
-    <meta charset="UTF-8">
-    <title>Skoleoversikt</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
-</head>
-<body>
-
-<!-- 🔹 Navigasjonsmeny
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">LeirskolePortalen</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#meny"
-                aria-controls="meny" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="meny">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" th:href="@{/}">Hjem</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/leir/liste}">Leirer</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/deltaker/liste/1}">Deltakere</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/innkvartering}">Innkvartering</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/admin/brukere}">Admin</a></li>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logg ut</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- 🔸 Innhold
-<div class="container my-5 pt-5">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">Skoleoversikt</h2>
-        <a class="btn btn-primary" th:href="@{/skole/ny}">➕ Legg til ny skole</a>
-    </div>
-
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle">
-            <thead class="table-light">
-            <tr>
-                <th>Navn</th>
-                <th>Kontaktperson</th>
-                <th>Telefon</th>
-                <th>E-post</th>
-                <th class="text-center">Handling</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="skole : ${skoler}">
-                <td th:text="${skole.navn}">Skolenavn</td>
-                <td th:text="${skole.kontaktperson}">Kontaktperson</td>
-                <td th:text="${skole.telefon}">Telefon</td>
-                <td th:text="${skole.epost}">E-post</td>
-                <td class="text-center">
-                    <a class="btn btn-sm btn-warning me-1" th:href="@{'/skole/rediger/' + ${skole.id}}">
-                        ✏️ Rediger
-                    </a>
-                    <a class="btn btn-sm btn-danger"
-                       th:href="@{'/skole/slett/' + ${skole.id}}"
-                       onclick="return confirm('Er du sikker på at du vil slette denne skolen?');">
-                        🗑️ Slett
-                    </a>
-                </td>
-            </tr>
-            <tr th:if="${#lists.isEmpty(skoler)}">
-                <td colspan="5" class="text-center text-muted">Ingen skoler registrert enda.</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Bootstrap JS
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

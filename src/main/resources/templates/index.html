@@ -1,206 +1,240 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leirskoleportalen</title>
+  <title>Dashboard - Leirskoleportalen</title>
   <style>
     body {
       margin: 0;
       font-family: "Helvetica Neue", sans-serif;
-      background-color: #e2e5e6;
-      color: #000;
+      background-color: #f1f5f8;
+      color: #222;
     }
 
     header {
+      background-color: #118090;
+      color: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem;
-      font-size: 1rem;
-      position: relative;
     }
 
     .logo {
       font-weight: bold;
+      font-size: 1.2rem;
       line-height: 1.2;
-      letter-spacing: 0.1rem;
-      padding-left: 0.5rem;
     }
 
-    .actions {
-      display: flex;
-      gap: 1.2rem;
-      align-items: center;
+    .actions a {
+      margin-left: 1rem;
+      color: white;
+      text-decoration: none;
     }
 
     .menu-button {
       background: none;
       border: none;
       cursor: pointer;
+      color: white;
     }
 
     .mobile-menu {
-      transform: translateX(-100%);
-      transition: transform 0.3s ease-in-out;
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
-      height: 100vh;
       width: 220px;
-      background: white;
-      border-right: 1px solid #ccc;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-      z-index: 100;
+      height: 100%;
+      background-color: white;
       padding: 2rem 1rem;
-      flex-direction: column;
-      display: flex;
-      role: navigation;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 999;
     }
 
     .mobile-menu.open {
-      transform: translateX(0);
+      display: flex;
+      flex-direction: column;
     }
 
     .mobile-menu a {
-      display: block;
       padding: 0.75rem 0;
+      color: #118090;
       text-decoration: none;
-      color: #000;
-      transition: background-color 0.2s;
+      font-weight: 500;
     }
 
-    .mobile-menu a:hover,
-    .mobile-menu a:focus {
-      background-color: #f1f1f1;
+    .mobile-menu a:hover {
+      background-color: #eefbfc;
     }
 
     main {
-      text-align: center;
       padding: 2rem 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
-    h1 {
-      font-size: 2rem;
+    .dashboard-header {
+      text-align: center;
       margin-bottom: 2rem;
     }
 
-    .options {
-      display: flex;
-      flex-direction: column;
+    .dashboard-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-header p {
+      color: #555;
+    }
+
+    .card-grid {
+      display: grid;
       gap: 1rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
 
-    .option {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
+    .card {
+      background: white;
+      border-radius: 8px;
       padding: 1.5rem;
-      border: 1px solid #cfeff2;
-      border-radius: 0.5rem;
-      background-color: #fff;
-      font-weight: bold;
-      font-size: 1.1rem;
+      text-align: center;
       text-decoration: none;
-      color: #000;
-      transition: background-color 0.2s;
+      color: #118090;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
     }
 
-    .option:hover {
-      background-color: #d9f0f3;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    .option svg {
-      margin-right: 1rem;
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
+    .card svg {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 0.75rem;
     }
 
-    .btn {
+    .btn-full {
+      display: inline-block;
+      margin-top: 2rem;
       padding: 0.75rem 1.5rem;
       background-color: #118090;
       color: white;
       border: none;
-      border-radius: 0.5rem;
+      border-radius: 6px;
       font-size: 1rem;
+      text-decoration: none;
       cursor: pointer;
     }
 
-    .btn:hover {
-      background-color: #0d6c77;
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #666;
     }
 
-    @media (min-width: 600px) {
-      .options {
-        flex-direction: row;
-      }
 
-      .option {
-        width: 250px;
-      }
-    }
   </style>
 </head>
 <body>
-<header>
-  <div style="display: flex; align-items: center; gap: 1rem;">
-    <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
-        <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-    </button>
 
-    <div class="logo">
-      LEIRSKOLE<br />PORTALEN
+<header>
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+
+    <!-- Venstre del -->
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+
+      <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
+        LEIRSKOLE<br />PORTALEN
+      </a>
+    </div>
+
+    <!-- Høyre del -->
+    <div class="actions" style="display: flex; align-items: center;">
+      <a href="#" aria-label="Søk">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <circle cx="11" cy="11" r="8" stroke-width="2"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+        </svg>
+      </a>
+      <a href="/login" aria-label="Logg inn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
+        </svg>
+      </a>
     </div>
   </div>
-
-  <div class="actions">
-    <a href="#" aria-label="Søk">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
-        <circle cx="11" cy="11" r="8" stroke-width="2"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
-      </svg>
-    </a>
-    <a href="/login" aria-label="Logg inn">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
-        <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
-      </svg>
-    </a>
-  </div>
-
-  <nav class="mobile-menu" id="mobileMenu" role="navigation">
-    <a href="/">Dashboard</a>
-    <a href="/leir/liste">Leirer</a>
-    <a href="/deltaker/liste/1">Deltakere</a>
-    <a href="/innkvartering">Innkvartering</a>
-    <a href="/risiko">Risikovurdering</a>
-    <a href="/skole/kunder">Skoler</a>
-    <a href="/skoleplan/liste">Skoleplaner</a>
-  </nav>
 </header>
 
 <main>
-  <h1>Hva vil du gjøre?</h1>
-  <div class="options">
-    <a class="option" href="/leir/liste">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 6l3 1 3-2 3 2 3-2 3 2 3-1v13H3V6z"/></svg>
-      Kommende leirer
+
+  <section class="dashboard-header">
+    <h1>Velkommen til Leirskoleportalen</h1>
+    <p>Velg hva du ønsker å administrere</p>
+  </section>
+
+  <section class="card-grid">
+    <a href="/leir/liste" class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-width="2" d="M3 6l3 1 3-2 3 2 3-2 3 2 3-1v13H3V6z"/>
+      </svg>
+      Leirer
     </a>
-    <a class="option" href="/deltaker/liste/1">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" stroke-width="2"/><path stroke-width="2" d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+
+    <a href="/deltaker/liste/1" class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4" stroke-width="2"/>
+        <path stroke-width="2" d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+      </svg>
       Deltakere
     </a>
-    <a class="option" href="/innkvartering">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M4 10V4h16v6M4 10v10h16V10M4 10l8 6 8-6"/></svg>
+
+    <a href="/innkvartering" class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-width="2" d="M4 10V4h16v6M4 10v10h16V10M4 10l8 6 8-6"/>
+      </svg>
       Innkvartering
     </a>
-  </div>
-  <a href="/leirskoleportal/tjenester" class="btn">Se alle funksjoner</a>
+
+    <a href="/skole/kunder" class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-width="2" d="M12 6v6h6"/>
+        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+      </svg>
+      Skoler
+    </a>
+
+    <a href="/skoleplan/liste" class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <rect width="16" height="12" x="4" y="6" stroke-width="2" rx="2"/>
+        <path stroke-width="2" d="M8 10h8M8 14h5"/>
+      </svg>
+      Skoleplaner
+    </a>
+
+    <a href="/risiko" class="card">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-width="2" d="M12 9v2m0 4h.01M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0z"/>
+      </svg>
+      Risikoanalyse
+    </a>
+  </section>
+
+  <a href="/leirskoleportal/tjenester" class="btn-full">Se alle funksjoner</a>
 </main>
+
+<footer>
+  &copy; 2025 Leirskoleportalen
+</footer>
 
 <script>
   function toggleMenu() {

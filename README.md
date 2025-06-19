@@ -2,12 +2,24 @@
 
 Dette er en enkel webapplikasjon for håndtering av deltagere, leirer og innkvartering for leirskoler. Prosjektet er under utvikling som en **Minimum Viable Product (MVP)**.
 
-## Status
+📌 Prosjektstatus: Under utvikling 🚧
+Leirskoleportalen er et pågående prosjekt med mål om å digitalisere og effektivisere informasjonsflyt og administrasjon knyttet til leirskoleopphold. Hovedfunksjonaliteten er under utvikling, og nye moduler legges til fortløpende.
 
-- Grunnleggende funksjonalitet for registrering og visning av deltagere er implementert.
-- Modellene for leirer og deltagere er på plass.
-- Planlegger å legge til dashboard, bedre brukergrensesnitt og flere funksjoner fremover.
-- Bootstrap er brukt for enkel styling av frontend.
+Hovedpunkter:
+
+✅ Grunnstruktur satt opp (frontend/backend)
+
+✅ Innlogging og autentisering (foreldre/elever/skole)
+
+🔄 Elevpåmelding og informasjonsskjemaer (delvis implementert)
+
+🔄 Kommunikasjon mellom skole og foreldre (påbegynt)
+
+🔜 Planlegging av aktiviteter og timeplaner
+
+🔜 Administratorpanel for skolen
+
+🔜 Push-varslinger og påminnelser
 
 ## Teknologier
 
@@ -18,24 +30,7 @@ Dette er en enkel webapplikasjon for håndtering av deltagere, leirer og innkvar
 - H2 database (for utvikling)
 - Bootstrap CSS
 
-+----------------------------------------+
-|                                        |
-|      WELCOME TO LEIRSKOLEPORTALEN      |
-|                                        |
-|       __________________________       |
-|      |                          |      |
-|      |         /\    /\         |      |
-|      |        /**\  /**\        |      |
-|      |       /****\/****\       |      |
-|      |      /    Hytte   \      |      |
-|      |     /_____/  \_____\     |      |
-|      |     | [] |    | [] |     |      |
-|      |     |____|____|____|     |      |
-|      |                          |      |
-|      |       Skog og stillhet    |     |
-|      |__________________________|      |
-|                                        |
-+----------------------------------------+
+
 
 
 © 2025 Filip Guz

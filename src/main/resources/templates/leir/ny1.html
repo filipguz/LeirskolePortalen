@@ -1,11 +1,10 @@
-
-<!-- V.1 -->
+<!-- V-1
 <!DOCTYPE html>
-<html lang="no" xmlns:th="http://www.thymeleaf.org">
+<html lang="no">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rediger leir | Leirskoleportalen</title>
+  <title>Opprett ny leir | Leirskoleportalen</title>
   <style>
     body {
       margin: 0;
@@ -27,6 +26,7 @@
       font-weight: bold;
       line-height: 1.2;
       letter-spacing: 0.1rem;
+      padding-left: 0.5rem;
     }
 
     .actions {
@@ -42,7 +42,8 @@
     }
 
     .mobile-menu {
-      display: none;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
       position: fixed;
       top: 0;
       left: 0;
@@ -54,10 +55,11 @@
       z-index: 100;
       padding: 2rem 1rem;
       flex-direction: column;
+      display: flex;
     }
 
     .mobile-menu.open {
-      display: flex;
+      transform: translateX(0);
     }
 
     .mobile-menu a {
@@ -65,10 +67,11 @@
       padding: 0.75rem 0;
       text-decoration: none;
       color: #000;
+      transition: background-color 0.2s;
     }
 
     .mobile-menu a:hover {
-      text-decoration: underline;
+      background-color: #f1f1f1;
     }
 
     main {
@@ -98,6 +101,7 @@
 
     input[type="text"],
     input[type="date"],
+    select,
     textarea {
       padding: 0.6rem;
       border: 1px solid #ccc;
@@ -124,62 +128,62 @@
   </style>
 </head>
 <body>
+
 <header>
   <div style="display: flex; align-items: center; gap: 1rem;">
-    <button class="menu-button" onclick="toggleMenu()" aria-label="Meny">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-           viewBox="0 0 24 24" width="24" height="24">
+    <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
         <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
       </svg>
     </button>
 
-    <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
+    <div class="logo">
       LEIRSKOLE<br />PORTALEN
-    </a>
+    </div>
   </div>
 
   <div class="actions">
     <a href="#" aria-label="Søk">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-           viewBox="0 0 24 24" width="24" height="24">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
         <circle cx="11" cy="11" r="8" stroke-width="2"/>
         <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
       </svg>
     </a>
     <a href="/login" aria-label="Logg inn">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-           viewBox="0 0 24 24" width="24" height="24">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
         <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
       </svg>
     </a>
   </div>
 
-  <div class="mobile-menu" id="mobileMenu">
+  <nav class="mobile-menu" id="mobileMenu" role="navigation">
     <a href="/leir/liste">Leirer</a>
     <a href="/deltaker/liste/1">Deltakere</a>
     <a href="/innkvartering">Innkvartering</a>
     <a href="/risiko">Risikovurdering</a>
     <a href="/skole/kunder">Skoler</a>
     <a href="/skoleplan/liste">Skoleplaner</a>
-  </div>
+  </nav>
 </header>
 
 <main>
-  <h1>Rediger leir</h1>
+  <h1>Opprett ny leir</h1>
 
-  <<form th:action="@{/leir/oppdater}" th:object="${leir}" method="post">
-  <input type="hidden" th:field="*{id}" />
-  <label>Navn: <input type="text" th:field="*{navn}" required /></label><br>
-  <label>Uke: <input type="number" th:field="*{uke}" min="1" max="53" /></label><br>
-  <label>Startdato: <input type="date" th:field="*{startDato}" required /></label><br>
-  <label>Sluttdato: <input type="date" th:field="*{sluttDato}" required /></label><br>
-  <label>Ansvarlig lærer: <input type="text" th:field="*{ansvarligLaerer}" /></label><br>
-  <label>Antall jenter: <input type="number" th:field="*{antallJenter}" min="0" /></label><br>
-  <label>Antall gutter: <input type="number" th:field="*{antallGutter}" min="0" /></label><br>
-  <label>Merknader: <textarea th:field="*{merknader}" rows="3"></textarea></label><br>
+  <form th:action="@{/leir/lagre}" th:object="${leir}" method="post">
+    <label for="navn">Leirnavn</label>
+    <input type="text" id="navn" th:field="*{navn}" required>
 
-  <button type="submit">Oppdater</button>
-</form>
+    <label for="startDato">Startdato</label>
+    <input type="date" id="startDato" th:field="*{startDato}" required>
+
+    <label for="sluttDato">Sluttdato</label>
+    <input type="date" id="sluttDato" th:field="*{sluttDato}" required>
+
+    <label for="ansvarligLaerer">Ansvarlig lærer</label>
+    <input type="text" id="ansvarligLaerer" th:field="*{ansvarligLaerer}" required>
+
+    <button type="submit">Lagre leir</button>
+  </form>
   <a href="/leir/ny" class="btn-add">➕ Opprett ny leir</a>
   <a href="/" class="btn-add">🏠 Tilbake til Dashboard</a>
 </main>

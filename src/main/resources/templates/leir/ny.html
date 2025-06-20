@@ -1,3 +1,4 @@
+<!-- V-1 -->
 <!DOCTYPE html>
 <html lang="no">
 <head>
@@ -169,20 +170,49 @@
   <h1>Opprett ny leir</h1>
 
   <form th:action="@{/leir/lagre}" th:object="${leir}" method="post">
-    <label for="navn">Leirnavn</label>
+    <label for="navn">Navn</label>
     <input type="text" id="navn" th:field="*{navn}" required>
 
+    <label for="uke">Uke</label>
+    <input type="number" id="uke" th:field="*{uke}">
+
     <label for="startDato">Startdato</label>
-    <input type="date" id="startDato" th:field="*{startDato}" required>
+    <input type="date" id="startDato" th:field="*{startDato}">
 
     <label for="sluttDato">Sluttdato</label>
-    <input type="date" id="sluttDato" th:field="*{sluttDato}" required>
+    <input type="date" id="sluttDato" th:field="*{sluttDato}">
 
     <label for="ansvarligLaerer">Ansvarlig lærer</label>
-    <input type="text" id="ansvarligLaerer" th:field="*{ansvarligLaerer}" required>
+    <input type="text" id="ansvarligLaerer" th:field="*{ansvarligLaerer}">
 
-    <button type="submit">Lagre leir</button>
+    <label for="antallJenter">Antall jenter</label>
+    <input type="number" id="antallJenter" th:field="*{antallJenter}">
+
+    <label for="antallGutter">Antall gutter</label>
+    <input type="number" id="antallGutter" th:field="*{antallGutter}">
+
+
+    <label for="merknader">Merknader</label>
+    <textarea id="merknader" th:field="*{merknader}" rows="4"></textarea>
+
+    <!-- skole opprett -->
+    <label for="skole">Skole</label>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <select id="skole" th:field="*{skole}" required>
+        <option value="">-- Velg skole --</option>
+        <option th:each="skole : ${skoler}"
+                th:value="${skole.id}"
+                th:text="${skole.navn}"
+                th:selected="${skole.id} == ${leir.skole?.id}">
+        </option>
+      </select>
+      <a href="/skole/ny" target="_blank" style="font-size: 0.9rem;">➕ Ny skole</a>
+    </div>
+
+    <button type="submit">Lagre</button>
   </form>
+<br>
+  <br>
   <a href="/leir/ny" class="btn-add">➕ Opprett ny leir</a>
   <a href="/" class="btn-add">🏠 Tilbake til Dashboard</a>
 </main>
@@ -207,3 +237,6 @@
 
 </body>
 </html>
+
+
+

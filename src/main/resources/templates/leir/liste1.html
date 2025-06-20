@@ -196,40 +196,32 @@
 </header>
 
 <main>
+    <h1>Leirskole – Oversikt over leirer</h1>
 
-    <h1>Leirskoleoversikt</h1>
-<br>
-    <a href="/leir/ny" class="button">➕ Ny leir</a>
-<br>
     <table>
         <thead>
         <tr>
             <th>Navn</th>
-            <th>Skole</th>
-            <th>Uke</th>
-            <th>Start</th>
-            <th>Slutt</th>
-            <th>Jenter</th>
-            <th>Gutter</th>
-            <th>Totalt</th>
-            <th>Handling</th>
+            <th>Startdato</th>
+            <th>Sluttdato</th>
+            <th>Ansvarlig lærer</th>
+            <th>Handlinger</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="leir : ${leirer}">
             <td th:text="${leir.navn}">Navn</td>
-            <td th:text="${leir.skole != null ? leir.skole.navn : '–'}">Skole</td>
-            <td th:text="${leir.uke}">Uke</td>
-            <td th:text="${leir.startDato}">Start</td>
-            <td th:text="${leir.sluttDato}">Slutt</td>
-            <td th:text="${leir.antallJenter}">0</td>
-            <td th:text="${leir.antallGutter}">0</td>
-            <td th:text="${leir.antallElever}">0</td>
+            <td th:text="${leir.startDato}">Startdato</td>
+            <td th:text="${leir.sluttDato}">Sluttdato</td>
+            <td th:text="${leir.ansvarligLaerer}">Ansvarlig lærer</td>
             <td>
-                <a th:href="@{/leir/rediger/{id}(id=${leir.id})}">Rediger</a>
-                <form th:action="@{/leir/slett/{id}(id=${leir.id})}" method="post" style="display:inline">
-                    <button type="submit" class="btn-delete" onclick="return confirm('Slett leiren?')">Slett</button>
-                </form>
+                <div class="actions">
+                    <a th:href="@{/leir/rediger/{id}(id=${leir.id})}" class="btn btn-edit">Rediger</a>
+                    <a th:href="@{/deltaker/liste/{id}(id=${leir.id})}" class="btn btn-view">Se deltakere</a>
+                    <form th:action="@{/leir/slett/{id}(id=${leir.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-delete" onclick="return confirm('Slett leiren?')">Slett</button>
+                    </form>
+                </div>
             </td>
         </tr>
         </tbody>

@@ -2,10 +2,12 @@ package com.example.LeirskolePortalen.controller;
 
 import com.example.LeirskolePortalen.model.Skole;
 import com.example.LeirskolePortalen.repository.SkoleRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -31,9 +33,12 @@ public class SkoleController {
 
     // Lagrer ny eller oppdatert skole i databasen
     @PostMapping("/lagre")
-    public String lagre(@ModelAttribute Skole skole) {
-        skoleRepo.save(skole); // Hvis ID finnes, oppdateres, ellers opprettes ny
-        return "redirect:/skole/kunder"; // Tilbake til listevisning
+    public ResponseEntity<Map<String, Object>> lagreSkole(@ModelAttribute Skole skole) {
+        skoleRepo.save(skole); // ✅ Bruker repo direkte
+        return ResponseEntity.ok(Map.of(
+                "id", skole.getId(),
+                "navn", skole.getNavn()
+        ));
     }
 
     // ===============================
@@ -69,10 +74,14 @@ public class SkoleController {
 
     // Sletter en skole basert på ID
     @GetMapping("/slett/{id}")
-    public String slett(@PathVariable Long id) {
-        if (skoleRepo.existsById(id)) {
+    public String slett(@PathVariable Long id, Model model) {
+        try {
             skoleRepo.deleteById(id);
+        } catch (Exception e) {
+            model.addAttribute("feil", "Kunne ikke slette skolen. Den er kanskje i bruk.");
+            model.addAttribute("skoler", skoleRepo.findAll());
+            return "skole/liste"; // Gå tilbake til visning med feilmelding
         }
-        return "redirect:/skole/kunder"; // Alltid tilbake til oversikten
+        return "redirect:/skole/kunder";
     }
 }

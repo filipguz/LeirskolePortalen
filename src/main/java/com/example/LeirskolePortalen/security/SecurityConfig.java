@@ -18,23 +18,8 @@ public class SecurityConfig {
     @Autowired
     private BrukerDetaljerService brukerDetaljerService;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf().disable()
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // Tillat alle forespørsler
-                )
-                .formLogin(form -> form
-                        .disable() // Deaktiver login-siden
-                )
-                .logout(logout -> logout
-                        .disable() // Deaktiver logout også, valgfritt
-                )
-                .build();
-    }
 
-    /*@Bean
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
@@ -56,7 +41,7 @@ public class SecurityConfig {
                 .build();
     }
 
-     */
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

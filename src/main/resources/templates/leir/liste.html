@@ -68,41 +68,43 @@
     <br>
 
 
-    <table class="table table-bordered table-hover">
-        <thead class="table-light">
-        <tr>
-            <th>Navn</th>
-            <th>Skole</th>
-            <th>Uke</th>
-            <th>Start</th>
-            <th>Slutt</th>
-            <th>Jenter</th>
-            <th>Gutter</th>
-            <th>Totalt</th>
-            <th>Handling</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="leir : ${leirer}">
-            <td th:text="${leir.navn}">Navn</td>
-            <td th:text="${leir.skole != null ? leir.skole.navn : '–'}">Skole</td>
-            <td th:text="${leir.uke}">Uke</td>
-            <td th:text="${leir.startDato}">Start</td>
-            <td th:text="${leir.sluttDato}">Slutt</td>
-            <td th:text="${leir.antallJenter}">0</td>
-            <td th:text="${leir.antallGutter}">0</td>
-            <td th:text="${leir.antallElever}">0</td>
-            <td class="d-flex gap-2">
-                <a th:href="@{/leir/rediger/{id}(id=${leir.id})}" class="btn btn-danger btn-sm" aria-label="Rediger leir">
-                    ✏️ Rediger
-                </a>
-                <form th:action="@{/leir/slett/{id}(id=${leir.id})}" method="post" onsubmit="return confirm('Slett leiren?')">
-                    <button type="submit" class="btn btn-danger btn-sm" aria-label="Slett leir">🗑️ Slett</button>
-                </form>
-        </tr>
-        </tbody>
-    </table>
-
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">Navn</th>
+                <th scope="col">Skole</th>
+                <th scope="col">Uke</th>
+                <th scope="col">Start</th>
+                <th scope="col">Slutt</th>
+                <th scope="col">Jenter</th>
+                <th scope="col">Gutter</th>
+                <th scope="col">Totalt</th>
+                <th scope="col">Handling</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="leir : ${leirer}">
+                <td th:text="${leir.navn}">Navn</td>
+                <td th:text="${leir.skole != null ? leir.skole.navn : '–'}">Skole</td>
+                <td th:text="${leir.uke}">Uke</td>
+                <td th:text="${leir.startDato}">Start</td>
+                <td th:text="${leir.sluttDato}">Slutt</td>
+                <td th:text="${leir.antallJenter}">0</td>
+                <td th:text="${leir.antallGutter}">0</td>
+                <td th:text="${leir.antallElever}">0</td>
+                <td class="d-flex flex-wrap gap-2">
+                    <a th:href="@{/leir/rediger/{id}(id=${leir.id})}" class="btn btn-danger btn-sm" aria-label="Rediger leir">
+                        ✏️ Rediger
+                    </a>
+                    <form th:action="@{/leir/slett/{id}(id=${leir.id})}" method="post" onsubmit="return confirm('Slett leiren?')">
+                        <button type="submit" class="btn btn-danger btn-sm" aria-label="Slett leir">🗑️ Slett</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 
 </main>

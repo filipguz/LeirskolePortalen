@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leiroversikt - Leirskoleportalen</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -56,9 +57,12 @@
 
     <h1 class="mb-4">Leirskoleoversikt</h1>
 
-    <a href="/leir/ny" class="btn btn-success mb-3" aria-label="Opprett ny leir">
+    <a href="/leir/ny" class="btn btn-light" aria-label="Opprett ny leir">
         ➕ Ny leir
     </a>
+    <br>
+    <br>
+
 
     <table class="table table-bordered table-hover">
         <thead class="table-light">
@@ -85,20 +89,23 @@
             <td th:text="${leir.antallGutter}">0</td>
             <td th:text="${leir.antallElever}">0</td>
             <td class="d-flex gap-2">
-                <a th:href="@{/leir/rediger/{id}(id=${leir.id})}" class="btn btn-outline-primary btn-sm" aria-label="Rediger leir">
+                <a th:href="@{/leir/rediger/{id}(id=${leir.id})}" class="btn btn-danger btn-sm" aria-label="Rediger leir">
                     ✏️ Rediger
                 </a>
                 <form th:action="@{/leir/slett/{id}(id=${leir.id})}" method="post" onsubmit="return confirm('Slett leiren?')">
                     <button type="submit" class="btn btn-danger btn-sm" aria-label="Slett leir">🗑️ Slett</button>
                 </form>
-            </td>
         </tr>
         </tbody>
     </table>
 
     <div class="d-flex gap-3 mt-4">
-        <a href="/leir/ny" class="btn btn-success" aria-label="Opprett ny leir">➕ Opprett ny leir</a>
-        <a href="/" class="btn btn-secondary" aria-label="Tilbake til dashboard">🏠 Tilbake til Dashboard</a>
+        <a href="/leir/ny" class="btn btn-light" aria-label="Opprett ny leir">
+            <i class="fas fa-plus"></i> Opprett ny leir
+        </a>
+        <a href="/" class="btn btn-light" aria-label="Tilbake til dashboard">
+            <i class="fas fa-home"></i> Tilbake til Dashboard
+        </a>
     </div>
 
 </main>

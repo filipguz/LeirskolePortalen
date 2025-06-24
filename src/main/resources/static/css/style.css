@@ -78,6 +78,11 @@ header {
   background-color: #f1f1f1;
 }
 
+.mobile-menu a i {
+  margin-right: 8px;
+}
+
+
 /* ========== Main content ========== */
 main {
   max-width: 900px;

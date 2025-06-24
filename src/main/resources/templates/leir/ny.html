@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Opprett ny leir | Leirskoleportalen</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+  />
   <style>
     body {
       margin: 0;
@@ -284,10 +289,14 @@
     <button type="submit">Lagre</button>
   </form>
 
-  <br><br>
+  <br>
+  <div class="d-flex gap-3 mt-4">
+    <a href="#" onclick="openModal(); return false;" class="btn btn-light" style="font-size: 0.9rem;">➕ Ny skole</a>
 
-  <a href="/">🏠 Tilbake til Dashboard</a>
-  <a href="#" onclick="openModal(); return false;" style="font-size: 0.9rem;">➕ Ny skole</a>
+    <a href="/" class="btn btn-light" aria-label="Tilbake til dashboard">
+      <i class="fas fa-home"></i> Tilbake til Dashboard
+    </a>
+  </div>
 </main>
 
 <!-- Modal for ny skole -->

@@ -22,6 +22,22 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll() // Tillat alle forespørsler
+                )
+                .formLogin(form -> form
+                        .disable() // Deaktiver login-siden
+                )
+                .logout(logout -> logout
+                        .disable() // Deaktiver logout også, valgfritt
+                )
+                .build();
+    }
+
+    /*@Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf().disable()
                 .authorizeHttpRequests(auth -> auth    // I SecurityFilterChain, kan du styre hva ulike brukere har tilgang til:
                         .requestMatchers("/register", "/login", "/css/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -39,6 +55,8 @@ public class SecurityConfig {
                 .userDetailsService(brukerDetaljerService)
                 .build();
     }
+
+     */
 
     @Bean
     public PasswordEncoder passwordEncoder() {

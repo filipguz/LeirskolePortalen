@@ -1,94 +1,220 @@
-<style>
-    :root {
-      --bg-light: #f9fafb;
-      --text-light: #212529;
-      --card-bg-light: #fff;
-      --bg-dark: #212529;
-      --text-dark: #f8f9fa;
-      --card-bg-dark: #2c2f33;
-    }
+/* ========== Global styles ========== */
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", sans-serif;
+  background-color: #f1f5f8;
+  color: #222;
+}
 
-    body.light {
-      background-color: var(--bg-light);
-      color: var(--text-light);
-    }
+/* ========== Header & Navigation ========== */
+header {
+  background-color: #118090;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
 
-    body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
 
-    .card {
-      border-radius: 1rem;
-      transition: transform 0.2s, background-color 0.3s;
-    }
+.actions a {
+  margin-left: 1rem;
+  color: white;
+  text-decoration: none;
+}
 
-    .card:hover {
-      transform: translateY(-3px);
-    }
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+}
 
-    body.light .card {
-      background-color: var(--card-bg-light);
-      color: var(--text-light);
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-    }
+.footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  width: 100%;
+  margin: 0 auto;
+  color: #666; /* valgfritt, kan ha fargen her */
+  font-size: 0.9rem;
+}
 
-    body.dark .card {
-      background-color: var(--card-bg-dark);
-      color: var(--text-dark);
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
-    }
+/* ========== Mobile menu ========== */
+.mobile-menu {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 220px;
+  background: white;
+  border-right: 1px solid #ccc;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 2rem 1rem;
+  flex-direction: column;
+  display: flex;
+}
 
-    .theme-toggle {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      color: inherit;
-      margin-left: 1rem;
-      cursor: pointer;
-    }
+.mobile-menu.open {
+  transform: translateX(0);
+}
 
-    #navbar {
-      transition: background-color 0.3s, color 0.3s;
-    }
+.mobile-menu a {
+  display: block;
+  padding: 0.75rem 0;
+  text-decoration: none;
+  color: #000;
+  transition: background-color 0.2s;
+}
 
-    body.light #navbar {
-      background-color: #ffffff;
-      color: #212529;
-    }
+.mobile-menu a:hover {
+  background-color: #f1f1f1;
+}
 
-    body.dark #navbar {
-      background-color: #1a1a1a;
-      color: #f8f9fa;
-    }
+/* ========== Main content ========== */
+main {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 
-    body.dark #navbar .nav-link,
-    body.dark #navbar .navbar-brand {
-      color: #f8f9fa !important;
+/* ========== Typography ========== */
+h1 {
+  text-align: center;
+  color: #118090;
+  margin-bottom: 2rem;
+}
 
-    }
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
 
-    body.light #navbar .nav-link,
-    body.light #navbar .navbar-brand {
-      color: #212529 !important;
-    }
+.dashboard-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
 
-    .navbar-collapse.show {
-      background-color: inherit;
-    }
+.dashboard-header p {
+  color: #555;
+}
 
+/* ========== Table styling ========== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 
+th, td {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
 
-    /* Responsiv forbedring */
-    .card h5 {
-      font-size: 1rem;
-    }
+th {
+  background-color: #e5f9fb;
+  color: #118090;
+  font-weight: bold;
+}
 
-    .card h3 {
-      font-size: 2rem;
-    }
+tr:hover {
+  background-color: #f0f7f8;
+}
 
-    .lead {
-      font-size: 1.1rem;
-    }
-  </style>
+/* ========== Card components ========== */
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: #118090;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 0.75rem;
+}
+
+/* ========== Buttons ========== */
+/* Bootstrap-inspirerte knapper */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: #118090;
+  color: white;
+  border-color: #118090;
+}
+
+.btn-primary:hover {
+  background-color: #0d6c77;
+  border-color: #0d6c77;
+}
+
+.btn-danger {
+  background-color: #c0392b;
+  color: white;
+  border-color: #c0392b;
+}
+
+.btn-danger:hover {
+  background-color: #a93226;
+  border-color: #a93226;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #5a6268;
+}
+
+.btn-full {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #118090;
+  color: w

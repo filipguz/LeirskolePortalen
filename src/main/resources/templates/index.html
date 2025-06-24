@@ -4,141 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - Leirskoleportalen</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Helvetica Neue", sans-serif;
-      background-color: #f1f5f8;
-      color: #222;
-    }
-
-    header {
-      background-color: #118090;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-    }
-
-    .logo {
-      font-weight: bold;
-      font-size: 1.2rem;
-      line-height: 1.2;
-    }
-
-    .actions a {
-      margin-left: 1rem;
-      color: white;
-      text-decoration: none;
-    }
-
-    .menu-button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: white;
-    }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 220px;
-      height: 100%;
-      background-color: white;
-      padding: 2rem 1rem;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-      z-index: 999;
-    }
-
-    .mobile-menu.open {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .mobile-menu a {
-      padding: 0.75rem 0;
-      color: #118090;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .mobile-menu a:hover {
-      background-color: #eefbfc;
-    }
-
-    main {
-      padding: 2rem 1rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .dashboard-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .dashboard-header h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .dashboard-header p {
-      color: #555;
-    }
-
-    .card-grid {
-      display: grid;
-      gap: 1rem;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 1.5rem;
-      text-align: center;
-      text-decoration: none;
-      color: #118090;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .card svg {
-      width: 32px;
-      height: 32px;
-      margin-bottom: 0.75rem;
-    }
-
-    .btn-full {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.75rem 1.5rem;
-      background-color: #118090;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-
-  </style>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
 
@@ -237,11 +103,10 @@
     </a>
   </section>
 
-  <a href="/leirskoleportal/tjenester" class="btn-full">Se alle funksjoner</a>
 </main>
 <br>
 <br>
-<footer>
+<footer class="footer">
   &copy; 2025 Leirskoleportalen
 </footer>
 

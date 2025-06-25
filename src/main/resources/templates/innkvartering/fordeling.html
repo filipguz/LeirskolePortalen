@@ -55,6 +55,73 @@
 </header>
 
 <main>
+  <h1>Innkvartering av deltagere</h1>
+<p> Her kan du fordele dine deltagere i hytter</p>
+  <!-- Knapper for å åpne modalene -->
+  <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#nyDeltagerModal">
+    ➕ Ny deltager
+  </button>
+
+  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#nyHytteModal">
+    ➕ Ny hytte
+  </button>
+
+  <!-- Modal: Ny Deltager -->
+  <div class="modal fade" id="nyDeltagerModal" tabindex="-1" aria-labelledby="nyDeltagerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form action="/deltaker/lagre" method="post" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nyDeltagerModalLabel">Ny deltager</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="deltagerNavn" class="form-label">Navn</label>
+            <input type="text" class="form-control" id="deltagerNavn" name="navn" required />
+          </div>
+          <div class="mb-3">
+            <label for="deltagerAlder" class="form-label">Alder</label>
+            <input type="number" class="form-control" id="deltagerAlder" name="alder" min="0" />
+          </div>
+          <!-- Legg til flere felter etter behov -->
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Lagre deltager</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Ny Hytte -->
+  <div class="modal fade" id="nyHytteModal" tabindex="-1" aria-labelledby="nyHytteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form action="/hytte/opprett" method="post" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nyHytteModalLabel">Ny hytte</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Lukk"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="hytteNavn" class="form-label">Navn</label>
+            <input type="text" class="form-control" id="hytteNavn" name="navn" required />
+          </div>
+          <input type="hidden" name="leirId" value="<!-- sett inn riktig leirId her -->" />
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Lagre hytte</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<br>
+  <br>
   <div class="container">
     <div class="row g-4" id="hytteContainer">
       <!-- Thymeleaf starter her -->

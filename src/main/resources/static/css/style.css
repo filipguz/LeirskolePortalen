@@ -280,3 +280,37 @@ tr:hover {
       font-weight: bold;
       cursor: pointer;
     }
+
+    /* Hytte */
+      .hytte-card {
+        min-height: 300px;
+        border: 2px dashed #ccc;
+        border-radius: 1rem;
+        padding: 1rem;
+        background-color: #f9f9f9;
+        transition: background-color 0.3s;
+      }
+
+      .hytte-card.drag-over {
+        background-color: #e0f7fa;
+        border-color: #00bcd4;
+      }
+
+      .deltaker-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 0.75rem;
+        padding: 0.5rem 1rem;
+        margin-bottom: 0.5rem;
+        cursor: grab;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .deltaker-card:active {
+        cursor: grabbing;
+      }
+
+      .hytte-header {
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }

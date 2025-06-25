@@ -55,87 +55,106 @@
 </header>
 
 <main>
-  <h1>Innkvartering</h1>
-
-  <div class="hytte">
-    <h2>Hytte 1</h2>
-    <div class="deltaker">Anna</div>
-    <div class="deltaker">Jonas</div>
-    <div class="drop-zone-label">Dra deltakere hit</div>
+  <div class="container">
+    <div class="row g-4" id="hytteContainer">
+      <!-- Thymeleaf starter her -->
+      <div class="col-md-4" th:each="hytte : ${hytter}">
+        <div class="hytte-card"
+             th:attr="data-hytte-id=${hytte.id}"
+             ondragover="allowDrop(event)"
+             ondrop="drop(event)"
+             ondragleave="leaveDrop(event)"
+             ondragenter="enterDrop(event)">
+          <div class="hytte-header" th:text="${hytte.navn}">Hyttenavn</div>
+          <div class="deltakere-liste">
+            <div class="deltaker-card"
+                 th:each="deltaker : ${deltakere}"
+                 th:if="${deltaker.hytte?.id} == ${hytte.id}"
+                 th:attr="draggable=true, ondragstart='drag(event)', data-deltaker-id=${deltaker.id}">
+              <i class="fas fa-user"></i> <span th:text="${deltaker.navn}">Navn</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Thymeleaf slutter her -->
+    </div>
   </div>
 
-  <div class="hytte">
-    <h2>Hytte 2</h2>
-    <div class="deltaker">Sofie</div>
-    <div class="drop-zone-label">Dra deltakere hit</div>
+  <!-- Ufordelte deltakere flytende panel -->
+  <div id="ufordeltePanel"
+       class="card shadow"
+       style="position: fixed; top: 80px; right: 20px; width: 250px; max-height: 80vh; overflow-y: auto; z-index: 999; background-color: white; border-radius: 1rem; padding: 1rem;"
+       ondrop="dropToUnassigned(event)"
+       ondragover="allowDrop(event)">
+    <h5 class="mb-3">Ufordelte</h5>
+    <div class="deltakere-liste" id="ufordelteListe">
+      <div class="deltaker-card"
+           th:each="deltaker : ${deltakere}"
+           th:if="${deltaker.hytte} == null"
+           th:attr="draggable=true, ondragstart='drag(event)', data-deltaker-id=${deltaker.id}">
+        <i class="fas fa-user"></i> <span th:text="${deltaker.navn}">Navn</span>
+      </div>
+    </div>
   </div>
 
-  <div class="hytte">
-    <h2>Ufordelte deltakere</h2>
-    <div class="deltaker">Emil</div>
-    <div class="drop-zone-label">Slipp her for å fjerne fra hytte</div>
-  </div>
-</main>
+  <script>
+    let draggedId = null;
 
-<script>
-  function toggleMenu() {
-    const menu = document.getElementById("mobileMenu");
-    const button = document.querySelector(".menu-button");
-    const isOpen = menu.classList.toggle("open");
-    button.setAttribute("aria-expanded", isOpen);
-  }
-
-  document.addEventListener('click', function (e) {
-    const menu = document.getElementById("mobileMenu");
-    const button = document.querySelector(".menu-button");
-    if (!menu.contains(e.target) && !button.contains(e.target)) {
-      menu.classList.remove("open");
-      button.setAttribute("aria-expanded", "false");
+    function allowDrop(ev) {
+      ev.preventDefault();
     }
-  });
 
-  // === Drag and Drop ===
-  let draggedItem = null;
+    function drag(ev) {
+      draggedId = ev.target.getAttribute("data-deltaker-id");
+    }
 
-  function initDragAndDrop() {
-    const deltakere = document.querySelectorAll('.deltaker');
-    const hytter = document.querySelectorAll('.hytte');
+    function drop(ev) {
+      ev.preventDefault();
+      const target = ev.currentTarget;
+      target.classList.remove("drag-over");
 
-    deltakere.forEach(d => {
-      d.setAttribute('draggable', true);
+      const hytteId = target.getAttribute("data-hytte-id");
+      const deltakerElem = document.querySelector(`[data-deltaker-id='${draggedId}']`);
 
-      d.addEventListener('dragstart', (e) => {
-        draggedItem = d;
-        e.dataTransfer.effectAllowed = "move";
-        setTimeout(() => {
-          d.style.display = 'none';
-        }, 0);
-      });
+      // Legg til deltaker visuelt
+      target.querySelector(".deltakere-liste").appendChild(deltakerElem);
 
-      d.addEventListener('dragend', () => {
-        setTimeout(() => {
-          draggedItem.style.display = 'block';
-          draggedItem = null;
-        }, 0);
-      });
-    });
+      // Backend-kall
+      const formData = new URLSearchParams();
+      formData.append("deltakerId", draggedId);
+      if (hytteId) formData.append("hytteId", hytteId);
 
-    hytter.forEach(hytte => {
-      hytte.addEventListener('dragover', (e) => {
-        e.preventDefault();
-      });
+      fetch("/innkvartering/flytt", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData.toString()
+      }).catch(err => alert("Feil ved lagring: " + err.message));
+    }
 
-      hytte.addEventListener('drop', (e) => {
-        e.preventDefault();
-        if (draggedItem) {
-          const dropLabel = hytte.querySelector('.drop-zone-label');
-          hytte.insertBefore(draggedItem, dropLabel);
-        }
-      });
-    });
-  }
+    function dropToUnassigned(ev) {
+      ev.preventDefault();
+      const deltakerElem = document.querySelector(`[data-deltaker-id='${draggedId}']`);
+      document.getElementById("ufordelteListe").appendChild(deltakerElem);
 
-  document.addEventListener('DOMContentLoaded', initDragAndDrop);
-</script>
+      // Backend: Fjern deltaker fra hytte
+      fetch("/innkvartering/fjern", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "deltakerId=" + encodeURIComponent(draggedId)
+      }).catch(err => alert("Feil ved fjerning: " + err.message));
+    }
+
+    function enterDrop(ev) {
+      ev.preventDefault();
+      ev.currentTarget.classList.add("drag-over");
+    }
+
+    function leaveDrop(ev) {
+      ev.currentTarget.classList.remove("drag-over");
+    }
+  </script>
+
+
+
 </body>
 </html>

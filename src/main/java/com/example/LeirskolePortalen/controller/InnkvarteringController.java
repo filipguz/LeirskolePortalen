@@ -35,23 +35,27 @@ public class InnkvarteringController {
 
     // Kalles fra frontend (f.eks. via JavaScript) for å endre deltakers plassering
     @PostMapping("/flytt")
-    @ResponseBody // Returnerer tekst som respons (ikke HTML-side)
+    @ResponseBody
     public ResponseEntity<String> flyttDeltaker(@RequestParam Long deltakerId,
                                                 @RequestParam(required = false) Long hytteId) {
-        // Hent deltaker fra databasen eller kast feil hvis ikke funnet
-        Deltaker deltaker = deltakerRepo.findById(deltakerId).orElseThrow();
+        try {
+            Deltaker deltaker = deltakerRepo.findById(deltakerId)
+                    .orElseThrow(() -> new IllegalArgumentException("Deltaker ikke funnet"));
 
-        if (hytteId != null) {
-            // Hvis ny hytte er angitt, finn den og tildel
-            Hytte hytte = hytteRepo.findById(hytteId).orElseThrow();
-            deltaker.setHytte(hytte);
-        } else {
-            // Hvis ingen hytte er valgt, fjern deltaker fra hytte
-            deltaker.setHytte(null);
+            if (hytteId != null) {
+                Hytte hytte = hytteRepo.findById(hytteId)
+                        .orElseThrow(() -> new IllegalArgumentException("Hytte ikke funnet"));
+                deltaker.setHytte(hytte);
+            } else {
+                deltaker.setHytte(null);
+            }
+
+            deltakerRepo.save(deltaker);
+            return ResponseEntity.ok("Flyttet deltaker");
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        deltakerRepo.save(deltaker); // Lagre endringen
-        return ResponseEntity.ok("Flyttet");
     }
 
     // ---------- CREATE: (valgfritt) Sett deltaker direkte i hytte ved opprettelse ----------

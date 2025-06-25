@@ -1,11 +1,14 @@
 package com.example.LeirskolePortalen.controller;
 
 import com.example.LeirskolePortalen.model.Leir;
+import com.example.LeirskolePortalen.model.Skole;
 import com.example.LeirskolePortalen.repository.LeirRepository;
 import com.example.LeirskolePortalen.repository.SkoleRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/leir")
@@ -28,7 +31,11 @@ public class LeirController {
     }
 
     @PostMapping("/lagre")
-    public String lagreLeir(@ModelAttribute Leir leir) {
+    public String lagreLeir(@RequestParam List<Long> skoler, @ModelAttribute Leir leir) {
+        List<Skole> skoleList = skoleRepo.findAllById(skoler);
+        leir.setSkoler(skoleList);
+
+        // evt sett antall elever
         if (leir.getAntallJenter() != null && leir.getAntallGutter() != null) {
             leir.setAntallElever(leir.getAntallJenter() + leir.getAntallGutter());
         }

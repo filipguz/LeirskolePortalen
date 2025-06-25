@@ -2,6 +2,7 @@ package com.example.LeirskolePortalen.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,16 +40,26 @@ public class Leir {
     @OneToMany(mappedBy = "leir")
     private List<Deltaker> deltakere;
 
-    @OneToMany(mappedBy = "leir")
-    private List<SkolePlan> skoleplan;
+    @ManyToMany // eller @OneToMany, avhengig av relasjonen
+    private List<Skole> skoler = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "skole_id") // Valgfritt: navnet på kolonnen i databasen
     private Skole skole;
 
 
+
+
     // ---------- Getters og Setters ----------
 
+    public List<Skole> getSkoler() {
+        return skoler;
+    }
+
+    // Setter for skoler
+    public void setSkoler(List<Skole> skoler) {
+        this.skoler = skoler;
+    }
 
     public Skole getSkole() { return skole; }
     public void setSkole(Skole skole) { this.skole = skole; }
@@ -101,8 +112,8 @@ public class Leir {
     public List<Deltaker> getDeltakere() { return deltakere; }
     public void setDeltakere(List<Deltaker> deltakere) { this.deltakere = deltakere; }
 
-    public List<SkolePlan> getSkoleplan() { return skoleplan; }
-    public void setSkoleplan(List<SkolePlan> skoleplan) { this.skoleplan = skoleplan; }
+    //public List<SkolePlan> getSkoleplan() { return skoleplan; }
+   // public void setSkoleplan(List<SkolePlan> skoleplan) { this.skoleplan = skoleplan; }
 }
 
 

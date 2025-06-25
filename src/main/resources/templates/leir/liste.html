@@ -87,7 +87,11 @@
             <tbody>
             <tr th:each="leir : ${leirer}">
                 <td th:text="${leir.navn}">Navn</td>
-                <td th:text="${leir.skole != null ? leir.skole.navn : '–'}">Skole</td>
+                <td>
+                    <ul style="padding-left: 1rem; margin: 0;">
+                        <li th:each="skole : ${leir.skoler}" th:text="${skole.navn}"></li>
+                    </ul>
+                </td>
                 <td th:text="${leir.uke}">Uke</td>
                 <td th:text="${leir.startDato}">Start</td>
                 <td th:text="${leir.sluttDato}">Slutt</td>

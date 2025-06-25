@@ -1,11 +1,9 @@
-
-<!-- V.1 -->
 <!DOCTYPE html>
 <html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rediger leir | Leirskoleportalen</title>
+  <title>Dashboard - Leirskoleportalen</title>
   <link rel="stylesheet" th:href="@{/css/style.css}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link
@@ -14,43 +12,45 @@
   />
 </head>
 <body>
+
 <header>
-  <div style="display: flex; align-items: center; gap: 1rem;">
-    <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-           viewBox="0 0 24 24" width="24" height="24">
-        <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-    </button>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="/leir/liste"><i class="fas fa-campground"></i> Leirer</a>
+    <a href="/deltaker/liste/1"><i class="fas fa-users"></i> Deltakere</a>
+    <a href="/innkvartering"><i class="fas fa-bed"></i> Innkvartering</a>
+    <a href="/skole/kunder"><i class="fas fa-school"></i> Skoler</a>
+    <a href="/skoleplan/liste"><i class="fas fa-calendar-alt"></i> Skoleplaner</a>
+    <a href="/risiko"><i class="fas fa-exclamation-triangle"></i> Risikoanalyse</a>
+  </nav>
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
 
-    <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
-      LEIRSKOLE<br />PORTALEN
-    </a>
-  </div>
+    <!-- Venstre del -->
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
 
-  <div class="actions">
-    <a href="#" aria-label="Søk">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-           viewBox="0 0 24 24" width="24" height="24">
-        <circle cx="11" cy="11" r="8" stroke-width="2"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
-      </svg>
-    </a>
-    <a href="/login" aria-label="Logg inn">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-           viewBox="0 0 24 24" width="24" height="24">
-        <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
-      </svg>
-    </a>
-  </div>
+      <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
+        LEIRSKOLE<br />PORTALEN
+      </a>
+    </div>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="/leir/liste">Leirer</a>
-    <a href="/deltaker/liste/1">Deltakere</a>
-    <a href="/innkvartering">Innkvartering</a>
-    <a href="/risiko">Risikovurdering</a>
-    <a href="/skole/kunder">Skoler</a>
-    <a href="/skoleplan/liste">Skoleplaner</a>
+    <!-- Høyre del -->
+    <div class="actions" style="display: flex; align-items: center;">
+      <a href="#" aria-label="Søk">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <circle cx="11" cy="11" r="8" stroke-width="2"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+        </svg>
+      </a>
+      <a href="/login" aria-label="Logg inn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </header>
 

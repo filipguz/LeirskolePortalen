@@ -3,191 +3,55 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skoler | Leirskoleportalen</title>
-    <style>
-        body {
-          margin: 0;
-          font-family: "Helvetica Neue", sans-serif;
-          background-color: #e5f9fb;
-          color: #000;
-        }
-
-        header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1rem;
-          font-size: 1rem;
-          position: relative;
-        }
-
-        .logo {
-          font-weight: bold;
-          line-height: 1.2;
-          letter-spacing: 0.1rem;
-          padding-left: 0.5rem;
-        }
-
-        .actions {
-          display: flex;
-          gap: 1.2rem;
-          align-items: center;
-        }
-
-        .menu-button {
-          background: none;
-          border: none;
-          cursor: pointer;
-        }
-
-        .mobile-menu {
-          transform: translateX(-100%);
-          transition: transform 0.3s ease-in-out;
-          position: fixed;
-          top: 0;
-          left: 0;
-          height: 100vh;
-          width: 220px;
-          background: white;
-          border-right: 1px solid #ccc;
-          box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-          z-index: 100;
-          padding: 2rem 1rem;
-          flex-direction: column;
-          display: flex;
-        }
-
-        .mobile-menu.open {
-          transform: translateX(0);
-        }
-
-        .mobile-menu a {
-          display: block;
-          padding: 0.75rem 0;
-          text-decoration: none;
-          color: #000;
-          transition: background-color 0.2s;
-        }
-
-        .mobile-menu a:hover {
-          background-color: #f1f1f1;
-        }
-
-        main {
-          max-width: 900px;
-          margin: 2rem auto;
-          background: #fff;
-          padding: 2rem;
-          border-radius: 0.5rem;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        h1 {
-          text-align: center;
-          color: #118090;
-          margin-bottom: 2rem;
-        }
-
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          background-color: white;
-          border-radius: 0.5rem;
-          overflow: hidden;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        th, td {
-          padding: 1rem;
-          border-bottom: 1px solid #eee;
-          text-align: left;
-        }
-
-        th {
-          background-color: #e5f9fb;
-          color: #118090;
-          font-weight: bold;
-        }
-
-        tr:hover {
-          background-color: #f0f7f8;
-        }
-
-        .btn {
-          padding: 0.4rem 0.8rem;
-          font-size: 0.9rem;
-          border: none;
-          border-radius: 0.4rem;
-          text-decoration: none;
-          color: white;
-          cursor: pointer;
-        }
-
-        .btn-edit {
-          background-color: #0d6c77;
-        }
-
-        .btn-delete {
-          background-color: #c0392b;
-        }
-
-        .btn-add {
-          display: inline-block;
-          margin-top: 2rem;
-          padding: 0.75rem 1.5rem;
-          background-color: #118090;
-          color: white;
-          border: none;
-          border-radius: 0.5rem;
-          font-size: 1rem;
-          text-decoration: none;
-          text-align: center;
-        }
-
-        .btn-add:hover {
-          background-color: #0d6c77;
-        }
-    </style>
+    <title>Dashboard - Leirskoleportalen</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
 </head>
 <body>
 
 <header>
-    <div style="display: flex; align-items: center; gap: 1rem;">
-        <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                 viewBox="0 0 24 24" width="24" height="24">
-                <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-        </button>
-
-        <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
-            LEIRSKOLE<br />PORTALEN
-        </a>
-    </div>
-
-    <div class="actions">
-        <a href="#" aria-label="Søk">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                 viewBox="0 0 24 24" width="24" height="24">
-                <circle cx="11" cy="11" r="8" stroke-width="2"/>
-                <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
-            </svg>
-        </a>
-        <a href="/login" aria-label="Logg inn">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-                 viewBox="0 0 24 24" width="24" height="24">
-                <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
-            </svg>
-        </a>
-    </div>
-
-    <nav class="mobile-menu" id="mobileMenu" role="navigation">
-        <a href="/leir/liste">Leirer</a>
-        <a href="/deltaker/liste/1">Deltakere</a>
-        <a href="/innkvartering">Innkvartering</a>
-        <a href="/risiko">Risikovurdering</a>
-        <a href="/skole/kunder">Skoler</a>
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="/leir/liste"><i class="fas fa-campground"></i> Leirer</a>
+        <a href="/deltaker/liste/1"><i class="fas fa-users"></i> Deltakere</a>
+        <a href="/innkvartering"><i class="fas fa-bed"></i> Innkvartering</a>
+        <a href="/skole/kunder"><i class="fas fa-school"></i> Skoler</a>
+        <a href="/skoleplan/liste"><i class="fas fa-calendar-alt"></i> Skoleplaner</a>
+        <a href="/risiko"><i class="fas fa-exclamation-triangle"></i> Risikoanalyse</a>
     </nav>
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+
+        <!-- Venstre del -->
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+
+            <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
+                LEIRSKOLE<br />PORTALEN
+            </a>
+        </div>
+
+        <!-- Høyre del -->
+        <div class="actions" style="display: flex; align-items: center;">
+            <a href="#" aria-label="Søk">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+                </svg>
+            </a>
+            <a href="/login" aria-label="Logg inn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
+                </svg>
+            </a>
+        </div>
+    </div>
 </header>
 
 <main>
@@ -211,9 +75,9 @@
             <td th:text="${skole.epost}">E-post</td>
             <td>
                 <div class="actions">
-                    <a th:href="@{'/skole/rediger/' + ${skole.id}}" class="btn btn-edit">Rediger</a>
+                    <a th:href="@{'/skole/rediger/' + ${skole.id}}" class="btn btn-warning btn-sm">Rediger</a>
                     <form th:action="@{'/skole/slett/' + ${skole.id}}" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('Slett skolen?')">Slett</button>
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Slett skolen?')">Slett</button>
                     </form>
                 </div>
             </td>

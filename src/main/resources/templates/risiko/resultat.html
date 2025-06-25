@@ -1,213 +1,59 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="no" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeirskolePortalen</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <!-- Bootstrap og ikoner -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        :root {
-          --bg-light: #f9fafb;
-          --text-light: #212529;
-          --card-bg-light: #fff;
-          --bg-dark: #212529;
-          --text-dark: #f8f9fa;
-          --card-bg-dark: #2c2f33;
-        }
-
-        body.light {
-          background-color: var(--bg-light);
-          color: var(--text-light);
-        }
-
-        body.dark {
-          background-color: var(--bg-dark);
-          color: var(--text-dark);
-        }
-
-        .card {
-          border-radius: 1rem;
-          transition: transform 0.2s, background-color 0.3s;
-        }
-
-        .card:hover {
-          transform: translateY(-3px);
-        }
-
-        body.light .card {
-          background-color: var(--card-bg-light);
-          color: var(--text-light);
-          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
-        }
-
-        body.dark .card {
-          background-color: var(--card-bg-dark);
-          color: var(--text-dark);
-          box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
-        }
-
-       .dnb-style-navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #d0ece9;
-      background-color: white;
-      color: #0d6efd;
-      font-family: "Segoe UI", sans-serif;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1050;
-    }
-        .nav-left, .nav-center, .nav-right {
-          display: flex;
-          align-items: center;
-        }
-
-        .nav-left i, .nav-right i {
-          font-size: 1.2rem;
-        }
-
-        .nav-left span, .nav-right span {
-          font-size: 0.8rem;
-          margin-left: 0.3rem;
-        }
-
-        .nav-center {
-          flex-grow: 1;
-          justify-content: center;
-        }
-
-        .logo {
-          font-weight: bold;
-          font-size: 1.0rem;
-          color:  #d63384;
-          text-decoration: none;
-        }
-
-        .nav-right .nav-icon {
-          display: flex;
-          align-items: center;
-          margin-left: 1.5rem;
-        }
-
-        .nav-right .nav-icon a {
-          display: flex;
-          align-items: center;
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .side-menu {
-          position: fixed;
-          top: 0;
-          left: -260px;
-          width: 260px;
-          height: 100%;
-          background-color: #ffffff;
-          box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-          padding: 1rem;
-          transition: left 0.3s ease-in-out;
-          z-index: 1051;
-        }
-
-        .side-menu.active {
-          left: 0;
-        }
-
-        .side-menu-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1rem;
-        }
-
-        .side-menu ul li {
-          margin: 1rem 0;
-        }
-
-    .bg-footer-top {
-      background-color: #c84646 /* rØD*/
-    }
-
-    .bg-footer-bottom {
-      background-color: #972121 /* Dypere bunnstripe */
-    }
-        .side-menu ul li a {
-          color: #0d6efd;
-          text-decoration: none;
-          font-weight: 500;
-        }
-
-        .side-menu-overlay {
-          display: none;
-          position: fixed;
-          top: 0; left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0,0,0,0.3);
-          z-index: 1050;
-        }
-
-        .side-menu-overlay.active {
-          display: block;
-        }
-
-        @media (max-width: 576px) {
-          .nav-left span, .nav-right span {
-            display: none;
-          }
-
-          .nav-right .nav-icon {
-            margin-left: 0.8rem;
-          }
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Leirskoleportalen</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
 </head>
-<body class="light" style="padding-top: 70px;">
+<body>
+
 <header>
-    <nav class="dnb-style-navbar">
-        <div class="nav-left" onclick="toggleSideMenu()">
-            <i class="fas fa-bars"></i>
-            <span>Meny</span>
-        </div>
-        <div class="nav-center">
-            <a href="/" class="logo">
-                LeirskolePortalen
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="/leir/liste"><i class="fas fa-campground"></i> Leirer</a>
+        <a href="/deltaker/liste/1"><i class="fas fa-users"></i> Deltakere</a>
+        <a href="/innkvartering"><i class="fas fa-bed"></i> Innkvartering</a>
+        <a href="/skole/kunder"><i class="fas fa-school"></i> Skoler</a>
+        <a href="/skoleplan/liste"><i class="fas fa-calendar-alt"></i> Skoleplaner</a>
+        <a href="/risiko"><i class="fas fa-exclamation-triangle"></i> Risikoanalyse</a>
+    </nav>
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+
+        <!-- Venstre del -->
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+
+            <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
+                LEIRSKOLE<br />PORTALEN
             </a>
         </div>
-        <div class="nav-right">
-            <div class="nav-icon">
-                <a href="/sok"><i class="fas fa-search"></i><span>Søk</span></a>
-            </div>
-            <div class="nav-icon">
-                <a href="/login"><i class="fas fa-sign-in-alt"></i><span>Logg inn</span></a>
-            </div>
-        </div>
-    </nav>
 
-    <div id="sideMenu" class="side-menu">
-        <div class="side-menu-header">
-            <span>Hovedmeny</span>
-            <button class="btn-close" onclick="toggleSideMenu()"></button>
+        <!-- Høyre del -->
+        <div class="actions" style="display: flex; align-items: center;">
+            <a href="#" aria-label="Søk">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+                </svg>
+            </a>
+            <a href="/login" aria-label="Logg inn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                    <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
+                </svg>
+            </a>
         </div>
-        <ul class="list-unstyled">
-            <li><a href="/leir/liste"><i class="fas fa-campground me-2"></i>Leirer</a></li>
-            <li><a href="/deltaker/liste/1"><i class="fas fa-users me-2"></i>Deltakere</a></li>
-            <li><a href="/innkvartering"><i class="fas fa-bed me-2"></i>Innkvartering</a></li>
-            <li><a href="/skole/kunder"><i class="fas fa-school me-2"></i>Skoler</a></li>
-            <li><a href="/risiko"><i class="fas fa-exclamation-triangle me-2"></i>Risikovurdering</a></li>
-            <li><a href="/hytte/liste/1"><i class="fas fa-house-user me-2"></i>Administrere hytter</a></li>
-        </ul>
     </div>
-    <div id="sideMenuOverlay" class="side-menu-overlay" onclick="toggleSideMenu()"></div>
 </header>
+
 
 <main class="container my-5 pt-5">
     <h2 class="mb-4 text-center">Resultat av risikovurdering</h2>

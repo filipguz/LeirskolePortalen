@@ -3,321 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leirskoleportalen - Risikovurdering</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Helvetica Neue", sans-serif;
-      background-color: #e5f9fb;
-      color: #000;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      font-size: 1rem;
-      position: relative;
-    }
-
-    .logo {
-      font-weight: bold;
-      line-height: 1.2;
-      letter-spacing: 0.1rem;
-      padding-left: 0.5rem;
-    }
-
-    .actions {
-      display: flex;
-      gap: 1.2rem;
-      align-items: center;
-    }
-
-    .menu-button {
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .mobile-menu {
-      transform: translateX(-100%);
-      transition: transform 0.3s ease-in-out;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 220px;
-      background: white;
-      border-right: 1px solid #ccc;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-      z-index: 100;
-      padding: 2rem 1rem;
-      flex-direction: column;
-      display: flex;
-    }
-
-    .mobile-menu.open {
-      transform: translateX(0);
-    }
-
-    .mobile-menu a {
-      display: block;
-      padding: 0.75rem 0;
-      text-decoration: none;
-      color: #000;
-      transition: background-color 0.2s;
-    }
-
-    .mobile-menu a:hover {
-      background-color: #f1f1f1;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: 2rem auto;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    h1, h2, h4 {
-      text-align: center;
-      color: #118090;
-      margin-bottom: 2rem;
-    }
-
-    form label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.25rem;
-      border-radius: 0.25rem;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      margin-top: 2rem;
-      padding: 0.75rem 1.5rem;
-      background-color: #118090;
-      color: white;
-      border: none;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: white;
-      border-radius: 0.5rem;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    th, td {
-      padding: 1rem;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-    }
-
-    th {
-      background-color: #e5f9fb;
-      color: #118090;
-      font-weight: bold;
-    }
-
-    tr:hover {
-      background-color: #f0f7f8;
-    }
-
-    .btn-sm {
-      font-size: 0.85rem;
-      padding: 0.4rem 0.75rem;
-      border-radius: 0.4rem;
-      color: white;
-    }
-
-    .btn-outline-primary {
-      background-color: #0d6c77;
-      color: white;
-    }
-
-    /* Responsive styling */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .actions {
-        margin-top: 0.5rem;
-      }
-
-      main {
-        padding: 1rem;
-        margin: 1rem;
-      }
-
-      input, select, textarea {
-        font-size: 1rem;
-      }
-
-      table, thead, tbody, th, td, tr {
-        display: block;
-      }
-
-      thead {
-        display: none;
-      }
-
-      tr {
-        margin-bottom: 1rem;
-        border: 1px solid #ccc;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        background: #fff;
-      }
-
-      td {
-        padding-left: 50%;
-        position: relative;
-        text-align: left;
-        border: none;
-      }
-
-      td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 1rem;
-        top: 0.75rem;
-        font-weight: bold;
-        white-space: nowrap;
-      }
-
-      .btn-sm {
-        width: 100%;
-        text-align: center;
-        margin-top: 0.5rem;
-      }
-    }
-  </style>
+  <title>Dashboard - Leirskoleportalen</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+  />
 </head>
 <body>
+
 <header>
-  <div style="display: flex; align-items: center; gap: 1rem;">
-    <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-           viewBox="0 0 24 24" width="24" height="24">
-        <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-    </button>
-
-    <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
-      LEIRSKOLE<br />PORTALEN
-    </a>
-  </div>
-
-  <div class="actions">
-    <a href="#" aria-label="Søk">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-           viewBox="0 0 24 24" width="24" height="24">
-        <circle cx="11" cy="11" r="8" stroke-width="2"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
-      </svg>
-    </a>
-    <a href="/login" aria-label="Logg inn">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-           viewBox="0 0 24 24" width="24" height="24">
-        <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
-      </svg>
-    </a>
-  </div>
-
-  <nav class="mobile-menu" id="mobileMenu" role="navigation">
-    <a href="/leir/liste">Leirer</a>
-    <a href="/deltaker/liste/1">Deltakere</a>
-    <a href="/innkvartering">Innkvartering</a>
-    <a href="/risiko">Risikovurdering</a>
-    <a href="/skole/kunder">Skoler</a>
-    <a href="/skoleplan/liste">Skoleplaner</a>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="/leir/liste"><i class="fas fa-campground"></i> Leirer</a>
+    <a href="/deltaker/liste/1"><i class="fas fa-users"></i> Deltakere</a>
+    <a href="/innkvartering"><i class="fas fa-bed"></i> Innkvartering</a>
+    <a href="/skole/kunder"><i class="fas fa-school"></i> Skoler</a>
+    <a href="/skoleplan/liste"><i class="fas fa-calendar-alt"></i> Skoleplaner</a>
+    <a href="/risiko"><i class="fas fa-exclamation-triangle"></i> Risikoanalyse</a>
   </nav>
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+
+    <!-- Venstre del -->
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="menu-button" onclick="toggleMenu()" aria-label="Meny" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+
+      <a th:href="@{/}" class="logo" style="text-decoration: none; color: inherit;">
+        LEIRSKOLE<br />PORTALEN
+      </a>
+    </div>
+
+    <!-- Høyre del -->
+    <div class="actions" style="display: flex; align-items: center;">
+      <a href="#" aria-label="Søk">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <circle cx="11" cy="11" r="8" stroke-width="2"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"/>
+        </svg>
+      </a>
+      <a href="/login" aria-label="Logg inn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+          <path stroke-width="2" d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5m0 0l-5-5m5 5H3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
 </header>
 
 <main>
-  <h1>Ny Risikovurdering</h1>
 
-  <form th:action="@{/risiko/lagre}" th:object="${risiko}" method="post">
-    <label for="aktivitet">Aktivitet</label>
-    <input type="text" th:field="*{aktivitet}" id="aktivitet" required />
+  <h1 class="mb-4">Ny Risikovurdering</h1>
 
-    <label for="risikomoment">Risikomoment</label>
-    <input type="text" th:field="*{risikomoment}" id="risikomoment" required />
+  <form th:action="@{/risiko/lagre}" th:object="${risiko}" method="post" class="mb-5">
+    <div class="mb-3">
+      <label for="aktivitet" class="form-label">Aktivitet</label>
+      <input type="text" th:field="*{aktivitet}" id="aktivitet" class="form-control" required />
+    </div>
 
-    <label for="skadeType">Type skade</label>
-    <select th:field="*{skadeType}" id="skadeType" required>
-      <option value="">Velg skade</option>
-      <option value="Personskade (P)">Personskade (P)</option>
-      <option value="Miljøskade (M)">Miljøskade (M)</option>
-      <option value="Materiellskade (MP)">Materiellskade (MP)</option>
-    </select>
+    <div class="mb-3">
+      <label for="risikomoment" class="form-label">Risikomoment</label>
+      <input type="text" th:field="*{risikomoment}" id="risikomoment" class="form-control" required />
+    </div>
 
-    <label for="sannsynlighet">Sannsynlighet (0–5)</label>
-    <input type="number" th:field="*{sannsynlighet}" id="sannsynlighet" min="0" max="5" required />
+    <div class="mb-3">
+      <label for="skadeType" class="form-label">Type skade</label>
+      <select th:field="*{skadeType}" id="skadeType" class="form-select" required>
+        <option value="">Velg skade</option>
+        <option value="Personskade (P)">Personskade (P)</option>
+        <option value="Miljøskade (M)">Miljøskade (M)</option>
+        <option value="Materiellskade (MP)">Materiellskade (MP)</option>
+      </select>
+    </div>
 
-    <label for="konsekvens">Konsekvens (0–5)</label>
-    <input type="number" th:field="*{konsekvens}" id="konsekvens" min="0" max="5" required />
+    <div class="mb-3">
+      <label for="sannsynlighet" class="form-label">Sannsynlighet (0–5)</label>
+      <input type="number" th:field="*{sannsynlighet}" id="sannsynlighet" min="0" max="5" class="form-control" required />
+    </div>
 
-    <label for="aktivitetDetaljer">Detaljer</label>
-    <textarea th:field="*{aktivitetDetaljer}" id="aktivitetDetaljer" rows="3"></textarea>
+    <div class="mb-3">
+      <label for="konsekvens" class="form-label">Konsekvens (0–5)</label>
+      <input type="number" th:field="*{konsekvens}" id="konsekvens" min="0" max="5" class="form-control" required />
+    </div>
 
-    <button type="submit">Beregn risiko</button>
+    <div class="mb-3">
+      <label for="aktivitetDetaljer" class="form-label">Detaljer</label>
+      <textarea th:field="*{aktivitetDetaljer}" id="aktivitetDetaljer" rows="3" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Beregn risiko</button>
   </form>
 
   <hr class="my-5" />
 
-  <h2>Tidligere vurderinger</h2>
+  <h2 class="mb-4">Tidligere vurderinger</h2>
 
-  <table>
-    <thead>
-    <tr>
-      <th>Aktivitet</th>
-      <th>Risikomoment</th>
-      <th>Skade</th>
-      <th>Sannsynlighet</th>
-      <th>Konsekvens</th>
-      <th>Risiko</th>
-      <th>Vurdering</th>
-      <th>Detaljer</th>
-      <th>Handling</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="risiko : ${risikoListe}">
-      <td data-label="Aktivitet" th:text="${risiko.aktivitet}"></td>
-      <td data-label="Risikomoment" th:text="${risiko.risikomoment}"></td>
-      <td data-label="Skade" th:text="${risiko.skadeType}"></td>
-      <td data-label="Sannsynlighet" th:text="${risiko.sannsynlighet}"></td>
-      <td data-label="Konsekvens" th:text="${risiko.konsekvens}"></td>
-      <td data-label="Risiko" th:text="${risiko.risiko}"></td>
-      <td data-label="Vurdering" th:text="${risiko.vurdering}"></td>
-      <td data-label="Detaljer" th:text="${risiko.aktivitetDetaljer}"></td>
-      <td data-label="Handling">
-        <a th:href="@{/risiko/rediger/{id}(id=${risiko.id})}" class="btn-sm btn-outline-primary">Rediger</a>
-      </td>
-    </tr>
-    <tr th:if="${#lists.isEmpty(risikoListe)}">
-      <td colspan="9" class="text-center text-muted">Ingen vurderinger registrert ennå.</td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+      <thead class="table-light">
+      <tr>
+        <th>Aktivitet</th>
+        <th>Risikomoment</th>
+        <th>Skade</th>
+        <th>Sannsynlighet</th>
+        <th>Konsekvens</th>
+        <th>Risiko</th>
+        <th>Vurdering</th>
+        <th>Detaljer</th>
+        <th>Handling</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="risiko : ${risikoListe}">
+        <td data-label="Aktivitet" th:text="${risiko.aktivitet}"></td>
+        <td data-label="Risikomoment" th:text="${risiko.risikomoment}"></td>
+        <td data-label="Skade" th:text="${risiko.skadeType}"></td>
+        <td data-label="Sannsynlighet" th:text="${risiko.sannsynlighet}"></td>
+        <td data-label="Konsekvens" th:text="${risiko.konsekvens}"></td>
+        <td data-label="Risiko" th:text="${risiko.risiko}"></td>
+        <td data-label="Vurdering" th:text="${risiko.vurdering}"></td>
+        <td data-label="Detaljer" th:text="${risiko.aktivitetDetaljer}"></td>
+        <td data-label="Handling">
+          <a th:href="@{/risiko/rediger/{id}(id=${risiko.id})}" class="btn btn-sm btn-outline-primary">Rediger</a>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(risikoListe)}">
+        <td colspan="9" class="text-center text-muted">Ingen vurderinger registrert ennå.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </main>
 
 <script>

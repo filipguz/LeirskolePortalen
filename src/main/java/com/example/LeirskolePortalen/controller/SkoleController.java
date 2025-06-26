@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/skole") // Alle URL-er under /skole håndteres her
+@RequestMapping("/skole")
 public class SkoleController {
 
     private final SkoleRepository skoleRepo;
@@ -20,56 +20,55 @@ public class SkoleController {
         this.skoleRepo = skoleRepo;
     }
 
-    // ===============================
     // ----------- CREATE -----------
-    // ===============================
 
-    // Viser skjema for å opprette en ny skole
     @GetMapping("/ny")
     public String nySkole(Model model) {
-        model.addAttribute("skole", new Skole()); // Tomt objekt til skjema
-        return "skole/skjema"; // Viser skole/skjema.html
+        model.addAttribute("skole", new Skole());
+        return "skole/skjema";
     }
 
-    // Lagrer ny eller oppdatert skole i databasen
     @PostMapping("/lagre")
-    public String lagreSkole(@ModelAttribute Skole skole) {
-        skoleRepo.save(skole);
-        return "redirect:/skole/kunder";  // Sender brukeren til siden som viser alle skoler
+    @ResponseBody
+    public ResponseEntity<?> lagreSkole(@ModelAttribute Skole skole) {
+        try {
+            skoleRepo.save(skole);
+            return ResponseEntity.ok(Map.of(
+                    "id", skole.getId(),
+                    "navn", skole.getNavn()
+            ));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(Map.of(
+                    "feil", "Kunne ikke lagre skolen",
+                    "detalj", e.getMessage()
+            ));
+        }
     }
 
-    // ===============================
-    // ------------ READ ------------
-    // ===============================
+    // ----------- READ -----------
 
-    // Viser en oversikt over alle registrerte skoler
     @GetMapping("/kunder")
     public String alleSkoler(Model model) {
-        model.addAttribute("skoler", skoleRepo.findAll()); // Henter alle fra DB
-        return "skole/liste"; // Viser skole/liste.html
+        model.addAttribute("skoler", skoleRepo.findAll());
+        return "skole/liste";
     }
 
-    // ===============================
     // ----------- UPDATE -----------
-    // ===============================
 
-    // Henter én skole for redigering, basert på ID
     @GetMapping("/rediger/{id}")
     public String rediger(@PathVariable Long id, Model model) {
         Optional<Skole> skole = skoleRepo.findById(id);
         if (skole.isPresent()) {
-            model.addAttribute("skole", skole.get()); // Fyller skjema med data
+            model.addAttribute("skole", skole.get());
             return "skole/skjema";
         } else {
-            return "redirect:/skole/kunder"; // Hvis ID ikke finnes
+            return "redirect:/skole/kunder";
         }
     }
 
-    // ===============================
     // ----------- DELETE -----------
-    // ===============================
 
-    // Sletter en skole basert på ID
     @PostMapping("/slett/{id}")
     public String slett(@PathVariable Long id, Model model) {
         try {
@@ -77,7 +76,7 @@ public class SkoleController {
         } catch (Exception e) {
             model.addAttribute("feil", "Kunne ikke slette skolen. Den er kanskje i bruk.");
             model.addAttribute("skoler", skoleRepo.findAll());
-            return "skole/liste"; // Gå tilbake til visning med feilmelding
+            return "skole/liste";
         }
         return "redirect:/skole/kunder";
     }

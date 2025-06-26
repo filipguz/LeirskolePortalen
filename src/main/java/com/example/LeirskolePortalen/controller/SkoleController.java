@@ -33,8 +33,9 @@ public class SkoleController {
 
     // Lagrer ny eller oppdatert skole i databasen
     @PostMapping("/lagre")
+    @ResponseBody
     public ResponseEntity<Map<String, Object>> lagreSkole(@ModelAttribute Skole skole) {
-        skoleRepo.save(skole); // ✅ Bruker repo direkte
+        skoleRepo.save(skole);
         return ResponseEntity.ok(Map.of(
                 "id", skole.getId(),
                 "navn", skole.getNavn()

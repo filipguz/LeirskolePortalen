@@ -218,7 +218,7 @@
       const nySkole = await response.json();
 
       // Legg ny skole til i select
-      const select = document.getElementById("skole");
+      const select = document.getElementById("skoler");
       const option = document.createElement("option");
       option.value = nySkole.id;
       option.text = nySkole.navn;

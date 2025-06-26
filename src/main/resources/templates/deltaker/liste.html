@@ -55,7 +55,16 @@
 </header>
 <main>
   <h1>Deltakeroversikt</h1>
+  <div class="d-flex gap-3 mt-4">
+    <a th:href="@{'/deltaker/ny/' + ${leirId}}" class="btn btn-light">
+      <i class="fas fa-plus"></i> Opprett ny deltaker
+    </a>
 
+    <a href="/" class="btn btn-light" aria-label="Tilbake til dashboard">
+      <i class="fas fa-home"></i> Tilbake til Dashboard
+    </a>
+  </div>
+  <br>
   <table>
     <thead>
     <tr>
@@ -82,9 +91,6 @@
     </tr>
     </tbody>
   </table>
-
-  <a href="/deltaker/ny/1" class="btn-add">➕ Legg til deltaker</a>
-  <a href="/" class="btn-add">🏠 Tilbake til Dashboard</a>
 </main>
 
 <script>

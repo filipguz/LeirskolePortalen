@@ -33,13 +33,9 @@ public class SkoleController {
 
     // Lagrer ny eller oppdatert skole i databasen
     @PostMapping("/lagre")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> lagreSkole(@ModelAttribute Skole skole) {
+    public String lagreSkole(@ModelAttribute Skole skole) {
         skoleRepo.save(skole);
-        return ResponseEntity.ok(Map.of(
-                "id", skole.getId(),
-                "navn", skole.getNavn()
-        ));
+        return "redirect:/skole/kunder";  // Sender brukeren til siden som viser alle skoler
     }
 
     // ===============================
@@ -74,7 +70,7 @@ public class SkoleController {
     // ===============================
 
     // Sletter en skole basert på ID
-    @GetMapping("/slett/{id}")
+    @PostMapping("/slett/{id}")
     public String slett(@PathVariable Long id, Model model) {
         try {
             skoleRepo.deleteById(id);

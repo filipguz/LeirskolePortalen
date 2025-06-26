@@ -64,10 +64,9 @@ public class DeltakerController {
         List<Hytte> hytter = hytteRepository.findByLeirId(leirId);
         model.addAttribute("deltakere", deltakere);
         model.addAttribute("hytter", hytter);
-        model.addAttribute("leirId", leirId);
+        model.addAttribute("leirId", leirId); // ✅ Dette må være med
         return "deltaker/liste";
     }
-
     // ---------- UPDATE ----------
 
     // Viser redigeringsskjema for en deltaker basert på ID

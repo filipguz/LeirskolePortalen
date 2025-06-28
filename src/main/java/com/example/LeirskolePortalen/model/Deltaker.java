@@ -43,4 +43,13 @@ public class Deltaker {
 
     public Leir getLeir() { return leir; }
     public void setLeir(Leir leir) { this.leir = leir; }
+
+    public SkolePlan getSkolePlan() {
+        return skolePlan;
+    }
+
+    public void setSkolePlan(SkolePlan skolePlan) {
+        this.skolePlan = skolePlan;
+    }
+
 }

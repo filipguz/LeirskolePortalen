@@ -148,6 +148,74 @@
     }
   });
 </script>
+<!-- Modal for ny skole -->
+<div id="modal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
+  <div class="modal-content p-4 bg-white" style="max-width: 400px; margin: 10% auto; border-radius: 0.5rem;">
+    <span class="close" onclick="closeModal()" style="cursor:pointer; font-size: 1.5rem;">&times;</span>
+    <h2 class="mb-3">Ny skole</h2>
+    <form id="nySkoleForm">
+      <div class="mb-3">
+        <label for="skoleNavn" class="form-label">Skolens navn *</label>
+        <input type="text" id="skoleNavn" name="navn" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="kontaktperson" class="form-label">Kontaktperson</label>
+        <input type="text" id="kontaktperson" name="kontaktperson" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="telefon" class="form-label">Telefon</label>
+        <input type="tel" id="telefon" name="telefon" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="epost" class="form-label">E-post</label>
+        <input type="email" id="epost" name="epost" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">💾 Lagre skole</button>
+    </form>
+  </div>
+</div>
 
+<script>
+  function openModal() {
+    document.getElementById("modal").style.display = "block";
+  }
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+  window.onclick = function(event) {
+    const modal = document.getElementById("modal");
+    if (event.target === modal) closeModal();
+  };
+
+  document.getElementById("nySkoleForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/skole/lagre', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) throw new Error("Feil ved lagring");
+
+      const nySkole = await response.json();
+
+      const select = document.getElementById("skoler");
+      const option = document.createElement("option");
+      option.value = nySkole.id;
+      option.text = nySkole.navn;
+      option.selected = true;
+      select.appendChild(option);
+
+      form.reset();
+      closeModal();
+    } catch (err) {
+      alert("Kunne ikke lagre skolen.");
+      console.error(err);
+    }
+  });
+</script>
 </body>
 </html>

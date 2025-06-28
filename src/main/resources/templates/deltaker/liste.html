@@ -71,34 +71,42 @@
 
 
   </div>
-  <p>Leir-ID fra modellen: <strong th:text="${leirId}">Mangler!</strong></p>
   <br>
   <table>
-    <thead>
-    <tr>
-      <th>Navn</th>
-      <th>Allergi</th>
-      <th>Hytte</th>
-      <th>Tildel hytte</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="deltaker : ${deltakere}">
-      <td th:text="${deltaker.navn}">Navn</td>
-      <td th:text="${deltaker.allergi ?: 'Ingen'}">Ingen</td>
-      <td th:text="${deltaker.hytte != null ? deltaker.hytte.navn : 'Ingen tildelt'}">Ingen tildelt</td>
-      <td>
-        <form th:action="@{/deltaker/tildel-hytte}" method="post" style="display: flex; gap: 0.5rem; align-items: center;">
-          <input type="hidden" name="deltakerId" th:value="${deltaker.id}" />
-          <select name="hytteId">
-            <option th:each="h : ${hytter}" th:value="${h.id}" th:text="${h.navn}" th:selected="${deltaker.hytte?.id == h.id}"></option>
-          </select>
-          <button type="submit" class="btn btn-save">Lagre</button>
+  <thead>
+  <tr>
+    <th>Navn</th>
+    <th>Allergi</th>
+    <th>Hytte</th>
+    <th>Tildel hytte</th>
+    <th>Handlinger</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="deltaker : ${deltakere}">
+    <td th:text="${deltaker.navn}">Navn</td>
+    <td th:text="${deltaker.allergi ?: 'Ingen'}">Ingen</td>
+    <td th:text="${deltaker.hytte != null ? deltaker.hytte.navn : 'Ingen tildelt'}">Ingen tildelt</td>
+    <td>
+      <form th:action="@{/deltaker/tildel-hytte}" method="post" style="display: flex; gap: 0.5rem; align-items: center;">
+        <input type="hidden" name="deltakerId" th:value="${deltaker.id}" />
+        <select name="hytteId">
+          <option th:each="h : ${hytter}" th:value="${h.id}" th:text="${h.navn}" th:selected="${deltaker.hytte?.id == h.id}"></option>
+        </select>
+        <button type="submit" class="btn btn-save">Lagre</button>
+      </form>
+    </td>
+    <td>
+      <div class="d-flex gap-2">
+        <a th:href="@{'/deltaker/rediger/' + ${deltaker.id}}" class="btn btn-warning btn-sm">Rediger</a>
+        <form th:action="@{'/deltaker/slett/' + ${deltaker.id}}" method="get" style="display:inline;">
+          <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Er du sikker på at du vil slette denne deltakeren?')">Slett</button>
         </form>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
 </main>
 
 <script>

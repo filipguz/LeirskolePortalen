@@ -30,14 +30,13 @@ public class SkoleController {
     }
 
     @PostMapping("/lagre")
-    public String lagreSkole(@ModelAttribute Skole skole, RedirectAttributes ra) {
+    @ResponseBody
+    public ResponseEntity<?> lagreSkoleViaAjax(@ModelAttribute Skole skole) {
         try {
-            skoleRepo.save(skole);
-            ra.addFlashAttribute("melding", "Skolen ble lagret.");
-            return "redirect:/skole/kunder";
+            Skole lagret = skoleRepo.save(skole);
+            return ResponseEntity.ok(lagret); // Returnerer JSON med skoleobjektet
         } catch (Exception e) {
-            ra.addFlashAttribute("feil", "Kunne ikke lagre skolen.");
-            return "redirect:/skole/ny";
+            return ResponseEntity.badRequest().body(Map.of("feil", "Kunne ikke lagre skole."));
         }
     }
 

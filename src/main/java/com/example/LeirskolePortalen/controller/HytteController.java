@@ -4,8 +4,10 @@ import com.example.LeirskolePortalen.model.Hytte;
 import com.example.LeirskolePortalen.model.Leir;
 import com.example.LeirskolePortalen.repository.HytteRepository;
 import com.example.LeirskolePortalen.repository.LeirRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +31,12 @@ public class HytteController {
     @GetMapping("/liste/{leirId}")
     public String visHytter(@PathVariable Long leirId, Model model) {
         List<Hytte> hytter = hytteRepo.findByLeirId(leirId);
+        Hytte nyHytte = new Hytte();
+        leirRepo.findById(leirId).ifPresent(nyHytte::setLeir);
+
         model.addAttribute("hytter", hytter);
         model.addAttribute("leirId", leirId);
+        model.addAttribute("hytte", nyHytte);
         return "hytte/hytte-liste";
     }
 
@@ -38,27 +44,22 @@ public class HytteController {
     // OPPRETTE NY HYTTE
     // ========================
     @PostMapping("/opprett")
-    public String opprettHytte(@RequestParam String navn,
-                               @RequestParam Long leirId,
+    public String opprettHytte(@Valid @ModelAttribute("hytte") Hytte hytte,
+                               BindingResult bindingResult,
                                Model model) {
-        Optional<Leir> leirOpt = leirRepo.findById(leirId);
+        Long leirId = hytte.getLeir() != null ? hytte.getLeir().getId() : null;
 
-        if (leirOpt.isEmpty()) {
-            model.addAttribute("feil", "Fant ikke leiren med ID: " + leirId);
-            return "feilside";
+        if (leirId == null || leirRepo.findById(leirId).isEmpty()) {
+            bindingResult.rejectValue("leir", null, "Leiren finnes ikke.");
         }
 
-        Hytte nyHytte = new Hytte();
-        nyHytte.setNavn(navn);
-        nyHytte.setLeir(leirOpt.get());
-
-        try {
-            hytteRepo.save(nyHytte);
-        } catch (Exception e) {
-            model.addAttribute("feil", "Kunne ikke lagre hytten: " + e.getMessage());
-            return "feilside";
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("hytter", hytteRepo.findByLeirId(leirId));
+            model.addAttribute("leirId", leirId);
+            return "hytte/hytte-liste";
         }
 
+        hytteRepo.save(hytte);
         return "redirect:/hytte/liste/" + leirId;
     }
 
@@ -79,10 +80,15 @@ public class HytteController {
     }
 
     @PostMapping("/rediger")
-    public String lagreEndringer(@ModelAttribute Hytte hytte, Model model) {
+    public String lagreEndringer(@Valid @ModelAttribute("hytte") Hytte hytte,
+                                 BindingResult bindingResult,
+                                 Model model) {
         if (hytte.getLeir() == null || hytte.getLeir().getId() == null) {
-            model.addAttribute("feil", "Hytten må være koblet til en leir.");
-            return "feilside";
+            bindingResult.rejectValue("leir", null, "Hytten må være koblet til en leir.");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "hytte/hytte-rediger";
         }
 
         hytteRepo.save(hytte);

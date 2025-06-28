@@ -60,22 +60,27 @@
     <br>
     <!-- ✅ Skjema for å opprette ny hytte -->
     <h4>Legg til ny hytte</h4>
-    <form th:action="@{/hytte/opprett}" method="post" class="mb-5">
-        <div class="mb-3">
-            <label for="navn" class="form-label">Navn</label>
-            <input type="text" class="form-control" id="navn" name="navn" required>
+    <form th:action="@{/hytte/opprett}" th:object="${hytte}" method="post">
+        <input type="hidden" th:field="*{leir.id}" />
+        <div>
+            <label>Navn</label>
+            <input type="text" th:field="*{navn}" />
+            <div th:if="${#fields.hasErrors('navn')}" th:errors="*{navn}"></div>
         </div>
-        <input type="hidden" name="leirId" th:value="${leirId}">
-        <button type="submit" class="btn btn-light">➕ Opprett hytte</button>
+        <button type="submit">Lagre</button>
     </form>
 
 
     <!-- ✅ Riktig visning i 2–3 kolonner -->
     <div class="row g-3 mb-5">
         <div class="col-md-6 col-lg-4" th:each="hytte : ${hytter}">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${hytte.navn}">Hyttenavn</h5>
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title" th:text="${hytte.navn}">Hyttenavn</h5>
+                        <p class="text-muted mb-0" th:if="${hytte.leir != null}" th:text="'Leir: ' + ${hytte.leir.navn}"></p>
+                        <p class="text-muted mb-0" th:if="${hytte.ukePlan != null}" th:text="'Ukeplan: ' + ${hytte.ukePlan.navn}"></p>
+                    </div>
 
                     <div class="mt-3 d-flex justify-content-start gap-2">
                         <!-- Endre-knapp -->

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 import java.util.Optional;
@@ -29,22 +30,17 @@ public class SkoleController {
     }
 
     @PostMapping("/lagre")
-    @ResponseBody
-    public ResponseEntity<?> lagreSkole(@ModelAttribute Skole skole) {
+    public String lagreSkole(@ModelAttribute Skole skole, RedirectAttributes ra) {
         try {
             skoleRepo.save(skole);
-            return ResponseEntity.ok(Map.of(
-                    "id", skole.getId(),
-                    "navn", skole.getNavn()
-            ));
+            ra.addFlashAttribute("melding", "Skolen ble lagret.");
+            return "redirect:/skole/kunder";
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body(Map.of(
-                    "feil", "Kunne ikke lagre skolen",
-                    "detalj", e.getMessage()
-            ));
+            ra.addFlashAttribute("feil", "Kunne ikke lagre skolen.");
+            return "redirect:/skole/ny";
         }
     }
+
 
     // ----------- READ -----------
 

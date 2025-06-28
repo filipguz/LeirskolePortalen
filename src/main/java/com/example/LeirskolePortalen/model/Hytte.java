@@ -1,6 +1,9 @@
 package com.example.LeirskolePortalen.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 @Entity
@@ -10,14 +13,16 @@ public class Hytte {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Navn kan ikke være tomt")
     private String navn;
 
+    @NotNull(message = "Hytten må være tilknyttet en leir")
     @ManyToOne
-    @JoinColumn(name = "leir_id") // kobling til leir
+    @JoinColumn(name = "leir_id")
     private Leir leir;
 
     @ManyToOne
-    @JoinColumn(name = "uke_plan_id") // kobling til ukeplan
+    @JoinColumn(name = "uke_plan_id")
     private UkePlan ukePlan;
 
     @OneToMany(mappedBy = "hytte", cascade = CascadeType.ALL)
@@ -65,7 +70,6 @@ public class Hytte {
         this.deltakere = deltakere;
     }
 
-    // === Valgfri toString for visning/debugging ===
     @Override
     public String toString() {
         return "Hytte{" +

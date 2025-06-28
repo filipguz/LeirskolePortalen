@@ -1,6 +1,8 @@
 package com.example.LeirskolePortalen.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Bruker {
@@ -9,10 +11,25 @@ public class Bruker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String brukernavn;
+
+    @NotBlank
+    @Size(min = 8)
+    @Column(nullable = false)
     private String passord;
 
-    @Enumerated(EnumType.STRING) // Lagres som "ADMIN", "TEACHER" i databasen
+    @NotBlank
+    @Column(nullable = false)
+    private String fornavn;
+
+    @NotBlank
+    @Column(nullable = false)
+    private String etternavn;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Rolle rolle;
 
     // Gettere og settere
@@ -39,6 +56,22 @@ public class Bruker {
 
     public void setPassord(String passord) {
         this.passord = passord;
+    }
+
+    public String getFornavn() {
+        return fornavn;
+    }
+
+    public void setFornavn(String fornavn) {
+        this.fornavn = fornavn;
+    }
+
+    public String getEtternavn() {
+        return etternavn;
+    }
+
+    public void setEtternavn(String etternavn) {
+        this.etternavn = etternavn;
     }
 
     public Rolle getRolle() {

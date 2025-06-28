@@ -1,9 +1,10 @@
 package com.example.LeirskolePortalen.service;
 
+
 import com.example.LeirskolePortalen.model.Bruker;
 import com.example.LeirskolePortalen.repository.BrukerRepository;
+import com.example.LeirskolePortalen.security.BrukerUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,12 +21,6 @@ public class BrukerDetaljerService implements UserDetailsService {
         Bruker bruker = brukerRepo.findByBrukernavn(brukernavn)
                 .orElseThrow(() -> new UsernameNotFoundException("Bruker ikke funnet"));
 
-        return User.builder()
-                .username(bruker.getBrukernavn())
-                .password(bruker.getPassord())
-                .roles(bruker.getRolle().name()) // ← viktig: konverter enum til String
-                .build();
+        return new BrukerUserDetails(bruker); // 👈 bruker din egen klasse
     }
-
-
 }

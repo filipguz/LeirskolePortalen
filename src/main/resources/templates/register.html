@@ -123,6 +123,12 @@
 
     <h2>Registrer deg</h2>
     <form th:action="@{/register}" method="post" th:object="${bruker}">
+        <label for="fornavn">Fornavn:</label>
+        <input type="text" id="fornavn" th:field="*{fornavn}" required>
+
+        <label for="etternavn">Etternavn:</label>
+        <input type="text" id="etternavn" th:field="*{etternavn}" required>
+
         <label for="brukernavn">Brukernavn:</label>
         <input type="text" id="brukernavn" th:field="*{brukernavn}" required>
 
@@ -131,9 +137,8 @@
 
         <label for="rolle">Rolle:</label>
         <select id="rolle" th:field="*{rolle}">
-           <!-- <option value="TEACHER">Lærer</option> -->
-
             <option value="ADMIN">Admin</option>
+            <!-- <option value="TEACHER">Lærer</option> -->
         </select>
 
         <button type="submit">Registrer</button>

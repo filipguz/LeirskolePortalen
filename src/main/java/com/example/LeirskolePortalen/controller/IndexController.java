@@ -2,11 +2,13 @@ import com.example.LeirskolePortalen.model.Bruker;
 import com.example.LeirskolePortalen.repository.BrukerRepository;
 import com.example.LeirskolePortalen.repository.DeltakerRepository;
 import com.example.LeirskolePortalen.repository.LeirRepository;
+import com.example.LeirskolePortalen.security.BrukerUserDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Controller
 public class IndexController {
@@ -26,14 +28,16 @@ public class IndexController {
         model.addAttribute("leirCount", leirRepo.count());
         model.addAttribute("deltakerCount", deltakerRepo.count());
 
-        if (userDetails != null) {
-            Bruker bruker = brukerRepo.findByBrukernavn(userDetails.getUsername()).orElse(null);
-            if (bruker != null) {
-                model.addAttribute("brukernavn", bruker.getBrukernavn());
-                model.addAttribute("rolle", bruker.getRolle().name());
-            }
+        if (userDetails instanceof BrukerUserDetails brukerDetails) {
+            Bruker bruker = brukerDetails.getBruker();
+
+            System.out.println("Bruker: " + bruker.getFornavn() + " " + bruker.getEtternavn());
+
+            model.addAttribute("brukernavn", bruker.getFornavn() + " " + bruker.getEtternavn());
         }
 
-        return "index"; // src/main/resources/templates/index.html
+        return "index";
     }
+
+
 }

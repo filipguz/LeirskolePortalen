@@ -1,10 +1,11 @@
 package com.example.LeirskolePortalen.security;
 
-
 import com.example.LeirskolePortalen.service.BrukerDetaljerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,28 +19,11 @@ public class SecurityConfig {
     @Autowired
     private BrukerDetaljerService brukerDetaljerService;
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()  // Tillat alle forespørsler
-                )
-                .formLogin().disable()  // Skru av login
-                .logout().disable()     // Skru av logout
-                .build();
-    }
-
-
-
-
-/*
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf().disable()
-                .authorizeHttpRequests(auth -> auth    // I SecurityFilterChain, kan du styre hva ulike brukere har tilgang til:
                         .requestMatchers("/register", "/login", "/css/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
@@ -53,14 +37,14 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 )
-                .userDetailsService(brukerDetaljerService)
                 .build();
     }
 
- */
-
-
-
+    // 💡 Dette er viktig: kobler `BrukerDetaljerService` med Spring Security
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
